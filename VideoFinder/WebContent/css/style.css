@@ -1,0 +1,99 @@
+@CHARSET "UTF-8";
+body {font-family:"휴먼모음T";}
+div, section, header, aside, footer {padding:10px;}
+
+/********** 전체컨테이너 **********/
+div#container	{background:url('/mvc/images/Java-Servlets-JSP.png') 21% 5%/18% no-repeat; background-color:#F0F0F0; width:960px; margin:0 auto;}
+
+/********** header **********/
+header			{background-color:#00bcd4; height:130px; position:relative; padding:10px 0 0 0;}
+header h1 		{margin-left:10px;}
+
+
+/********** content **********/
+section#content	{ background-color:#F5F5F5; float:left; width:940px; min-height:500px; }
+
+/* 로그인 컨테이너 */
+header .login-container {
+	width:250px;
+	position: absolute;
+	right: 0px;
+	top: 10px;
+}
+
+/* 로그인 테이블관련 */
+#loginFrm table{
+	empty-cells: hide;
+}
+#loginFrm input[type=submit] {
+	width: 60px;
+	height: 50px;
+	color: white;
+	background: #30f;
+	position: absolute;
+	top: 10px;
+	right: 20px;
+}
+#saveId+lavel {
+	font-size: 12px;
+	font-family: '고딕';
+}
+
+/*로그인 성공후*/
+.login-container table#logged-in{
+	border-spacing: 10px;
+}
+.login-container table#logged-in input[type=button]{
+	border-radius: 3px;
+}
+
+/* 메인메뉴관련 스타일 */
+header nav{
+	background: #5283de;
+	width: 100%;
+	margin-top: 40px;
+}
+
+ul.main-nav{
+	display: table;
+	padding: 0px;
+	margin: 0 auto;
+}
+
+ul.main-nav li{
+	list-style-type: none;
+	width: 8em;
+	height: 2em;
+	float: left;
+	text-align: center;
+	font-family: '휴먼모음T', sans-serif;
+	border-left: 1px #00bcd4 solid;
+	background-color: #5283de; 
+}
+
+ul.main-nav li:last-of-type {
+	border-right: 1px #00bcd4 solid;
+}
+
+ul.main-nav li a{
+	display: block;
+	padding: .5em;
+	text-decoration: none;
+	color: #292929;
+}
+ul.main-nav li:hover{
+	background-color: #30f;
+}
+ul.main-nav li:hover a{
+	color: #fff;
+}
+
+/* 회원가입 페이지*/
+section#enroll-container{text-align : center;}
+section#enroll-container input{margin : 3px;}
+section#enroll-container table{margin : 0 auto;}
+section#enroll-container table th{padding : 0 10px; text-align : rignt;}
+section#enroll-container table td{padding : 0 10px; text-align : left;}
+
+/********** footer **********/
+footer			{ background-color:#00bcd4; clear:both; height:75px; text-align:center;padding-top:40px;}
