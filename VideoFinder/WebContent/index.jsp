@@ -7,7 +7,7 @@
 }
 
 .movie img{
-    width:140px;
+    width: 140px;
     height: 200px;
 }
 </style>
@@ -44,11 +44,22 @@ function findImg(title, year){
 
 
 $(()=>{
+	var curDate = new Date().getTime() - (1*24*60*60*1000);
+	var yesterday = new Date(curDate);
+	var year = yesterday.getFullYear();
+	var month = yesterday.getMonth()+1;
+	var day = yesterday.getDate();
+	if(month < 10){ month = "0" + month; }
+	if(day < 10) { day = "0" + day; }
+	
+	var yester = year+month+day;
+	
 	var xhr = new XMLHttpRequest();
 	var url = 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json'; /*URL*/
 	var queryParams = '?key=38c4a960deaa96ef6be3f012be0f001d'; /*Service Key*/
-	queryParams += '&targetDt=20190805'; /*상영년도*/
-	xhr.open('GET', url + queryParams); xhr.onreadystatechange = function () {
+	queryParams += '&targetDt='+yester; /*상영년도*/
+	xhr.open('GET', url + queryParams);
+	xhr.onreadystatechange = function () {
 		if (this.readyState == 4) {
 			var temp = JSON.parse(this.responseText);
 			var movieList = temp["boxOfficeResult"]["dailyBoxOfficeList"]
@@ -58,9 +69,8 @@ $(()=>{
 				var year = it["openDt"].substring(0,4);
 				
 				//사진찾기 url
-				//var result = findImg(it["movieNm"], year);
-				var result = '';
-				console.log(result);
+				var result = findImg(it["movieNm"], year);
+				//var result = '';
 
 				var div = $("<div class='movie'></div>");
 				var html = '';
