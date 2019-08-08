@@ -1,0 +1,100 @@
+@charset "UTF-8";
+div#info-container{
+	background-color: lightgray;
+	display: inline-block;
+	margin: 10px;
+	padding: 10px;
+	height: 600px;
+}
+div#main-poster{
+	margin: 5px;
+	display: inline;	
+	float: left
+}
+div#details{	
+	margin: 10px;
+	pading: 10px;
+	display: block;
+	float: left;
+}
+div#gaugeChart{
+	width: 200px;
+	float: right;
+}
+.clear{
+	clear: both;
+}
+div.tn{
+	float: left;
+	margin: 10px;
+}
+h2.subject{
+	font-size: 24px;
+	font-weight: bold;
+	font-style: italic;
+	color: gray;
+}
+p#title, p#overview, p#genres, p#release_date{
+	font-size: 28px;
+	font-weight: bold;
+}
+p#title+span{
+	padding-left: 1.8em;
+	font-size: 28px;
+	font-weight: bold;
+	font-style: italic;
+}
+p#overview+span{
+	padding-left: 1em;
+	font-size: 15px;
+}
+p#genres~span{
+	padding-left: 1em;
+	font-weight: bold;
+	font-style: italic;
+	color: blue;
+}
+div#videos{
+	margin: 0 auto;
+}
+div.carousel-inner{
+	text-align: center;
+}
+div#review-insert{
+	display: inline;	
+}
+div#review-editor{
+	position: relative;
+}
+#review-comment{
+	margin: 10px;
+	padding: 5px;
+	width:80%;
+	border:1;
+	overflow:visible;
+	text-overflow:ellipsis;
+	resize: none;	
+}
+#send-review{	
+	top: 10px;
+	left: 83%;
+	width: 100px;
+	height: 85px;	
+	position: absolute;
+}
+/* 별점CSS */
+.rating {
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.rating .rating-star {
+  	display: inline-block;
+ 	position: relative;
+  	padding-right: 5px;
+  	margin-left: -5px;
+  	color: #e3cf7a;
+}
+.rating .selected:before {
+  	content: '\f005';
+}
