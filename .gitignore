@@ -104,13 +104,4 @@ hs_err_pid*
 #server
 Servers/
 
-
-#png
-#jpg
-
-*.png
-*.PNG
-*.jpg
-*.txt
-
 jspwork/

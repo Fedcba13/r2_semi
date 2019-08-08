@@ -42,6 +42,7 @@ div.nav {
 	transition: left .3s linear;
 	padding: 0;
 	top: 0;
+	z-index: 999;
 }
 
 div.nav>div.content {
