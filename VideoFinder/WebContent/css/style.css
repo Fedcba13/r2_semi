@@ -21,7 +21,7 @@ header h1 		{float:left;}
 
 
 /********** content **********/
-section#content	{ background-color:#F5F5F5; float:left; width:1000px; min-height:500px; }
+section#content	{ background-color:#F5F5F5; float:left; width:1024px; min-height:500px; }
 
 /* 메인메뉴관련 스타일 */
 header nav{
