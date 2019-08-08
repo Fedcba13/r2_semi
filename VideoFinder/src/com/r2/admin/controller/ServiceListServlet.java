@@ -40,7 +40,7 @@ public class ServiceListServlet extends HttpServlet {
 		
 		request.setAttribute("fAQList", fAQList);
 		request.setAttribute("category", category);
-		request.getRequestDispatcher("/WEB-INF/views/service/ServiceMain.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/admin/service/ServiceMain.jsp").forward(request, response);
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package com.r2.admin.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,16 +11,16 @@ import com.r2.admin.model.service.NoticeService;
 import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeByNoticeNoServlet
+ * Servlet implementation class NoticeWriteServlet
  */
-@WebServlet("/admin/getNoticeByNo")
-public class NoticeByNoticeNoServlet extends HttpServlet {
+@WebServlet("/admin/writeNotice")
+public class NoticeWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeByNoticeNoServlet() {
+    public NoticeWriteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,13 +29,23 @@ public class NoticeByNoticeNoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
+		String notice_Category = request.getParameter("notice_Category");
+		String notice_Title = request.getParameter("notice_Title");
+		String notice_Content = request.getParameter("notice_Content");
 		
-		String Notice_No = request.getParameter("Notice_No");
-		Notice n = new NoticeService().getNoticeByNoticeNo(Notice_No);
+		System.out.println(notice_Content+"********");
 		
-		request.setAttribute("n", n);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/ViewNotice.jsp").forward(request, response);
+		Notice n = new Notice();
+		n.setNotice_Category(notice_Category);
+		n.setNotice_Title(notice_Title);
+		n.setNotice_Content(notice_Content);
+		
+		int result = new NoticeService().insertNotice(n);
+		
+		if(result > 0) {
+			
+		}
+		
 		
 	}
 

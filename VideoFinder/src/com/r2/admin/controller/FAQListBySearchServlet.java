@@ -40,7 +40,7 @@ public class FAQListBySearchServlet extends HttpServlet {
 		request.setAttribute("unionList", unionList);
 		request.setAttribute("search_Keyword", search_Keyword);
 		
-		request.getRequestDispatcher("/WEB-INF/views/service/unionSearchList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/admin/service/unionSearchList.jsp").forward(request, response);
 		
 	}
 

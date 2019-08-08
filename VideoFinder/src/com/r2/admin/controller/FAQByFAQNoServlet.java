@@ -36,7 +36,7 @@ public class FAQByFAQNoServlet extends HttpServlet {
 		FAQ f = new FAQService().getFAQByFAQNo(FAQ_No);
 		
 		request.setAttribute("f", f);
-		request.getRequestDispatcher("/WEB-INF/views/service/viewFAQ.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/admin/service/viewFAQ.jsp").forward(request, response);
 		
 	}
 

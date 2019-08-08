@@ -1,23 +1,14 @@
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%@page import="com.r2.admin.model.vo.Notice"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/admin.css">
 <%
 	List<Notice> unionList = (List<Notice>)request.getAttribute("unionList");
 %>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-body {
-	width: 1024px;
-	text-align: center;
-}
-</style>
-</head>
-<body>
+
 	<br>
 	<hr>
 	<h1>검색결과</h1>
@@ -48,5 +39,4 @@ body {
 	<script>
 		
 	</script>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

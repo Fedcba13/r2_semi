@@ -1,4 +1,4 @@
-package com.r2.admin.model.vo;
+package com.r2.admin.model.dao;
 
 import static com.r2.common.JDBCTemplate.close;
 
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.r2.admin.model.dao.FAQDAO;
+import com.r2.admin.model.vo.Notice;
 
 public class UnionDAO {
 	private Properties prop = new Properties();
 	
 	public UnionDAO() {
-		String fileName = FAQDAO.class.getResource("/sql/union/union-query.properties").getPath();
+		String fileName = FAQDAO.class.getResource("/sql/admin/union/union-query.properties").getPath();
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {

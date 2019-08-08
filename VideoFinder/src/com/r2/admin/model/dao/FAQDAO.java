@@ -20,7 +20,7 @@ public class FAQDAO {
 	private Properties prop = new Properties();
 
 	public FAQDAO() {
-		String fileName = FAQDAO.class.getResource("/sql/FAQ/FAQ-query.properties").getPath();
+		String fileName = FAQDAO.class.getResource("/sql/admin/FAQ/FAQ-query.properties").getPath();
 		try {
 			prop.load(new FileReader(fileName));
 			System.out.println("[[prop loading 완료:" + fileName + "]]");

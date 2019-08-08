@@ -1,19 +1,16 @@
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%@page import="com.r2.admin.model.vo.Notice"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/admin.css">
 <!DOCTYPE html>
 <%
 	List<Notice> list = (List<Notice>)request.getAttribute("list");
 	String pageBar = (String)request.getAttribute("pageBar");
 	int numPerPage = (int)request.getAttribute("numPerPage");
 %>
-<html>
-<head>
-<meta charset="UTF-8">
-<script src="<%=request.getContextPath()%>/jquery/jquery-3.4.1.js"></script>
-<title>Insert title here</title>
-</head>
+
 <script>
 $(()=>{
 	$("#searchType").on("change", (e)=>{
@@ -29,7 +26,6 @@ $(()=>{
 	});
 });
 </script>
-<body>
 <h2>게시판</h2>
 
 	
@@ -64,7 +60,7 @@ $(()=>{
 			<tr>
 				<th><%=n.getNotice_No() %></th>
 				<th><%=n.getNotice_Category() %></th>
-				<th><%=n.getNotice_Title() %></th>
+				<th><a href="<%=request.getContextPath() %>/admin/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
 				<th><%=n.getNotice_Writer() %></th>
 				<th><%=n.getNotice_Date() %></th>
 				<th><%=n.getNotice_Readcount() %></th>
@@ -80,6 +76,12 @@ $(()=>{
 	<div id="pageBar">
 		<%=pageBar%>
 	</div>
+	<button onclick="goWrite();">글쓰기</button>
 
-</body>
-</html>
+<script>
+	function goWrite(){
+		location.href = "<%=request.getContextPath() %>/admin/wirteNotice";
+	}
+</script>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

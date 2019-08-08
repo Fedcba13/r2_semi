@@ -20,7 +20,7 @@ public class NoticeDAO {
 	private Properties prop = new Properties();
 
 	public NoticeDAO() {
-		String fileName = NoticeDAO.class.getResource("/sql/notice/notice-query.properties").getPath();
+		String fileName = NoticeDAO.class.getResource("/sql/admin/notice/notice-query.properties").getPath();
 		try {
 			prop.load(new FileReader(fileName));
 		} catch (FileNotFoundException e) {
@@ -121,6 +121,29 @@ public class NoticeDAO {
 			e.printStackTrace();
 		}
 		return n;
+		
+	}
+
+	public int insertNotice(Notice n, Connection conn) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertNotice");
+		int result = 0;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, n.getNotice_Title());
+			pstmt.setString(2, n.getNotice_Content());
+			pstmt.setString(3, n.getNotice_Category());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		return result;
 		
 	}
 	

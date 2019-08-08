@@ -33,5 +33,14 @@ public class NoticeService {
 		
 		return n;
 	}
+
+	public int insertNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = new NoticeDAO().insertNotice(n, conn);
+		close(conn);
+		return result;
+				
+		
+	}
 	
 }

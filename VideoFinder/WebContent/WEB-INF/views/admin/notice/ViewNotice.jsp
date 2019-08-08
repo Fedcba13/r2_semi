@@ -1,27 +1,22 @@
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%@page import="com.r2.admin.model.vo.Notice"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
+<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/admin.css">
 <%
 	Notice n = (Notice)request.getAttribute("n");
 	
 %>
 <head>
-<style>
-  html{
-            width: 1024px;
-            text-align: center;
-        }
-</style>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+
     <h2><%=n.getNotice_Title()%></h2>
     <br>
     <br>
-    <%=n.getNotice_Content() %>
+    <div id="contentDiv">
+    	<%=n.getNotice_Content() %>;
+    </div>
     
-</body>
-</html>
+<script>
+</script>    
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

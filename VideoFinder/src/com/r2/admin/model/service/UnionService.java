@@ -6,8 +6,8 @@ import static com.r2.common.JDBCTemplate.getConnection;
 import java.sql.Connection;
 import java.util.List;
 
+import com.r2.admin.model.dao.UnionDAO;
 import com.r2.admin.model.vo.Notice;
-import com.r2.admin.model.vo.UnionDAO;
 
 public class UnionService {
 
