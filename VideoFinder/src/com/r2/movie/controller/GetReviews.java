@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.r2.movie.model.service.ReviewService;
 import com.r2.movie.model.vo.Review;
 
 @WebServlet("/movie/getReviews.do")
@@ -21,7 +22,7 @@ public class GetReviews extends HttpServlet {
 		response.setContentType("application/json; utf-8");
 		
 		String movieId = request.getParameter("id");
-		List<Review> list = new ReviewService().getReviewList();
+		List<Review> list = new ReviewService().getReviewList(movieId);
 		new Gson().toJson(list, response.getWriter());
 	}
 	
