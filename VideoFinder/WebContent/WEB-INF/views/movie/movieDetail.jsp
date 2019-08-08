@@ -34,7 +34,12 @@
 	crossorigin="anonymous"></script>
 <link data-require="fontawesome@*" data-semver="4.5.0" rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.checked {
+  color: orange;
+}
+</style>
 <title></title>
 <script>
 	var movieId = {
@@ -204,6 +209,15 @@
 			dataType: "json",
 			success: function(data){
 				console.log(data);
+				var html = "";
+				$.each(data, (i)=>{
+					html += "<tr>"
+					for(var j = 0; j < data[i].reviewGrade; j++){
+						html += "<span class="fa fa-star checked"></span>";
+					}
+					html += "<tr><td>"+data[i].memberId+"</td><td>"+data[i].reviewComment+"</td></tr>";
+				});
+				$("#written").html(html);
 			},
 			error: function(jqxhr, textStatus, errorThrown){
 				console.log("ajax처리실패!!");
@@ -273,7 +287,9 @@
 		
 		</div>
 		<div id="review-comments">
-			
+			<table id="written">
+				
+			</table>
 		</div>
 	</div>
 </body>

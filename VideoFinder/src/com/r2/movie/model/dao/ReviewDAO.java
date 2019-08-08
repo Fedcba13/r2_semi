@@ -39,20 +39,19 @@ public class ReviewDAO {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, movieId);
-			rset = pstmt.executeQuery();
+			pstmt.setString(1, movieId);			
+			rset = pstmt.executeQuery();			
 			while(rset.next()) {
 				String reviewNum = rset.getString("review_num");
 				String memberId = rset.getString("member_id");
 				String movieId_ = rset.getString("movie_id");
-				int reviewGrade = rset.getInt("review grade");
+				int reviewGrade = rset.getInt("review_grade");
 				int reviewLike = rset.getInt("review_like");
 				int reviewDislike = rset.getInt("review_dislike");
 				Date reviewDate = rset.getDate("review_date");
 				int reviewEnabled = rset.getInt("review_enabled");
 				String reviewComment = rset.getString("review_comment");
 				Review r = new Review(reviewNum, memberId, movieId_, reviewGrade, reviewLike, reviewDislike, reviewDate, reviewEnabled, reviewComment);
-				
 				list.add(r);
 			}			
 		} catch (Exception e) {
