@@ -37,12 +37,12 @@
 
 <title></title>
 <script>
+	var movieId = {
+		id: <%=movieId%>
+	}
 	
 	$(()=>{
 		var pageTitle;
-		var movieId = {
-			id: <%=movieId%>
-		}
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getDetail.do",
 			data: movieId,
@@ -54,17 +54,17 @@
 				console.log(data);				
 				var html = "<div id='details'>";
 				html += "<div id='main-poster'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></div>";
-				html += "<p id='title'>타이틀</p><span>" + data.title +"</span><br>";
-				html += "<p id='overview'>줄거리</p><span> " + data.overview +"</span><br>";
-				html += "<p id='genres'>장르</p>"
+				html += "<div id='title'>타이틀<br><span>" + data.title +"</span></div><br>";
+				html += "<div id='overview'>줄거리<br><span> " + data.overview +"</span></div><br>";
+				html += "<div id='genres'>장르<br>"
 				$.each(data.genres, (i)=>{
 					html +="<span class='gr'>" +data.genres[i].name +" </span>";
 				});
-				html +="<br>";
-				html += "<div><p id='release_date'>개봉일</p><span>" + data.release_date + "</span></div>";
-				html += "<div id='gaugeChart'></div>";
+				html +="</div><br>";
+				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
+				html += "<div id='gaugeChart'></div><p id='grade'>평점</p>";
 				html += "</div>";
-				$("#info-container").append(html);
+				$("#info-container").html(html);
 				var chart = bb.generate({
 					 data: {
 						    columns: [["평점", 0]],
@@ -194,8 +194,23 @@
 		      setRating(rating);
 		    }
 		  });
-		  
+		  getReviews();
 	})
+	//리뷰목록 가져오는 함수
+	function getReviews(){
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/getReviews.do",
+			data: movieId,
+			dataType: "json",
+			success: function(data){
+				console.log(data);
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}			
+		});		
+	}
 </script>
 </head>
 
