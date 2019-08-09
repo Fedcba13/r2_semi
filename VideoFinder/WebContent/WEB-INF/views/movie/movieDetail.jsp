@@ -211,12 +211,19 @@
 				console.log(data);
 				var html = "";
 				$.each(data, (i)=>{
-					html += "<tr>"
-					for(var j = 0; j < data[i].reviewGrade; j++){
-						html += "<span class="fa fa-star checked"></span>";
+					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2'>"+data[i].reviewComment+"</td>";
+					html += "<td colspan='2'>"
+					for(var j = 0; j < 10; j++){
+						if(j < data[i].reviewGrade){
+							html += "<span class='fa fa-star checked'></span>";							
+						} else {
+							html += "<span class='fa fa-star'></span>";
+						}
 					}
-					html += "<tr><td>"+data[i].memberId+"</td><td>"+data[i].reviewComment+"</td></tr>";
+					html += "</td>";
+					html += "<td><img src='<%=request.getContextPath()%>/images/thumbsUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span><img src='<%=request.getContextPath()%>/images/thumbsDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
 				});
+				
 				$("#written").html(html);
 			},
 			error: function(jqxhr, textStatus, errorThrown){
@@ -286,8 +293,8 @@
 		<div id="review-graph">
 		
 		</div>
-		<div id="review-comments">
-			<table id="written">
+		<div id="written-comments">
+			<table id="written" class="table">
 				
 			</table>
 		</div>

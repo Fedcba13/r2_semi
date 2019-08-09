@@ -97,6 +97,11 @@ div#review-editor{
 	height: 85px;	
 	position: absolute;
 }
+#written-comments{
+	margin:  0 auto;
+	padding: 5px;
+	width: 90%;
+}
 /* 별점CSS */
 .rating {
 	cursor: pointer;
