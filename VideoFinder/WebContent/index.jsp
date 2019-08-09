@@ -109,7 +109,7 @@ $(()=>{
 					
 					html += '<td>';
 					if(result[0] != ''){						
-						html += "<a href='"+result[1]+"'><img src='https://image.tmdb.org/t/p/w185/"+result[0]+"'></a>"
+						html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+result[1]+"'><img src='https://image.tmdb.org/t/p/w185/"+result[0]+"'></a>"
 					}else{
 						html += "<a href='"+result[1]+"'><img src='"+result[0]+"'></a>"
 					}
