@@ -221,7 +221,8 @@
 						}
 					}
 					html += "</td>";
-					html += "<td><img src='<%=request.getContextPath()%>/images/thumbsUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span><img src='<%=request.getContextPath()%>/images/thumbsDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
+					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
+					html += "<td><button>삭제</button></td>"
 				});
 				
 				$("#written").html(html);
