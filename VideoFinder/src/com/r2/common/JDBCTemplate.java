@@ -1,5 +1,6 @@
 package com.r2.common;
 
+<<<<<<< HEAD
 import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +27,38 @@ public class JDBCTemplate {
 			String fileName = JDBCTemplate.class.getResource("/driver.properties")
 												.getPath();//URL객체의 절대경로(문자열)리턴
 			System.out.println("fileName@JDBCTemplate= " + fileName);
+=======
+
+import java.io.FileReader;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Properties;
+
+/**
+ * SingleTon Pattern : 클래스에 대한 객체가 프로그램 구동 내내 한개만 작성되어 사용되게 함. static을 이용할거임.
+ * static특징 : 모든 필드, 메소드가 static이어야한다.
+ * 
+ * @author nobodj
+ *
+ */
+public class JDBCTemplate {
+	//private JDBCTemplate(){} //생성해도 결국 이미 생성된 static자원을 사용하게 된다.
+	
+	public static Connection getConnection() {
+		Connection conn = null;
+		try {
+			Properties prop = new Properties();
+			//prop.load(new FileReader("resources/driver.properties"));
+			//클래스객체로부터 buildpath의 절대경로로 파일접근
+			
+			String fileName = JDBCTemplate.class
+							  			  .getResource("/driver.properties")
+							  			  .getPath();//URL객체의 절대경로(문자열) 리턴
+			System.out.println("fileName@JDBCTemplate="+fileName);
+>>>>>>> refs/remotes/origin/master
 			prop.load(new FileReader(fileName));
 			
 			String driver = prop.getProperty("driver");

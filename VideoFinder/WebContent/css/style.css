@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+
+html, body {
+	width: 1024px;
+	margin: 0;
+	padding: 0;
+	font-family:"휴먼모음T";
+}
+
+/********** 전체컨테이너 **********/
+div#container	{background-color:#F0F0F0; width:1024px; margin:0 auto;}
+
+/********** header **********/
+header			{position:relative; background:skyblue; padding:20px; box-sizing:border-box;}
+header:after {
+	content:'';
+	display:block;
+	clear:both;
+}
+header h1 		{float:left;}
+
+
+/********** content **********/
+section#content	{ background-color:#F5F5F5; float:left; width:1024px; min-height:500px; }
+
+/* 메인메뉴관련 스타일 */
+header nav{
+	float:right;
+	margin-top:20px;
+}
+
+header nav ul.main-nav{
+	display: table;
+	padding: 0px;
+	margin: 0 auto;
+}
+
+header nav ul.main-nav li{
+	list-style-type: none;
+	width: 8em;
+	float: left;
+	text-align: center;
+	font-family: '휴먼모음T', sans-serif;
+}
+
+header nav ul.main-nav li a{
+	display: block;
+	text-decoration: none;
+	color: #292929;
+}
+header nav ul.main-nav li:hover{
+	background-color: #30f;
+}
+header nav ul.main-nav li:hover a{
+	color: #fff;
+}
+
+
+/********** footer **********/
+footer			{ background-color:#00bcd4; clear:both; height:75px; text-align:center;padding-top:40px;}
