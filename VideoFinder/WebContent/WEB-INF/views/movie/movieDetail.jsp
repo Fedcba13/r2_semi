@@ -3,11 +3,8 @@
 <%
 	String movieId = request.getParameter("movieId");
 %>
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/movieDetail.css" />
 <link rel="stylesheet"
@@ -46,8 +43,25 @@
 		id: <%=movieId%>
 	}
 	
+	var avg
+	
+	
 	$(()=>{
 		var pageTitle;
+		$.ajax({
+			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
+			 data: movieId,
+			 dataType: "json",
+			 success: function(data){
+				 console.log(data);
+				 avg = data.avg;
+				 console.log(avg);
+			 },
+			 error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+			 }
+		});
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getDetail.do",
 			data: movieId,
@@ -92,7 +106,7 @@
 				});
 				setTimeout(function() {
 					chart.load({
-						columns: [["평점", data.vote_average]]
+						columns: [["평점", avg]]
 					});
 				}, 500);
 			},
@@ -200,6 +214,51 @@
 		    }
 		  });
 		  getReviews();
+		  getReviewGraph();
+		  $("#send-review").on("click", ()=>{
+			  var param = {
+					  memberId: $("#memberId").val(),
+					  rate: $("#rating-input").val(),
+					  movieId: <%=movieId%>,
+					  comment: $("#review-comment").val()			  
+			  }
+			  if(param.rate == 0 || param.comment.trim().length == 0){
+				  alert("평점과 리뷰를 모두 작성하세요");
+				  return ;
+			  }
+			  if(param.comment.trim().length > 100){
+				  alert("너무 길어");
+				  return;
+			  }
+			 /*  console.log(data.comment);
+			  console.log(data.rate);
+			  console.log(data); */
+			  $.ajax({
+				 url: "<%=request.getContextPath()%>/movie/insertReview.do",
+				 data: param,
+				 success: function(data){
+					 getReviews();
+					 $("#review-comment").val("");
+					 $("#rating-input").val(0);
+				 },
+				 error: function(jqxhr, textStatus, errorThrown){
+						console.log("ajax처리실패!!");
+						console.log(jqxhr, textStatus, errorThrown);
+					}
+			  });
+		  })
+		  $.ajax({
+				url: "<%=request.getContextPath()%>/movie/reviewGraph.do",
+				data: movieId,
+				success: function(data){
+					console.log(data);
+					getReviewGraph(data);
+				},
+				error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+				}
+			});
 	})
 	//리뷰목록 가져오는 함수
 	function getReviews(){
@@ -211,7 +270,7 @@
 				console.log(data);
 				var html = "";
 				$.each(data, (i)=>{
-					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2'>"+data[i].reviewComment+"</td>";
+					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
 					html += "<td colspan='2'>"
 					for(var j = 0; j < 10; j++){
 						if(j < data[i].reviewGrade){
@@ -222,7 +281,7 @@
 					}
 					html += "</td>";
 					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
-					html += "<td><button>삭제</button></td>"
+					html += "<td><button class='btn btn-danger'>삭제</button></td>"
 				});
 				
 				$("#written").html(html);
@@ -232,6 +291,9 @@
 				console.log(jqxhr, textStatus, errorThrown);
 			}			
 		});		
+	}	
+	function getReviewGraph(data){
+		
 	}
 </script>
 </head>
@@ -268,7 +330,8 @@
 		<h2 class="subject">리뷰하기</h2>
 		<form>
 			<!-- hide the input -->
-			<input type="hidden" name="rating" id="rating-input" min="1" max="10" />		
+			<input type="hidden" name="rating" id="rating-input" min="1" max="10" value="0"/>	
+			<input type="hidden" name="memberId" id="memberId" value="<%=memberLoggedIn.getMemberId()%>"/>	
 
 		<div class="rating" role="optgroup">
 			<i class="fa fa-star-o fa-2x rating-star" id="rating-1" data-rating="1" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="1점"></i> 
@@ -284,7 +347,7 @@
 		</div>
 		<div id="review-editor">
 			<textarea name="review-comment" id="review-comment" rows="3" placeholder="리뷰를 입력하세요"></textarea>
-			<button type="button" id="send-review">평가하기</button>		
+			<button type="button" class="btn btn-success" id="send-review">평가하기</button>		
 		</div>
 		</form>
 	</div>
@@ -300,5 +363,4 @@
 			</table>
 		</div>
 	</div>
-</body>
-</html>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

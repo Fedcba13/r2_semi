@@ -1,5 +1,7 @@
 package com.r2.movie.model.dao;
 
+import static com.r2.common.JDBCTemplate.close;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,10 +10,11 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import static com.r2.common.JDBCTemplate.*;
 import com.r2.movie.model.vo.Review;
 
 public class ReviewDAO {
@@ -62,6 +65,82 @@ public class ReviewDAO {
 		}		
 		
 		return list;
+	}
+
+	public int insertReview(Connection conn, Review r) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertReview");
+		
+		try{
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, r.getMemberId());
+			pstmt.setString(2, r.getMovieId());
+			pstmt.setInt(3, r.getReviewGrade());
+			pstmt.setString(4, r.getReviewComment());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public Map<String, String> getAvg(Connection conn, String movieId) {	
+		Map<String, String> map = new HashMap<String, String>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getAvg");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, movieId);
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				map.put("avg", rset.getString("avg"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return map;
+	}
+
+	public Map<String, Integer> getReviewGraphData(Connection conn, String movieId) {
+		Map<String, Integer> map = new HashMap<String, Integer>();		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getReviewGraphData");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			for(int i = 1; i <=10; i++) {
+				pstmt.setString(1, movieId);
+				pstmt.setInt(2, i);
+				rset = pstmt.executeQuery();
+				if(rset.next()) {
+					map.put(Integer.toString(i), rset.getInt("cnt"));
+				} else {
+					map.put(Integer.toString(i), 0);
+				}
+				pstmt.clearParameters();
+			}
+			
+			System.out.println("map@DAO=" + map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		
+		return map;
 	}
 
 }
