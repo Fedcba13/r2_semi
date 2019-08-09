@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.r2.admin.model.service.FAQService;
-import com.r2.admin.model.vo.FAQ;
+import com.r2.admin.model.service.NoticeService;
 
 /**
- * Servlet implementation class FAQListServlet
+ * Servlet implementation class NoticeViewBeforeServlet
  */
-@WebServlet("/admin/getServiceList")
-public class ServiceListServlet extends HttpServlet {
+@WebServlet("/admin/goWriteNoticeView")
+public class NoticeViewBeforeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServiceListServlet() {
+    public NoticeViewBeforeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +30,11 @@ public class ServiceListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//FAQ(+카테고리 수) 가져오기
-		List<FAQ> fAQList = new FAQService().getFAQList();
-		int category = new FAQService().getCategoryCount();
-		
-		
-		request.setAttribute("fAQList", fAQList);
-		request.setAttribute("category", category);
-		request.getRequestDispatcher("/WEB-INF/views/admin/service/ServiceMain.jsp").forward(request, response);
+
+		List<String> catList = new NoticeService().getNoticeCategory();
+		request.setAttribute("catList", catList);
+		request.getRequestDispatcher("/WEB-INF/views/admin/notice/writeNotice.jsp").forward(request, response);
+
 	}
 
 	/**

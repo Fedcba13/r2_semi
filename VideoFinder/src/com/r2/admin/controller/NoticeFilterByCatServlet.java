@@ -13,16 +13,16 @@ import com.r2.admin.model.service.NoticeService;
 import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class NoteListServlet
+ * Servlet implementation class NoticeFilterByCatServlet
  */
-@WebServlet("/admin/getNoticeList")
-public class NoticeListServlet extends HttpServlet {
+@WebServlet("/admin/filterNoitceByCat")
+public class NoticeFilterByCatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeListServlet() {
+    public NoticeFilterByCatServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,6 +31,7 @@ public class NoticeListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		// 1.파라미터핸들링
 		int numPerPage = 5;
 		try {
@@ -48,14 +49,13 @@ public class NoticeListServlet extends HttpServlet {
 
 		// 2.업무로직
 		// 2.1 컨텐츠 영역
-		List<Notice> list = new NoticeService().getNoticeList(cPage, numPerPage);
+		String cat = request.getParameter("cat");
+		List<Notice> list = new NoticeService().getNoticeListByCat(cat, cPage, numPerPage);
 //				2.2 페이지바 영역
 //				페이지 바 구하기 공식2
 //				전체 페이지 수 구하기 
 		int totalContents = new NoticeService().selectTotalContents();
-		System.out.println("컨텐츠 수 : " + totalContents);
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
-		System.out.println("페이지 수 : " + totalPage);
 
 		// pageBar html 코드작성
 		final int pageBarSize = 5;
@@ -99,13 +99,10 @@ public class NoticeListServlet extends HttpServlet {
 		
 		request.setAttribute("list", list);
 		request.setAttribute("catList", catList);
-		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
 		request.getRequestDispatcher("/WEB-INF/views/admin/notice/NoticeList.jsp").forward(request, response);
-
-		
 		
 	}
 

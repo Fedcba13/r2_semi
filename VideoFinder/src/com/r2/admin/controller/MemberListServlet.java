@@ -9,28 +9,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.r2.admin.model.service.AdminMemberService;
 import com.r2.admin.model.service.NoticeService;
-import com.r2.admin.model.vo.Notice;
+import com.r2.member.model.vo.Member;
 
 /**
- * Servlet implementation class NoteListServlet
+ * Servlet implementation class MemberListServlet
  */
-@WebServlet("/admin/getNoticeList")
-public class NoticeListServlet extends HttpServlet {
+@WebServlet("/admin/getMemberList")
+public class MemberListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public NoticeListServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public MemberListServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// 1.파라미터핸들링
 		int numPerPage = 5;
 		try {
@@ -48,16 +51,14 @@ public class NoticeListServlet extends HttpServlet {
 
 		// 2.업무로직
 		// 2.1 컨텐츠 영역
-		List<Notice> list = new NoticeService().getNoticeList(cPage, numPerPage);
-//				2.2 페이지바 영역
-//				페이지 바 구하기 공식2
-//				전체 페이지 수 구하기 
-		int totalContents = new NoticeService().selectTotalContents();
-		System.out.println("컨텐츠 수 : " + totalContents);
+		List<Member> memberList = new AdminMemberService().getrMemberList(cPage, numPerPage);
+//		2.2 페이지바 영역
+//		페이지 바 구하기 공식2
+//		전체 페이지 수 구하기 
+		int totalContents = new AdminMemberService().selectTotalMemberContents();
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
-		System.out.println("페이지 수 : " + totalPage);
 
-		// pageBar html 코드작성
+// pageBar html 코드작성
 		final int pageBarSize = 5;
 		String pageBar = "";
 
@@ -66,53 +67,44 @@ public class NoticeListServlet extends HttpServlet {
 
 		int pageNo = pageStart;
 
-//				a.[이전]
+//		a.[이전]
 		if (pageNo == 1) {
 			pageBar += "<span>[이전]</span>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo - 1)
+			pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo - 1)
 					+ "&numPerPage=" + numPerPage + "'>[이전]</a>";
 		}
-//				b.page
+//		b.page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
 				pageBar += "<span class = 'cPage'>" + pageNo + "</span>";
 			} else {
-				pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo)
+				pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo)
 						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a>";
 			}
 			pageNo++;
 		}
-//				c.[다음]
+//		c.[다음]
 		if (pageNo > totalPage) {
 			pageBar += "<span>[다음]</span>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo) + "&numPerPage="
-					+ numPerPage + "'>[다음]</a>";
+			pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage + "'>[다음]</a>";
 		}
-		
-		
-		//공지 카테고리 불러오기
-		
-		List<String> catList = new NoticeService().getNoticeCategory();
-		
-		
-		request.setAttribute("list", list);
-		request.setAttribute("catList", catList);
-		
+
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/NoticeList.jsp").forward(request, response);
-
-		
-		
+		request.setAttribute("memberList", memberList);
+		request.getRequestDispatcher("/WEB-INF/views/admin/member/MemberList.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

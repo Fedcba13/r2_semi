@@ -30,7 +30,6 @@ public class NoticeByNoticeNoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		
 		String Notice_No = request.getParameter("Notice_No");
 		Notice n = new NoticeService().getNoticeByNoticeNo(Notice_No);

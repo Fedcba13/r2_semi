@@ -42,5 +42,29 @@ public class NoticeService {
 				
 		
 	}
+
+	public List<String> getNoticeCategory() {
+		Connection conn = getConnection();
+		List<String> catList 
+			= new NoticeDAO().getNoticeCategory(conn);
+		close(conn);
+		return catList;
+	}
+
+	public List<Notice> getNoticeListByCat(String cat, int cPage, int numPerPage) {
+		Connection conn = getConnection();
+		List<Notice> list 
+			= new NoticeDAO().getNoticeListByCat(conn,cat,  cPage, numPerPage);
+		close(conn);
+		return list;
+	}
+
+	public List<Notice> getNoticeBySearch(String search_Keyword, int cPage, int numPerPage) {
+		Connection conn = getConnection();
+		List<Notice> list 
+			= new NoticeDAO().getNoticeBySearch(conn, search_Keyword, cPage, numPerPage);
+		close(conn);
+		return list;
+	}
 	
 }

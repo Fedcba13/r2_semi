@@ -29,11 +29,11 @@ public class NoticeWriteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("ㅋㅋㅋㅋ");
 		String notice_Category = request.getParameter("notice_Category");
 		String notice_Title = request.getParameter("notice_Title");
 		String notice_Content = request.getParameter("notice_Content");
 		
-		System.out.println(notice_Content+"********");
 		
 		Notice n = new Notice();
 		n.setNotice_Category(notice_Category);

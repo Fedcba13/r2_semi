@@ -3,3 +3,7 @@
 #content {
 	text-align: center;
 }
+/* 검색 패널 없애기 */
+.arrow img{
+	display: none;
+}

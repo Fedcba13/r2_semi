@@ -41,7 +41,7 @@ div {
 		   function kk(){
 				   <%
 				   		for(FAQ f : fAQList){
-				   			if("축구".equals(f.getFAQ_Category())){
+				   			if("가입 절차".equals(f.getFAQ_Category())){
 			   	
 				   %>
 					var html = "";				   
@@ -49,7 +49,7 @@ div {
 					html += "<br>";
 					$("#div_01").append(html);
 				   <%
-				   			}else if("체육관".equals(f.getFAQ_Category())){
+				   			}else if("내 계정 관리".equals(f.getFAQ_Category())){
 				   %>
 				   var html = "";				   
 				   html += '<a href="<%=request.getContextPath()%>/admin/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
@@ -57,7 +57,7 @@ div {
 					$("#div_02").append(html);
 				   
 				   <%
-				   			}else if("세번째 범주".equals(f.getFAQ_Category())){
+				   			}else if("빠른 링크".equals(f.getFAQ_Category())){
 				   %>
 				   	var html = "";				   
 				   	html += '<a href="<%=request.getContextPath()%>/admin/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
