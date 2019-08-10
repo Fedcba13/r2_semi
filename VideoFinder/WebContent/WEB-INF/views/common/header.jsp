@@ -130,8 +130,27 @@ div.nav>.arrow>img {
 				}
             })
             
+            //검색 버튼 클릭
             $("#button-addon2").click(()=>{
             	var searchKeyword = $("input[name=categorySearch]").val();
+            	var searchGenre = '';
+            	$("input[name=chk_genre]:checked").each(function(){
+            		if(searchGenre != ''){
+            			searchGenre += ',';
+            		}
+            		searchGenre += $(this).val(); 
+            	});
+            	var yearfrom = $("#yearfrom").val();
+            	var yearto = $("#yearto").val();
+            	
+            	var url  = '<%=request.getContextPath()%>/movie/searchMovie'
+            	url += '?keyword='+searchKeyword;
+				url += '&genre='+searchGenre;        		
+				url += '&yearFrom='+yearfrom;	
+				url += '&yearTo='+yearto;
+            	
+            	location.href = url;
+            	
             });
             
             $("#categoryReset").click(()=>{
@@ -145,6 +164,9 @@ div.nav>.arrow>img {
             		$('input.chk_genre')[i].checked = false;
         			chkList.push($('input.chk_genre')[i].checked);
         		}
+            	$('input.chk_all').prop("checked", true);
+            	$("#yearto option:eq(0)").prop("selected", true);
+            	$("#yearfrom option:eq(0)").prop("selected", true);
             });
             
         })
@@ -190,41 +212,39 @@ div.nav>.arrow>img {
 					<table>
 						<tr>
 							<td><input type="checkbox" name="chk_all" id="0"
-								class="chk_all" value="0"> <label for="0">전체</label></td>
+								class="chk_all" value="전체" checked> <label for="0">전체</label></td>
 							<td><input type="checkbox" name="chk_genre" id="1"
-								class="chk_genre" value="1"> <label for="1">드라마</label></td>
+								class="chk_genre" value="드라마"> <label for="1">드라마</label></td>
 							<td><input type="checkbox" name="chk_genre" id="4"
-								class="chk_genre" value="4"> <label for="4">공포</label></td>
+								class="chk_genre" value="공포"> <label for="4">공포</label></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="chk_genre" id="5"
-								class="chk_genre" value="5"> <label for="5">로맨스</label></td>
+								class="chk_genre" value="로맨스"> <label for="5">로맨스</label></td>
 							<td><input type="checkbox" name="chk_genre" id="6"
-								class="chk_genre" value="6"> <label for="6">모험</label></td>
+								class="chk_genre" value="모험"> <label for="6">모험</label></td>
 							<td><input type="checkbox" name="chk_genre" id="7"
-								class="chk_genre" value="7"> <label for="7">스릴러</label></td>
+								class="chk_genre" value="스릴러"> <label for="7">스릴러</label></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="chk_genre" id="10"
-								class="chk_genre" value="10"> <label for="10">다큐</label></td>
+								class="chk_genre" value="다큐"> <label for="10">다큐</label></td>
 							<td><input type="checkbox" name="chk_genre" id="11"
-								class="chk_genre" value="11"> <label for="11">코미디</label></td>
+								class="chk_genre" value="코미디"> <label for="11">코미디</label></td>
 							<td><input type="checkbox" name="chk_genre" id="15"
-								class="chk_genre" value="15"> <label for="15">애니메이션</label></td>
+								class="chk_genre" value="애니메이션"> <label for="15">애니메이션</label></td>
 						</tr>
 						<tr>
 							<td><input type="checkbox" name="chk_genre" id="16"
-								class="chk_genre" value="16"> <label for="16">범죄</label></td>
-							<td><input type="checkbox" name="chk_genre" id="17"
-								class="chk_genre" value="17"> <label for="17">뮤지컬</label></td>
+								class="chk_genre" value="범죄"> <label for="16">범죄</label></td>
 							<td><input type="checkbox" name="chk_genre" id="18"
-								class="chk_genre" value="18"> <label for="18">SF</label><input
-								type="checkbox" name="chk_genre" id="19" class="chk_genre"
-								value="19"> <label for="19">액션</label></td>
+								class="chk_genre" value="SF"> <label for="18">SF</label></td>
+							<td><input type="checkbox" name="chk_genre" id="19"
+								class="chk_genre" value="액션"> <label for="19">액션</label></td>
 						</tr>
 					</table>
 				</div>
-				<br>
+				<!-- <br>
 				<div class="categoryNation">
 					<p>국가별</p>
 					<div class="input-group mb-3">
@@ -243,14 +263,14 @@ div.nav>.arrow>img {
 							<option value="ETC">기타</option>
 						</select>
 					</div>
-				</div>
+				</div> -->
 				<div class="categoryYear">
 					<p>개봉년도</p>
 					<div class="input-group mb-3">
 						<select class="custom-select" id="yearfrom">
-							<option selected value='0'>선택안함</option>
+							<option selected value=''>선택안함</option>
 						</select> <span>~</span> <select class="custom-select" id="yearto">
-							<option selected value='0'>선택안함</option>
+							<option selected value=''>선택안함</option>
 						</select>
 					</div>
 				</div>

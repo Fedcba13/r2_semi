@@ -1,6 +1,5 @@
 package com.r2.common;
 
-
 import java.io.FileReader;
 
 import java.sql.Connection;
