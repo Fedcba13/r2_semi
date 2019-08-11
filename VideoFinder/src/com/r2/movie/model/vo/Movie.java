@@ -13,13 +13,24 @@ public class Movie implements Serializable {
 	private String id;
 	private String release_date;
 	private String poster_path;
+	private String original_title;
+	private String[] genre_ids;
 
-	public Movie(String title, String id, String release_date, String poster_path) {
+	public Movie(String title, String id, String release_date, String poster_path, String original_title) {
 		super();
 		this.title = title;
 		this.id = id;
 		this.release_date = release_date;
 		this.poster_path = poster_path;
+		this.original_title = original_title;
+	}
+
+	public String[] getGenre_ids() {
+		return genre_ids;
+	}
+
+	public void setGenre_ids(String[] genre_ids) {
+		this.genre_ids = genre_ids;
 	}
 
 	public Movie() {
@@ -59,10 +70,18 @@ public class Movie implements Serializable {
 		this.poster_path = poster_path;
 	}
 
+	public String getOriginal_title() {
+		return original_title;
+	}
+
+	public void setOriginal_title(String original_title) {
+		this.original_title = original_title;
+	}
+
 	@Override
 	public String toString() {
 		return "Movie [title=" + title + ", id=" + id + ", release_date=" + release_date + ", poster_path="
-				+ poster_path + "]";
+				+ poster_path + ", original_title=" + original_title + "]";
 	}
 
 }

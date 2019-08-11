@@ -42,6 +42,10 @@
 	font-size: 22px;
 	background-image: url('<%=request.getContextPath()%>/img/star.png');
 }
+
+#movieRank > #pageBar{
+	text-align: center;
+}
 </style>
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
 <script>
@@ -49,14 +53,23 @@
 var curPage = 1;
 var numPerPage = 10;
 
+var param = {};
+
 $(()=>{
 	
-	var param = {
+	param = {
 		keyword: '<%=keyword%>',
 		genre: '<%=genre%>',
 		yearFrom: '<%=yearFrom%>',
-		yearTo: '<%=yearTo%>'
+		yearTo: '<%=yearTo%>',
+		cPage: 1
 	};
+	
+	getMovie();
+	
+});
+
+function getMovie(){
 	
 	$.ajax({
 		url: "<%=request.getContextPath()%>/movie/movieSearch.do",
@@ -65,21 +78,48 @@ $(()=>{
 		data: param,
 		dataType: "json",
 		success: function(data){
-			console.log(data);
+			var movieList = data["list"];
+			var pageBar = data["pageBar"];
+
+			var html = '';
+			$.each(movieList, (i, it)=>{
+					
+					if(i == 0 || i == 2){
+						html += '<tr>';
+					}
+					
+					html += '<td>';
+					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'></a>"
+					html += '</td>';
+					
+					if(i == 1 || i == 3){
+						html += '</tr>';
+					}
+				
+			});
+			$("#movieRank table").html(html);
+			$("div#movieRank>#pageBar").html(pageBar);
 		},
 		error: function(jqxhr, textStatus, errorThrown){
 			console.log("ajax 처리 실패!");
 			console.log(jqxhr, textStatus, errorThrown);
 		}
-	});	
-});
+	});
+	
+	$("a.page").click(e=>{
+		param.cPage = e.target.getAttribute('val');
+		getMovie();
+	});
+	
+};
 
 
 </script>
 <section>
 	<div id="movieRank">
 		<table></table>
-	</div>
+		<div id="pageBar"></div>
+	</div> 
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
