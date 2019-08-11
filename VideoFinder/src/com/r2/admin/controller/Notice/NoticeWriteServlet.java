@@ -41,10 +41,21 @@ public class NoticeWriteServlet extends HttpServlet {
 		n.setNotice_Content(notice_Content);
 		
 		int result = new NoticeService().insertNotice(n);
-		
+		String view = "/WEB-INF/views/common/msg.jsp";
+		String msg = "";
+		String loc = "/admin/getNoticeList";
+
+
 		if(result > 0) {
-			
+			msg = "공지사항을 성공적으로 등록했습니다.";
+		}else {
+			msg = "공지사항을 등록에 실패했습니다.";
 		}
+		
+		request.setAttribute("msg", msg);
+		request.setAttribute("loc", loc);
+		
+		request.getRequestDispatcher(view).forward(request, response);
 		
 		
 	}

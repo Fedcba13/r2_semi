@@ -15,13 +15,13 @@ import com.r2.admin.model.service.NoticeService;
  * Servlet implementation class NoticeViewBeforeServlet
  */
 @WebServlet("/admin/goWriteNoticeView")
-public class NoticeViewBeforeServlet extends HttpServlet {
+public class NoticeWriteBeforeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeViewBeforeServlet() {
+    public NoticeWriteBeforeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,6 +32,7 @@ public class NoticeViewBeforeServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		List<String> catList = new NoticeService().getNoticeCategory();
+
 		request.setAttribute("catList", catList);
 		request.getRequestDispatcher("/WEB-INF/views/admin/notice/writeNotice.jsp").forward(request, response);
 

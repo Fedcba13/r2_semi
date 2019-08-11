@@ -1,6 +1,6 @@
 package com.r2.admin.model.service;
 
-import static com.r2.common.JDBCTemplate.close;
+import static com.r2.common.JDBCTemplate.*;
 import static com.r2.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
@@ -37,7 +37,11 @@ public class NoticeService {
 	public int insertNotice(Notice n) {
 		Connection conn = getConnection();
 		int result = new NoticeDAO().insertNotice(n, conn);
-		close(conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
 		return result;
 				
 		
