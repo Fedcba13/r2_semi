@@ -35,7 +35,7 @@
 	href="<%=request.getContextPath()%>/css/checkbox.css">
 <style>
 div.nav {
-	width: 350px;
+	width: 300px;
 	height: 100%;
 	position: fixed;
 	left: -300px;
@@ -43,6 +43,7 @@ div.nav {
 	padding: 0;
 	top: 0;
 	z-index: 999;
+	
 }
 
 div.nav>div.content {
@@ -53,16 +54,15 @@ div.nav>div.content {
 }
 
 div.nav>div.arrow {
-	display: inline-block;
+	position: absolute;
+	top: 50%;
+	left: 300px;
+	transform: translateY(-50%);
 	width: 50px;
-	height: 100%;
 }
 
 div.nav>.arrow>img {
 	width: 64px;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
 }
 </style>
 <script>
@@ -195,6 +195,7 @@ div.nav>.arrow>img {
 			</nav>
 		</header>
 		<div class="nav">
+			
 			<div class="content">
 				<p>카테고리</p>
 				<div class="input-group mb-3">
