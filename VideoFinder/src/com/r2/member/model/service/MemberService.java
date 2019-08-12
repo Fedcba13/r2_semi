@@ -134,6 +134,17 @@ public class MemberService {
 		return result;
 	}
 
+	public int deleteChk(Member m) {
+
+		Connection conn = getConnection();
+		
+		int result = new MemberDAO().deleteChk(conn, m);
+		
+		close(conn);
+		
+		return result;
+	}
+
 	
 	
 }
