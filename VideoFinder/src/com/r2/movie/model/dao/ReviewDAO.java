@@ -143,4 +143,21 @@ public class ReviewDAO {
 		return map;
 	}
 
+	public int deleteReview(Connection conn, int reviewNum) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteReview");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reviewNum);
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		return result;
+	}
+
 }

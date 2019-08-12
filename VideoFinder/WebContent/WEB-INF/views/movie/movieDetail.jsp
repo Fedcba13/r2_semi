@@ -238,6 +238,7 @@
 				 data: param,
 				 success: function(data){
 					 getReviews();
+					 getReviewGraph();
 					 $("#review-comment").val("");
 					 $("#rating-input").val(0);
 				 },
@@ -247,18 +248,6 @@
 					}
 			  });
 		  })
-		  $.ajax({
-				url: "<%=request.getContextPath()%>/movie/reviewGraph.do",
-				data: movieId,
-				success: function(data){
-					console.log(data);
-					getReviewGraph(data);
-				},
-				error: function(jqxhr, textStatus, errorThrown){
-					console.log("ajax처리실패!!");
-					console.log(jqxhr, textStatus, errorThrown);
-				}
-			});
 	})
 	//리뷰목록 가져오는 함수
 	function getReviews(){
@@ -268,6 +257,7 @@
 			dataType: "json",
 			success: function(data){
 				console.log(data);
+				
 				var html = "";
 				$.each(data, (i)=>{
 					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
@@ -281,7 +271,17 @@
 					}
 					html += "</td>";
 					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
-					html += "<td><button class='btn btn-danger'>삭제</button></td>"
+					<%if(memberLoggedIn != null){%>
+						if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
+							html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
+						} else {
+							html += "<td></td>";
+						}
+					<%} else {%>
+						html += "<td></td>";
+					<%}%>
+					html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
+					html += "</tr>";
 				});
 				
 				$("#written").html(html);
@@ -292,9 +292,73 @@
 			}			
 		});		
 	}	
-	function getReviewGraph(data){
-		
+	function getReviewGraph(){
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/reviewGraph.do",
+			data: movieId,
+			success: function(data){
+				console.log(data);				
+				var chart = bb.generate({
+					 data: {
+					    columns: [
+						["1점", data["1"]],
+						["2점", data["2"]],
+						["3점", data["3"]],
+						["4점", data["4"]],
+						["5점", data["5"]],
+						["6점", data["6"]],
+						["7점", data["7"]],
+						["8점", data["8"]],
+						["9점", data["9"]],
+						["10점", data["10"]]
+						
+					    ],
+					    type: "bar"
+					  },
+					  bar: {
+					    width: {
+					      ratio: 0.4
+					    },
+					    padding: 50
+					  },			  
+					  resize:{
+						auto: true
+					  },
+					  axis: {
+					        x: {
+					            show: false
+					            
+					        }        
+					    },
+					  bindto: "#review-graph"
+					});
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}
+		});		
 	}
+	function deleteReview(e){		
+		var tr = $(e).parent().parent();		
+		var td = tr.children();		
+		var param = {
+			rn:	td.eq(5).text()
+		}
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/deleteReview.do",
+			data: param,
+			success: function(){
+				getReviews();
+				getReviewGraph();
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}
+		});
+		
+	} 
 </script>
 </head>
 
@@ -331,7 +395,7 @@
 		<form>
 			<!-- hide the input -->
 			<input type="hidden" name="rating" id="rating-input" min="1" max="10" value="0"/>	
-			<input type="hidden" name="memberId" id="memberId" value="<%=memberLoggedIn.getMemberId()%>"/>	
+			<input type="hidden" name="memberId" id="memberId" value="<%=memberLoggedIn != null?memberLoggedIn.getMemberId():""%>"/>	
 
 		<div class="rating" role="optgroup">
 			<i class="fa fa-star-o fa-2x rating-star" id="rating-1" data-rating="1" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="1점"></i> 
