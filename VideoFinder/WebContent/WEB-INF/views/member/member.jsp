@@ -1,23 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src='<%=request.getContextPath() %>/js/jquery-3.4.1.js'></script>
 <script>
 function checkIdDuplication(){
 	
 	var memberId = $("#memberId").val().trim();
+	
 	if(memberId.length == 0){
 		alert("아이디를 입력해주세요. ")
 		return;
 	}
 	
-	var memberId_ = document.getElementById("memberId");
-    var rep1 = /^[a-z][a-z\d]{3,11}$/;
-    
-	if(!regExpTest(rep1, memberId_, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
-			
-		  	return;
-	} 
-	
+
 	var param = {
 			memberId : memberId
 			
@@ -62,7 +58,7 @@ function validate(){
 	var rep2 = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
 	var rep3 = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
 
-  if(!regExpTest(rep1, memberId, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
+  if(!regExpTest(rep1, memberIdS, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
 		
 	  	return false;
     } 
@@ -104,6 +100,74 @@ function regExpTest(regExp, what, message) {
   	return false;
 }
 
+</script>
+<script>
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+        mapOption = {
+            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
+            level: 5 // 지도의 확대 레벨
+        };
+ 
+    //지도를 미리 생성
+    var map = new daum.maps.Map(mapContainer, mapOption);
+    //주소-좌표 변환 객체를 생성
+    var geocoder = new daum.maps.services.Geocoder();
+    //마커를 미리 생성
+    var marker = new daum.maps.Marker({
+        position: new daum.maps.LatLng(37.537187, 127.005476),
+        map: map
+    });
+ 
+ 
+    function kakaoAddress() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var fullAddr = data.address; // 최종 주소 변수
+                var extraAddr = ''; // 조합형 주소 변수
+ 
+                // 기본 주소가 도로명 타입일때 조합한다.
+                if(data.addressType === 'R'){
+                    //법정동명이 있을 경우 추가한다.
+                    if(data.bname !== ''){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있을 경우 추가한다.
+                    if(data.buildingName !== ''){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                    fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                }
+ 
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("memberAddress").value = fullAddr;
+                
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch(data.address, function(results, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === daum.maps.services.Status.OK) {
+ 
+                        var result = results[0]; 
+                        //첫번째 결과의 값을 활용
+ 
+                        // 해당 주소에 대한 좌표를 받아서
+                        var coords = new daum.maps.LatLng(result.y, result.x);
+                        // 지도를 보여준다.
+                        mapContainer.style.display = "block";
+                        map.relayout();
+                        // 지도 중심을 변경한다.
+                        map.setCenter(coords);
+                        // 마커를 결과값으로 받은 위치로 옮긴다.
+                        marker.setPosition(coords)
+                    }
+                });
+            }
+        }).open();
+        
+        close();
+    }
 </script>
 <style>
 p.check{
@@ -197,8 +261,11 @@ flex : none;
 				</tr>
 				<tr>
 
-					<td><input type="text" class="form-control"
-						placeholder="주소를 입력하세요. " id="memberAddress" name="memberAddress">
+					<td><input type="text" class="form-control" placeholder="주소를 입력하세요. " id="memberAddress" name="memberAddress">
+						<input type="text" class="form-control"
+						placeholder="상세주소를 입력하세요. " id="memberAddress1" name="memberAddress1">
+						<input type="button" class="btn btn-outline-secondary" onclick="kakaoAddress()" value="주소 검색"><br>
+						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
 
 					</td>
 				</tr>
@@ -214,43 +281,40 @@ flex : none;
 					<td>
 					
 					<div class="btn-group-toggle" data-toggle="buttons">
-  					<label for="genre1" class="btn btn-secondary active" checked>드라마/ 가족 
+  					<label for="genre1" class="btn btn-outline-secondary" >드라마/ 가족 
 					<input type="checkbox" name="genre" id="genre1"value="드라마"> 
 					</label>
-					<label for="genre2" class="btn btn-secondary active">로맨스
+					<label for="genre2" class="btn btn-outline-secondary">로맨스
 					<input type="checkbox" name="genre" id="genre2" value="로맨스"> 
 					</label> 
-					<label for="genre3" class="btn btn-secondary active">코미디
+					<label for="genre3" class="btn btn-outline-secondary">코미디
 					<input type="checkbox" name="genre"	id="genre3" value="코미디"> 
 					</label> 
-					<label for="genre4" class="btn btn-secondary active">액션
+					<label for="genre4" class="btn btn-outline-secondary">액션
 					<input type="checkbox" name="genre" id="genre4" value="액션"> 
 					</label> 
 						<br /><br />
-					<label for="genre5" class="btn btn-secondary active">SF/판타지
+					<label for="genre5" class="btn btn-outline-secondary">SF/판타지
 					<input type="checkbox" name="genre"id="genre5" value="SF"> 
 					</label>
-					<label for="genre6" class="btn btn-secondary active">모험
+					<label for="genre6" class="btn btn-outline-secondary">모험
 					<input type="checkbox" name="genre" id="genre6" value="모험">
 					</label> 
-					<label for="genre7" class="btn btn-secondary active">공포
+					<label for="genre7" class="btn btn-outline-secondary">공포
 					<input type="checkbox" name="genre" id="genre7" value="공포"> 
 					</label> 
-					<label for="genre8" class="btn btn-secondary active">애니메이션
+					<label for="genre8" class="btn btn-outline-secondary">애니메이션
 					<input type="checkbox" name="genre" id="genre8" value="애니메이션"> 
 					</label> 
 						<br /><br />
-					<label for="genre9" class="btn btn-secondary active">다큐멘터리
+					<label for="genre9" class="btn btn-outline-secondary">다큐멘터리
 					<input type="checkbox" name="genre"	id="genre9" value="다큐멘터리"> 
 					</label>
-               		<label for="genre10" class="btn btn-secondary active">스릴러
+               		<label for="genre10" class="btn btn-outline-secondary">스릴러
 					<input type="checkbox" name="스릴러" id="genre10" value="스릴러">
 					</label>
-            	 	<label for="genre11" class="btn btn-secondary active">범죄
+            	 	<label for="genre11" class="btn btn-outline-secondary">범죄
 					<input type="checkbox" name="범죄" id="genre11" value="범죄">
-					</label>
-               		<label for="genre12" class="btn btn-secondary active">뮤지컬
-					<input type="checkbox" name="뮤지컬" id="genre12" value="뮤지컬">
 					</label>
                		</div>
 					</td>

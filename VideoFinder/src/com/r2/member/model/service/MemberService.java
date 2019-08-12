@@ -1,6 +1,9 @@
 package com.r2.member.model.service;
 
-import static com.r2.common.JDBCTemplate.*;
+import static com.r2.common.JDBCTemplate.close;
+import static com.r2.common.JDBCTemplate.commit;
+import static com.r2.common.JDBCTemplate.getConnection;
+import static com.r2.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 
@@ -47,6 +50,85 @@ public class MemberService {
 		Connection conn = getConnection();
 		int result = new MemberDAO().loginCheck(conn, m);
 		
+		close(conn);
+		
+		return result;
+	}
+
+	public Member easyFind(String mName, String mInfo) {
+		
+		Connection conn = getConnection();
+		
+		Member m = new MemberDAO().easyFind(conn, mName, mInfo);
+		
+		close(conn);
+		
+		return m;
+	}
+
+	public int changePwd(String memberId, String mPwd) {
+		
+		Connection conn = getConnection();
+		int result = new MemberDAO().changePwd(conn, memberId, mPwd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		return result;
+	}
+
+	public Member selectOneByName(String memberName) {
+		Connection conn = getConnection();
+		Member m = new MemberDAO().selectOneByName(conn, memberName);
+		close(conn);
+		
+		return m;
+	}
+
+	public int updateMember(Member m) {
+		
+		Connection conn = getConnection();
+		
+		int result = new MemberDAO().updateMember(conn, m);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}		
+		close(conn);
+		
+		return result;
+	}
+
+	public int deleteMember(String memberId) {
+
+		Connection conn = getConnection();
+		int result = new MemberDAO().deleteMember(conn, memberId);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}		
+		close(conn);
+		
+		return result;
+	}
+
+	public int updatePwd(String memberId, String newPwd) {
+		Connection conn = getConnection();
+		
+		int result = new MemberDAO().updatePwd(conn, memberId, newPwd);
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}		
 		close(conn);
 		
 		return result;

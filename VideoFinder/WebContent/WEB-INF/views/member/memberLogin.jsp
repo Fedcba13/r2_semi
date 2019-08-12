@@ -104,7 +104,7 @@ ul.join-find li#menu:after {
 
 </head>
 <body>
-<table>
+<table style= 'margin-top: 60px;'>
   <tr style="vertical-align:middle">
     <td style="width:50%;border-right:1px solid gray; padding-right:12px; ">
 
@@ -146,7 +146,7 @@ ul.join-find li#menu:after {
 		<ul class="join-find">
 			<li id='menu'><a href="<%=request.getContextPath()%>/member/memberEnroll">회원가입</a></li>
 			<li id='menu'><a href="<%=request.getContextPath()%>/member/findInfoId">아이디찾기</a></li>
-			<li id='menu'><a href="">비밀번호 재설정</a></li>
+			<li id='menu'><a href="<%=request.getContextPath()%>/member/findInfoPwd">비밀번호 재설정</a></li>
 		</ul>
 	</div>
 </div>

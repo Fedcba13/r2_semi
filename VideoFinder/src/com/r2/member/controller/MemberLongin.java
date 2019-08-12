@@ -1,4 +1,4 @@
-package com.r2.member.model.controller;
+package com.r2.member.controller;
 
 import java.io.IOException;
 
@@ -41,22 +41,45 @@ public class MemberLongin extends HttpServlet {
 		
 		String saveId = request.getParameter("id-save");
 		
-		System.out.println(saveId);
+//		HttpSession newSession = request.getSession();
+//		
+//		Member member = (Member) newSession.getAttribute("memberLoggedIn");
+//		
+//		if(member != null) {
+//			
+//			if(!member.getMemberId().isEmpty()) {
+//				System.out.println(member.getMemberId());
+//			}
+//		}
+		
 		
 		Member m = new Member();
 		m.setMemberId(mId);
 		m.setMemberPassword(mPwd);
+		
+		// System.out.println(m);
 		
 		int result = new MemberService().loginCheck(m);
 		
 		String view = "";
 		String loc = "/";
 		
+//		String referer = request.getHeader("Referer");
+//		String origin = request.getHeader("Origin");
+//		String url = request.getRequestURL().toString();
+//		String uri = request.getRequestURI();
+//		
+//		int idx = referer.indexOf(request.getContextPath()) + request.getContextPath().length();
+//		loc = referer.substring(idx);
+		
+		// System.out.println("loc : " + loc);	
+		
 		if(result == 1 ) {
 			view = "/index.jsp";
 			Member memberLoggedIn = new MemberService().selectOne(mId);
 			
 			HttpSession session = request.getSession();
+			
 			session.setMaxInactiveInterval(60*60);
 			session.setAttribute("memberLoggedIn", memberLoggedIn);
 			
@@ -71,6 +94,8 @@ public class MemberLongin extends HttpServlet {
 				c.setPath("/");
 				response.addCookie(c);
 			}
+			
+			
 			
 			RequestDispatcher req= request.getRequestDispatcher(view);
 			req.forward(request, response);
