@@ -159,7 +159,7 @@ div.nav>.arrow>img {
             	$("input[name=categorySearch]").val('');
             	
             	//체크박스 전부 해제
-            	chkList = new Array();
+            	chkList = new Array();S
             	for(var i=0; i<$('input.chk_genre').length; i++){
             		$('input.chk_genre')[i].checked = false;
         			chkList.push($('input.chk_genre')[i].checked);
@@ -181,8 +181,13 @@ div.nav>.arrow>img {
 				<ul class="main-nav">
 					<li><a href="<%=request.getContextPath()%>">HOME</a></li>
 					<li><a href="#">공지사항</a></li>
-					<li><a href="<%=request.getContextPath()%>/board/boardList">게시판</a></li>
-					<li><a href="<%=request.getContextPath()%>/board/photoList">사진게시판</a></li>
+					<%if(memberLoggedIn != null){ %>
+						<li><a href="<%=request.getContextPath()%>/member/memberView">회원정보보기</a></li>
+						<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
+					<%}else{%>
+						<li><a href="<%=request.getContextPath()%>/member/memberEnroll">회원가입하기</a></li>
+						<li><a href="<%=request.getContextPath()%>/member/memberLogin">로그인</a></li>
+					<%} %>
 					<!-- 관리자메뉴추가:관리자인 경우만 출력 -->
 					<%
 						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {
