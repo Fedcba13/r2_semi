@@ -38,7 +38,7 @@ public class SearchMovieEndServlet extends HttpServlet {
 		String yearFrom = request.getParameter("yearFrom");
 		String yearTo = request.getParameter("yearTo");
 
-		int numPerPage = 4;
+		int numPerPage = 8;
 
 		int cPage = 1;
 		try {
@@ -64,27 +64,27 @@ public class SearchMovieEndServlet extends HttpServlet {
 
 		// a. [이전]
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li class='page-item'><a class='page-link'>이전</a></li>";
 		} else {
-			pageBar += "<a href='#' class='page' val='"+(pageNo-1)+"'>[이전]</a>";
+			pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+(pageNo-1)+"'>이전</a></li>";
 		}
 
 		// b. page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			// 현재페이지인 경우. 링크 필요 없음.
 			if (pageNo == cPage) {
-				pageBar += "<span class='cPage'>" + pageNo + "</span>";
+				pageBar += "<li class='page-item'><a class='page-link' val='"+pageNo+"'>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<a href='#' class='page' val='"+pageNo+"'>" + pageNo + "</a>";
+				pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+pageNo+"'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
 
 		// c. [다음]
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li class='page-item'><a class='page-link'>다음</a></li>";
 		} else {
-			pageBar += "<a href='#' class='page' val='"+pageNo+"'>[다음]</a>";
+			pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+pageNo+"'>다음</a></li>";
 		}
 		
 		HashMap<String, Object> map = new HashMap<>();

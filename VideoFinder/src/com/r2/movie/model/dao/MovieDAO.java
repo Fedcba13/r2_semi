@@ -95,6 +95,7 @@ public class MovieDAO {
 				m.setPoster_path(rset.getString("POSTER_PATH"));
 				m.setOriginal_title(rset.getString("ORIGINAL_TITLE"));
 				m.setRelease_date(rset.getString("RELEASE_DATE"));
+				m.setGenre(rset.getString("genre"));
 				list.add(m);
 			}
 		} catch (Exception e) {

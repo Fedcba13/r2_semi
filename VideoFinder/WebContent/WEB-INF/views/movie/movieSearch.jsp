@@ -10,42 +10,58 @@
 %>
 
 <style>
-#movieRank img {
+#movieSearch img {
 	width: 185px;
-	height: 265px;
+	height: 276px;
 }
 
-#movieRank table {
+#movieSearch table {
 	margin: 0 auto;
 }
 
-#movieRank td {
-	width: 60px;
-	height: 60px;
-	color: white;
+#movieSearch td {
+	width: 185px;
+	padding: 10px 10px 10px 0;
+}
+
+#movieSearch td > a{
+	display: block;
 	position: relative;
-	padding: 20px;
+	overflow: hidden;
 }
 
-#movieRank td>p {
-	transform: translateX(-50%);
-	width: 60px;
-	height: 60px;
+#movieSearch td > a:visited, #movieSearch td > a:hover, #movieSearch td > a:active{
 	color: white;
-	position: absolute;
-	z-index: 9;
-	background-size: cover;
-	top: 0px;
-	line-height: 60px;
-	text-align: center;
-	font-weight: bold;
-	font-size: 22px;
-	background-image: url('<%=request.getContextPath()%>/img/star.png');
 }
 
-#movieRank > #pageBar{
+#movieSearch td > a > div {
+	position: absolute;
+	background-color: rgba(0,0,0,0.5);
+	top:228px;
+	transition: all .3s linear;
+	height: 100%;
+	width: 100%;
+	color: white;
+}
+
+#movieSearch td:hover > a > div{
+	top:0px;
+	z-index: 1;
+	background-color: rgba(0,0,0,0.7);
+}
+
+#movieSearch>#pageBar {
 	text-align: center;
 }
+
+#pageBar > nav{
+    display: inline-block;
+}
+
+.pagination>li{
+	width: 60px;
+}
+
 </style>
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
 <script>
@@ -78,27 +94,27 @@ function getMovie(){
 		data: param,
 		dataType: "json",
 		success: function(data){
+			
+			console.log(data);
 			var movieList = data["list"];
 			var pageBar = data["pageBar"];
 
-			var html = '';
+			$("#movieSearch td").html("");
+			
 			$.each(movieList, (i, it)=>{
+				var html = '';
 					
-					if(i == 0 || i == 2){
-						html += '<tr>';
-					}
+					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'>";
+					html += '<div>';
+					html += '<h5>'+it["title"]+'<br><br></h5>';
+					html += it["genre"] + "<br>";
+					html += it["release_date"];
+					html += '</div></a>';
 					
-					html += '<td>';
-					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'></a>"
-					html += '</td>';
+				$("#movieSearch tr:eq("+Math.floor(i/4) +") > td:eq("+(i%4)+")").html(html);				
 					
-					if(i == 1 || i == 3){
-						html += '</tr>';
-					}
-				
 			});
-			$("#movieRank table").html(html);
-			$("div#movieRank>#pageBar").html(pageBar);
+			$("div#movieSearch>#pageBar .pagination").html(pageBar);
 		},
 		error: function(jqxhr, textStatus, errorThrown){
 			console.log("ajax 처리 실패!");
@@ -106,20 +122,36 @@ function getMovie(){
 		}
 	});
 	
-	$("a.page").click(e=>{
+	$("a.page-link").click(e=>{
 		param.cPage = e.target.getAttribute('val');
 		getMovie();
 	});
-	
 };
 
 
 </script>
 <section>
-	<div id="movieRank">
-		<table></table>
-		<div id="pageBar"></div>
-	</div> 
+	<div id="movieSearch">
+		<table>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<div id="pageBar">
+			<nav aria-label="Page navigation example">
+			<ul class="pagination"></ul>
+			</nav>
+		</div>
+	</div>
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

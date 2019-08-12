@@ -15,6 +15,7 @@ public class Movie implements Serializable {
 	private String poster_path;
 	private String original_title;
 	private String[] genre_ids;
+	private String genre;
 
 	public Movie(String title, String id, String release_date, String poster_path, String original_title) {
 		super();
@@ -82,6 +83,14 @@ public class Movie implements Serializable {
 	public String toString() {
 		return "Movie [title=" + title + ", id=" + id + ", release_date=" + release_date + ", poster_path="
 				+ poster_path + ", original_title=" + original_title + "]";
+	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 }
