@@ -1,100 +1,106 @@
 package com.r2.board.model.vo;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class FreeBoard implements Serializable {
+public class FreeBoard {
 
-	private static final long serialVersionUID = 1L;
-
-	private String freeBoardNo;
-	private String freeBoardTitle;
-	private String freeBoardWriter;
-	private String freeBoardContent;
-	private Date freeBoardDate;
-	private int freeBoardReadCount;
-	private int freeBoardEnabled;
-	private String freeBoardRef;
+	private String free_Board_No;
+	private String free_Board_Title;
+	private String free_Board_Writer;
+	private String free_Board_Content; 
+	private Date free_Board_Date; 
+	private int free_Board_ReadCount;
+	private int free_Board_Category;
+	private int free_Board_Enabled;
+	private int free_Board_Ref;
+	
+	
+	
+	
+	
+	
+	
 
 	public FreeBoard() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
-	public FreeBoard(String freeBoardNo, String freeBoardTitle, String freeBoardWriter, String freeBoardContent,
-			Date freeBoardDate, int freeBoardReadCount, int freeBoardEnabled, String freeBoardRef) {
-		this.freeBoardNo = freeBoardNo;
-		this.freeBoardTitle = freeBoardTitle;
-		this.freeBoardWriter = freeBoardWriter;
-		this.freeBoardContent = freeBoardContent;
-		this.freeBoardDate = freeBoardDate;
-		this.freeBoardReadCount = freeBoardReadCount;
-		this.freeBoardEnabled = freeBoardEnabled;
-		this.freeBoardRef = freeBoardRef;
+	public FreeBoard(String free_Board_No, String free_Board_Title, String free_Board_Writer, String free_Board_Content,
+			Date free_Board_Date, int free_Board_ReadCount, int free_Board_Category, int free_Board_Enabled,
+			int free_Board_Ref) {
+		super();
+		this.free_Board_No = free_Board_No;
+		this.free_Board_Title = free_Board_Title;
+		this.free_Board_Writer = free_Board_Writer;
+		this.free_Board_Content = free_Board_Content;
+		this.free_Board_Date = free_Board_Date;
+		this.free_Board_ReadCount = free_Board_ReadCount;
+		this.free_Board_Category = free_Board_Category;
+		this.free_Board_Enabled = free_Board_Enabled;
+		this.free_Board_Ref = free_Board_Ref;
 	}
-
-	public String getFreeBoardNo() {
-		return freeBoardNo;
+	public String getFree_Board_No() {
+		return free_Board_No;
 	}
-
-	public void setFreeBoardNo(String freeBoardNo) {
-		this.freeBoardNo = freeBoardNo;
+	public void setFree_Board_No(String free_Board_No) {
+		this.free_Board_No = free_Board_No;
 	}
-
-	public String getFreeBoardTitle() {
-		return freeBoardTitle;
+	public String getFree_Board_Title() {
+		return free_Board_Title;
 	}
-
-	public void setFreeBoardTitle(String freeBoardTitle) {
-		this.freeBoardTitle = freeBoardTitle;
+	public void setFree_Board_Title(String free_Board_Title) {
+		this.free_Board_Title = free_Board_Title;
 	}
-
-	public String getFreeBoardWriter() {
-		return freeBoardWriter;
+	public String getFree_Board_Writer() {
+		return free_Board_Writer;
 	}
-
-	public void setFreeBoardWriter(String freeBoardWriter) {
-		this.freeBoardWriter = freeBoardWriter;
+	public void setFree_Board_Writer(String free_Board_Writer) {
+		this.free_Board_Writer = free_Board_Writer;
 	}
-
-	public String getFreeBoardContent() {
-		return freeBoardContent;
+	public String getFree_Board_Content() {
+		return free_Board_Content;
 	}
-
-	public void setFreeBoardContent(String freeBoardContent) {
-		this.freeBoardContent = freeBoardContent;
+	public void setFree_Board_Content(String free_Board_Content) {
+		this.free_Board_Content = free_Board_Content;
 	}
-
-	public Date getFreeBoardDate() {
-		return freeBoardDate;
+	public Date getFree_Board_Date() {
+		return free_Board_Date;
 	}
-
-	public void setFreeBoardDate(Date freeBoardDate) {
-		this.freeBoardDate = freeBoardDate;
+	public void setFree_Board_Date(Date free_Board_Date) {
+		this.free_Board_Date = free_Board_Date;
 	}
-
-	public int getFreeBoardReadCount() {
-		return freeBoardReadCount;
+	public int getFree_Board_ReadCount() {
+		return free_Board_ReadCount;
 	}
-
-	public void setFreeBoardReadCount(int freeBoardReadCount) {
-		this.freeBoardReadCount = freeBoardReadCount;
+	public void setFree_Board_ReadCount(int free_Board_ReadCount) {
+		this.free_Board_ReadCount = free_Board_ReadCount;
 	}
-
-	public int getFreeBoardEnabled() {
-		return freeBoardEnabled;
+	public int getFree_Board_Category() {
+		return free_Board_Category;
 	}
-
-	public void setFreeBoardEnabled(int freeBoardEnabled) {
-		this.freeBoardEnabled = freeBoardEnabled;
+	public void setFree_Board_Category(int free_Board_Category) {
+		this.free_Board_Category = free_Board_Category;
 	}
-
-	public String getFreeBoardRef() {
-		return freeBoardRef;
+	public int getFree_Board_Enabled() {
+		return free_Board_Enabled;
 	}
-
-	public void setFreeBoardRef(String freeBoardRef) {
-		this.freeBoardRef = freeBoardRef;
+	public void setFree_Board_Enabled(int free_Board_Enabled) {
+		this.free_Board_Enabled = free_Board_Enabled;
 	}
-
+	public int getFree_Board_Ref() {
+		return free_Board_Ref;
+	}
+	public void setFree_Board_Ref(int free_Board_Ref) {
+		this.free_Board_Ref = free_Board_Ref;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "FreeBoard [free_Board_No=" + free_Board_No + ", free_Board_Title=" + free_Board_Title
+				+ ", free_Board_Writer=" + free_Board_Writer + ", free_Board_Content=" + free_Board_Content
+				+ ", free_Board_Date=" + free_Board_Date + ", free_Board_ReadCount=" + free_Board_ReadCount
+				+ ", free_Board_Category=" + free_Board_Category + ", free_Board_Enabled=" + free_Board_Enabled
+				+ ", free_Board_Ref=" + free_Board_Ref + "]";
+	}
 }

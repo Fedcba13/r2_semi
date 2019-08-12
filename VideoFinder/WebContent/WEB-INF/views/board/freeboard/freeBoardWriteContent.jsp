@@ -1,0 +1,57 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+
+<title>글쓰기</title>
+<div>
+	<h2>글쓰기</h2>
+	<form action="<%=request.getContextPath()%>/board/freeBoardWriteEnd"
+	method="get" name="writeForm"
+	>
+		<table id="tbl-free-board-write">
+		<tr>
+		<th>제목</th>
+		<td><input type="text" name="title" id="title" required="required" /></td>		
+		</tr>	
+		
+		
+	
+		<tr>
+		<th>작성자</th>
+		<td><input type="text" name="writer" id="writer" value="abc" required="required" readonly="readonly" /></td>		
+		</tr>	
+		
+		
+		<tr>
+		<th>내용</th>
+		<td><textarea name="freeboardcontent" id="freeboardcontent" cols="40" rows="5" required="required"></textarea></td>		
+		</tr>	
+		<tr>
+		<th colspan="2">
+			<input type="submit" value="등록하기" onclick="return boardValidate();"/>
+		</th>
+		</tr>
+
+		
+		</table>
+	</form>
+
+</div>
+
+
+<script>
+function boardValidate(){
+
+	var title = $("#title").val();
+	if(title.trim().length == 0){
+		alert("제목을 입력하세요.");
+		return false;
+	}
+	var content = $("#freeboardcontent").val();
+	if(content.trim().length == 0){
+		alert("내용을 입력하세요.");
+		return false;
+	}
+	return true;
+}
+</script>
