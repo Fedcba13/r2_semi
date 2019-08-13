@@ -132,7 +132,7 @@ ul.join-find li#menu:after {
 		<ul class="checkbox-wrap01">
 			<li class="checkbox-wrap01">
 				<div class="btn-group-toggle" data-toggle="buttons">
-				<laber for='id-save' class="btn btn-secondary active">아이디 저장
+				<laber for='id-save' class="btn btn-outline-dark">아이디 저장
 				<input type="checkbox" id='id-save' class='check-purple' />
 				</laber>
 				</div>

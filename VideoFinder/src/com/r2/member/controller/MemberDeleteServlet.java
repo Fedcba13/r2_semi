@@ -14,7 +14,7 @@ import com.r2.member.model.service.MemberService;
 /**
  * Servlet implementation class MemberDeleteServlet
  */
-@WebServlet("/MemberDeleteServlet")
+@WebServlet("/member/memberDelete")
 public class MemberDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -40,7 +40,7 @@ public class MemberDeleteServlet extends HttpServlet {
 		String loc = "";
 		
 		if(result > 0) {
-			loc = "/index.jsp";
+			loc = "/member/logout";
 			msg = "탈퇴가 완료되었습니다. ";
 		}else {
 			msg = "회원탈퇴가 실패하였습니다. ";

@@ -143,13 +143,13 @@ public class ReviewDAO {
 		return map;
 	}
 
-	public int deleteReview(Connection conn, int reviewNum) {
+	public int deleteReview(Connection conn, String reviewNum) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql = prop.getProperty("deleteReview");
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, reviewNum);
+			pstmt.setString(1, reviewNum);
 			result = pstmt.executeUpdate();
 			
 		} catch (Exception e) {
@@ -157,6 +157,114 @@ public class ReviewDAO {
 		} finally {
 			close(pstmt);
 		}
+		return result;
+	}
+
+	public int isReviewed(Connection conn, String memberId, String movieId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("isReviewed");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, memberId);
+			pstmt.setString(2, movieId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);			
+		}
+		
+		return result;
+	}
+
+	public int likeReview(Connection conn, String reviewNo, String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sqlReviewTable = prop.getProperty("likeReview");
+		String sqlScoreTable = prop.getProperty("insertScoreLike");
+		try {
+			pstmt = conn.prepareStatement(sqlReviewTable);
+			pstmt.setString(1, reviewNo);
+			result = pstmt.executeUpdate();
+			if(result > 0) {				
+				pstmt2 = conn.prepareStatement(sqlScoreTable);
+				pstmt2.setString(1, reviewNo);
+				pstmt2.setString(2, memberId);
+				pstmt2.setInt(3, 1);
+				pstmt2.setInt(4, 0);
+				result = pstmt2.executeUpdate();	
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt2);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int dislikeReview(Connection conn, String reviewNo, String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		String sqlReviewTable = prop.getProperty("dislikeReview");
+		String sqlScoreTable = prop.getProperty("insertScoreLike");
+		try {
+			pstmt = conn.prepareStatement(sqlReviewTable);
+			pstmt.setString(1, reviewNo);
+			result = pstmt.executeUpdate();
+			if(result > 0) {				
+				pstmt2 = conn.prepareStatement(sqlScoreTable);
+				pstmt2.setString(1, reviewNo);
+				pstmt2.setString(2, memberId);
+				pstmt2.setInt(3, 0);
+				pstmt2.setInt(4, 1);
+				result = pstmt2.executeUpdate();	
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt2);
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int isLiked(Connection conn, String reviewNo, String memberId) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("isLiked");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, reviewNo);
+			pstmt.setString(2, memberId);
+			rset = pstmt.executeQuery();
+			if(rset.next()) {
+				result = rset.getInt(1);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);			
+		}
+		
 		return result;
 	}
 

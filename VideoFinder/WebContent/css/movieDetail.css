@@ -102,6 +102,15 @@ div#review-editor{
 	padding: 5px;
 	width: 95%;
 }
+.like:hover{
+	cursor: pointer;
+}
+#noReview{
+	font-weight: bold;
+	font-style: italic;
+	font-size: 25px;
+	color: gray;
+}
 /* 별점CSS */
 .rating {
 	cursor: pointer;

@@ -51,7 +51,7 @@ public class ReviewService {
 		return map;
 	}
 
-	public int deleteReview(int reviewNum) {
+	public int deleteReview(String reviewNum) {
 		Connection conn = getConnection();
 		int result = new ReviewDAO().deleteReview(conn, reviewNum);
 		
@@ -62,6 +62,58 @@ public class ReviewService {
 		}		
 		close(conn);
 		return result;
+	}
+
+	public boolean isReviewed(String memberId, String movieId) {
+		Connection conn = getConnection();
+		int result = new ReviewDAO().isReviewed(conn, memberId, movieId);
+		
+		close(conn);
+		if(result > 0) {
+			return true;
+		} else {
+			return false;
+		}		
+	}
+
+	public int likeReview(String reviewNo, String memberId) {
+		Connection conn = getConnection();
+		int result = new ReviewDAO().likeReview(conn, reviewNo, memberId);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public int dislikeReview(String reviewNo, String memberId) {
+		Connection conn = getConnection();
+		int result = new ReviewDAO().dislikeReview(conn, reviewNo, memberId);
+		
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
+	}
+
+	public boolean isLiked(String reviewNo, String memberId) {
+		Connection conn = getConnection();
+		int result = new ReviewDAO().isLiked(conn, reviewNo, memberId);
+		
+		close(conn);
+		if(result > 0) {			
+			return true;
+		} else {		
+			return false;
+		}
 	}
 
 }

@@ -24,7 +24,7 @@
 	}
 
 	if(m.getMemberFavoriteGenre() != null){
-		genre = m.getMemberFavoriteGenre().split(",");
+		genre = m.getMemberFavoriteGenre().split(", ");
 	
 		for(int i=0; i<genre.length; i++){
 			
@@ -45,6 +45,10 @@
 		}
 		
 	}
+	
+	
+	
+
 	
 	
 %>
