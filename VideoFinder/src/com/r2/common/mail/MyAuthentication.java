@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.r2.common;
+package com.r2.common.mail;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;

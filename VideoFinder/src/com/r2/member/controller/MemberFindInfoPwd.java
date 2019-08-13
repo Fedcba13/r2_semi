@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.r2.common.GmailSend;
+import com.r2.common.mail.GmailSend;
 import com.r2.member.model.service.MemberService;
 import com.r2.member.model.vo.Member;
 
 /**
  * Servlet implementation class Member
  */
-@WebServlet("/member/findInfoPwdEnd")
+@WebServlet(urlPatterns="/member/findInfoPwdEnd", name="MemberFindInfoPwd")
 public class MemberFindInfoPwd extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -42,16 +42,26 @@ public class MemberFindInfoPwd extends HttpServlet {
 		String msg = "";
 		String loc = "";
 		String view = "/WEB-INF/views/common/msg.jsp";
+		
+		if(m.getMemberCheck() == 4) {
+			msg = "가입된 회원정보가 없습니다. ";
+			loc = "/member/findInfoPwd";
+		}else {
+			
 		if(memberEmail.equals(m.getMemberEmail())) {
 			
 			String mPwd = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다. 
 	        mPwd = mPwd.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌. 
 
 	        int result = new MemberService().changePwd(memberId, mPwd);
-			String mailContent = "안녕하세요. Allvie 입니다. \n"
-					+ m.getMemberId() + "님의 임시비밀번호는 아래와 같습니다. \n"
-					+ "임시 비밀번호 : " + mPwd
-					+ "\n감사합니다.";
+			String mailContent = "안녕하세요. Allvie 입니다. "
+					+ "<br>" + m.getMemberId() + "님의 임시비밀번호는 아래와 같습니다. "
+					+ "<br><span style='font-weight:bold;'>임시 비밀번호 : </span>" 
+					+ "<span style='font-size:15px; font-weight:bolder;'>" + mPwd + "</span>" 
+					+ "<br>감사합니다."
+					+ "<br> 로그인을 하시려면 하단의 로고를 클릭해주세요. "
+					+ "<br><span><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='http://localhost:9090/vf/member/memberLogin'style='font-size:30px; color:#87ceeb;'S>Allvie</a></h1></span>";
+			
 			
 		GmailSend mail = new GmailSend();
 		mail.GmailSet(m.getMemberEmail(), "Allvie 임시비밀번호 입니다.", mailContent);
@@ -66,6 +76,7 @@ public class MemberFindInfoPwd extends HttpServlet {
 			
 			
 
+		}
 		}
 		
 		request.setAttribute("msg", msg);

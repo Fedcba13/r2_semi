@@ -17,14 +17,14 @@ import com.r2.member.model.vo.Member;
 /**
  * Servlet implementation class MemberLongin
  */
-@WebServlet("/member/memberLoginEnd")
-public class MemberLongin extends HttpServlet {
+@WebServlet(urlPatterns="/member/memberLoginEnd", name="MemberLongin")
+public class MemberLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public MemberLongin() {
+	public MemberLogin() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

@@ -1,6 +1,7 @@
 package com.r2.member.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,7 +16,7 @@ import com.r2.member.model.vo.Member;
 /**
  * Servlet implementation class MemberUpdatePassword
  */
-@WebServlet("/member/updatePasswordEnd")
+@WebServlet(urlPatterns="/member/updatePasswordEnd", name="MemberUpdatePassword")
 public class MemberUpdatePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -44,30 +45,35 @@ public class MemberUpdatePassword extends HttpServlet {
 		String msg = "";
 		String loc = "";
 		String view = "/WEB-INF/views/common/msg.jsp";
-		String script = "";
+
 		if(result == 1) {
 			
 			result = new MemberService().updatePwd(memberId, newPwd);
 			
 			if(result > 0) {
-				msg = "비밀번호 변경이 완료되었습니다.";
-				script = "self.close()";
-				request.setAttribute("script", script);
-				//팝업창을 닫기위한 코드 추가
-				request.setAttribute("script",script);
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.print("<script>");
+				out.print("self.close();");
+				out.print("opener.location.href = '"+request.getContextPath()+"/member/memberView';");
+				out.print("opener.alert('비밀번호 변경이 완료되었습니다.');");
+				out.print("</script>");
+				
+		
 			}
 			
 		}else {
 			
 			msg = "현재 비밀번호가 일치하지 않습니다.";
 			loc = "/member/memberView";
+			
+			request.setAttribute("msg", msg);
+			request.setAttribute("loc", loc);
+			RequestDispatcher req = request.getRequestDispatcher(view);
+			req.forward(request, response);
+			
 		}
-		
-		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		RequestDispatcher req = request.getRequestDispatcher(view);
-		req.forward(request, response);
-		
+	
 		
 		
 	}

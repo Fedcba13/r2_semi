@@ -87,6 +87,7 @@ public class MemberDAO {
 				m.setMemberPhone(rset.getString("member_phone"));
 				m.setMemberFavoriteGenre(rset.getString("member_favorite_genre"));
 				m.setMemberEnrollDate(rset.getDate("member_enrolldate"));
+				m.setMemberCheck(rset.getInt("member_check"));
 				
 			}
 		} catch (SQLException e) {
@@ -183,6 +184,7 @@ public class MemberDAO {
 				m = new Member();
 				m.setMemberId(rset.getString("m_id"));
 				m.setMemberEnrollDate(rset.getDate("member_enrolldate"));
+				m.setMemberCheck(rset.getInt("member_check"));
 			}
 			System.out.println(m);
 			// System.out.println(m.getMemberId());
@@ -240,6 +242,9 @@ public class MemberDAO {
 				m.setMemberPhone(rset.getString("member_phone"));
 				m.setMemberFavoriteGenre(rset.getString("member_favorite_genre"));
 				m.setMemberEnrollDate(rset.getDate("member_enrolldate"));
+				m.setMemberCheck(rset.getInt("member_check"));
+				
+
 
 			}
 		} catch (SQLException e) {

@@ -1,4 +1,4 @@
-package com.r2.common;
+package com.r2.common.mail;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -46,13 +46,13 @@ public class GmailSend {
              
             // 제목 설정
             msg.setSubject(text, "UTF-8");
-             
-            msg.setText(content, "UTF-8");  //내용 설정
+                         
+            msg.setContent(content, "text/html;charset=UTF8");  //내용 설정
              
             // 메일 송신
             Transport.send(msg);   
              
-            System.out.println("메일 발송을 완료하였습니다.");
+           // System.out.println("메일 발송을 완료하였습니다.");
         }catch (AddressException addr_e) {  //예외처리 주소를 입력하지 않을 경우
             JOptionPane.showMessageDialog(null, "메일을 입력해주세요", "메일주소입력", JOptionPane.ERROR_MESSAGE);
             addr_e.printStackTrace();
