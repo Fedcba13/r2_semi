@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String movieId = request.getParameter("movieId");
+	String movieId = request.getParameter("movieId");	
 %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
@@ -47,21 +47,7 @@
 	
 	
 	$(()=>{
-		var pageTitle;
-		$.ajax({
-			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
-			 data: movieId,
-			 dataType: "json",
-			 success: function(data){
-				 console.log(data);
-				 avg = data.avg;
-				 console.log(avg);
-			 },
-			 error: function(jqxhr, textStatus, errorThrown){
-					console.log("ajax처리실패!!");
-					console.log(jqxhr, textStatus, errorThrown);
-			 }
-		});
+		var pageTitle;		
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getDetail.do",
 			data: movieId,
@@ -83,32 +69,8 @@
 				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
 				html += "<div id='gaugeChart'></div><p id='grade'>평점</p>";
 				html += "</div>";
-				$("#info-container").html(html);
-				var chart = bb.generate({
-					 data: {
-						    columns: [["평점", 0]],
-						    type: "gauge"						    
-						  },
-						    "gauge": {
-						    	label: {
-									show: true,
-									format: function(value, ratio) { return value+"점"; },
-									min: 0,
-									max: 10,								
-									width: 10
-								},
-								"max": 10
-						    },
-						  size: {
-						    height: 80
-						  },  
-						  bindto: "#gaugeChart"
-				});
-				setTimeout(function() {
-					chart.load({
-						columns: [["평점", avg]]
-					});
-				}, 500);
+				$("#info-container").html(html);	
+				getAvg();
 			},
 			error: function(jqxhr, textStatus, errorThrown){
 				console.log("ajax처리실패!!");
@@ -241,6 +203,7 @@
 					 getReviewGraph();
 					 $("#review-comment").val("");
 					 $("#rating-input").val(0);
+					 getAvg();
 				 },
 				 error: function(jqxhr, textStatus, errorThrown){
 						console.log("ajax처리실패!!");
@@ -248,7 +211,12 @@
 					}
 			  });
 		  })
-	})
+		  $("#review-comment").on("click", ()=>{
+			<%if(memberLoggedIn == null){%>
+				alert("로그인 후 이용해주세요");
+			<%}%>
+		  })
+	})//onload함수 종료
 	//리뷰목록 가져오는 함수
 	function getReviews(){
 		$.ajax({
@@ -351,6 +319,7 @@
 			success: function(){
 				getReviews();
 				getReviewGraph();
+				getAvg();
 			},
 			error: function(jqxhr, textStatus, errorThrown){
 				console.log("ajax처리실패!!");
@@ -359,6 +328,48 @@
 		});
 		
 	} 
+	function getAvg(){
+		$.ajax({
+			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
+			 data: movieId,
+			 dataType: "json",
+			 success: function(data){
+				 console.log(data);
+				 avg = data.avg;
+				 console.log(avg);
+				 var chart = bb.generate({
+					 data: {
+						    columns: [["평점", 0]],
+						    type: "gauge"						    
+						  },
+						    "gauge": {
+						    	label: {
+									show: true,
+									format: function(value, ratio) { return value+"점"; },
+									min: 0,
+									max: 10,								
+									width: 10
+								},
+								"max": 10
+						    },
+						  size: {
+						    height: 80
+						  },  
+						  bindto: "#gaugeChart"
+				});
+				setTimeout(function() {
+					chart.load({
+						columns: [["평점", avg]]
+					});
+				}, 500);
+			 },
+			 error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+			 }
+		});
+	}
+	
 </script>
 </head>
 
