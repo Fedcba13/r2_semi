@@ -2,13 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
-<%
-	String keyword = request.getParameter("keyword");
-	String genre = request.getParameter("genre");
-	String yearFrom = request.getParameter("yearFrom");
-	String yearTo = request.getParameter("yearTo");
-%>
-
 <style>
 #movieSearch img {
 	width: 185px;
@@ -37,11 +30,12 @@
 #movieSearch td > a > div {
 	position: absolute;
 	background-color: rgba(0,0,0,0.5);
-	top:228px;
+	top:276px;
 	transition: all .3s linear;
 	height: 100%;
 	width: 100%;
 	color: white;
+	padding: 20px;
 }
 
 #movieSearch td:hover > a > div{
@@ -74,10 +68,10 @@ var param = {};
 $(()=>{
 	
 	param = {
-		keyword: '<%=keyword%>',
-		genre: '<%=genre%>',
-		yearFrom: '<%=yearFrom%>',
-		yearTo: '<%=yearTo%>',
+		keyword: '<%=searchKeyword%>',
+		genre: '<%=searchGenre%>',
+		yearFrom: '<%=searchYearFrom%>',
+		yearTo: '<%=searchYearTo%>',
 		cPage: 1
 	};
 	
@@ -123,8 +117,11 @@ function getMovie(){
 	});
 	
 	$("a.page-link").click(e=>{
-		param.cPage = e.target.getAttribute('val');
-		getMovie();
+		var clickPage = e.target.getAttribute('val');
+		if(param.cPage != clickPage){
+			param.cPage = clickPage;
+			getMovie();
+		}
 	});
 };
 

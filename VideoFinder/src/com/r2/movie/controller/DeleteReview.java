@@ -22,7 +22,7 @@ public class DeleteReview extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		int reviewNum = Integer.parseInt(request.getParameter("rn"));
+		String reviewNum = request.getParameter("rn");
 		
 		int result = new ReviewService().deleteReview(reviewNum);
 		

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
-	String movieId = request.getParameter("movieId");
+	String movieId = request.getParameter("movieId");	
 %>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
@@ -47,21 +47,7 @@
 	
 	
 	$(()=>{
-		var pageTitle;
-		$.ajax({
-			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
-			 data: movieId,
-			 dataType: "json",
-			 success: function(data){
-				 console.log(data);
-				 avg = data.avg;
-				 console.log(avg);
-			 },
-			 error: function(jqxhr, textStatus, errorThrown){
-					console.log("ajax처리실패!!");
-					console.log(jqxhr, textStatus, errorThrown);
-			 }
-		});
+		var pageTitle;		
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getDetail.do",
 			data: movieId,
@@ -83,32 +69,8 @@
 				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
 				html += "<div id='gaugeChart'></div><p id='grade'>평점</p>";
 				html += "</div>";
-				$("#info-container").html(html);
-				var chart = bb.generate({
-					 data: {
-						    columns: [["평점", 0]],
-						    type: "gauge"						    
-						  },
-						    "gauge": {
-						    	label: {
-									show: true,
-									format: function(value, ratio) { return value+"점"; },
-									min: 0,
-									max: 10,								
-									width: 10
-								},
-								"max": 10
-						    },
-						  size: {
-						    height: 80
-						  },  
-						  bindto: "#gaugeChart"
-				});
-				setTimeout(function() {
-					chart.load({
-						columns: [["평점", avg]]
-					});
-				}, 500);
+				$("#info-container").html(html);	
+				getAvg();
 			},
 			error: function(jqxhr, textStatus, errorThrown){
 				console.log("ajax처리실패!!");
@@ -126,13 +88,21 @@
 				$.each(data.crew, (i)=>{
 					//console.log(data.crew[i].job);
 					if("Director" === data.crew[i].job){
-						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.crew[i].profile_path + "' class='img-thumbnail'/></span><br>"
+						if(data.crew[i].profile_path != null){
+							html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.crew[i].profile_path + "' class='img-thumbnail'/></span><br>"							
+						} else {
+							html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+						}
 						html += "<span>"+data.crew[i].name +"</span><br>";
 						html += "<span>감독</span><br><br></div>";
 					}
 				})
-				for(var i = 0; i < 5; i++){					
-					html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail'/></span><br>"
+				for(var i = 0; i < 5; i++){		
+					if(data.cast[i].profile_path != null){
+						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail'/></span><br>"						
+					} else {
+						html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+					}
 					html += "<span>"+data.cast[i].name +"</span><br>";
 					html += "<span>"+data.cast[i].character +"역</span><br><br></div>";
 				}
@@ -236,11 +206,16 @@
 			  $.ajax({
 				 url: "<%=request.getContextPath()%>/movie/insertReview.do",
 				 data: param,
-				 success: function(data){
-					 getReviews();
-					 getReviewGraph();
-					 $("#review-comment").val("");
-					 $("#rating-input").val(0);
+				 success: function(data){					 
+					 if(""==data){
+						 alert("이미 리뷰한 영화입니다.")
+					 } else {
+						 getReviews();
+						 getReviewGraph();
+						 $("#review-comment").val("");
+						 $("#rating-input").val(0);
+						 getAvg();						 
+					 }
 				 },
 				 error: function(jqxhr, textStatus, errorThrown){
 						console.log("ajax처리실패!!");
@@ -248,41 +223,49 @@
 					}
 			  });
 		  })
-	})
+		  $("#review-comment").on("click", ()=>{
+			<%if(memberLoggedIn == null){%>
+				alert("로그인 후 이용해주세요");
+			<%}%>
+		  })
+	})//onload함수 종료
 	//리뷰목록 가져오는 함수
 	function getReviews(){
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getReviews.do",
 			data: movieId,
 			dataType: "json",
-			success: function(data){
-				console.log(data);
-				
+			success: function(data){				
 				var html = "";
-				$.each(data, (i)=>{
-					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
-					html += "<td colspan='2'>"
-					for(var j = 0; j < 10; j++){
-						if(j < data[i].reviewGrade){
-							html += "<span class='fa fa-star checked'></span>";							
-						} else {
-							html += "<span class='fa fa-star'></span>";
+				if(data == null){
+					html += "<tr><td colspan='5' id='noReview'>작성된 리뷰가 없습니다</td></tr>"
+				} else {
+					$.each(data, (i)=>{
+						html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
+						html += "<td colspan='2'>"
+						for(var j = 0; j < 10; j++){
+							if(j < data[i].reviewGrade){
+								html += "<span class='fa fa-star checked'></span>";							
+							} else {
+								html += "<span class='fa fa-star'></span>";
+							}
 						}
-					}
-					html += "</td>";
-					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
-					<%if(memberLoggedIn != null){%>
-						if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
-							html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
-						} else {
+						html += "</td>";
+						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
+						<%if(memberLoggedIn != null){%>
+							if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
+								html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
+							} else {
+								html += "<td></td>";
+							}
+						<%} else {%>
 							html += "<td></td>";
-						}
-					<%} else {%>
-						html += "<td></td>";
-					<%}%>
-					html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
-					html += "</tr>";
-				});
+						<%}%>
+						html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
+						html += "</tr>";
+					});				
+				}
+				
 				
 				$("#written").html(html);
 			},
@@ -339,26 +322,137 @@
 			}
 		});		
 	}
-	function deleteReview(e){		
+	function deleteReview(e){
+		if(confirm("삭제하시겠습니까?")){			
+			var tr = $(e).parent().parent();		
+			var td = tr.children();		
+			var param = {
+				rn:	td.eq(5).text()
+			}
+			$.ajax({
+				url: "<%=request.getContextPath()%>/movie/deleteReview.do",
+				data: param,
+				success: function(){
+					getReviews();
+					getReviewGraph();
+					getAvg();
+				},
+				error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+				}
+			});
+		} else {
+			return ;
+		}		
+	}
+	function likeReview(e){
+		<%if(memberLoggedIn == null){%>
+				alert("로그인후 이용하세요");
+				return ;
+		<%}%>
 		var tr = $(e).parent().parent();		
 		var td = tr.children();		
 		var param = {
-			rn:	td.eq(5).text()
+			<%if(memberLoggedIn!=null){%>
+			memberId: "<%=memberLoggedIn.getMemberId()%>",
+			<%}%>			
+			rn:	td.eq(5).text(),
+			movieId: <%=movieId%>,
 		}
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/deleteReview.do",
+			url: "<%=request.getContextPath()%>/movie/likeReview.do",
 			data: param,
-			success: function(){
-				getReviews();
-				getReviewGraph();
+			success:function(data){
+				if(""==data){
+					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
+				} else {
+					getReviews();					
+				}
 			},
 			error: function(jqxhr, textStatus, errorThrown){
 				console.log("ajax처리실패!!");
 				console.log(jqxhr, textStatus, errorThrown);
 			}
-		});
+		})
+	}
+	function dislikeReview(e){
+		<%if(memberLoggedIn == null){%>
+				alert("로그인후 이용하세요");
+				return ;
+		<%}%>
+		var tr = $(e).parent().parent();		
+		var td = tr.children();		
+		var param = {
+			<%if(memberLoggedIn!=null){%>
+			memberId: "<%=memberLoggedIn.getMemberId()%>",
+			<%}%>
+			rn:	td.eq(5).text(),
+			movieId: <%=movieId%>,
+		}
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/dislikeReview.do",
+			data: param,
+			success:function(data){
+				if(""==data){
+					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
+				} else {
+					getReviews();					
+				}
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}
+		})
 		
-	} 
+	}
+	function getAvg(){
+		$.ajax({
+			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
+			 data: movieId,
+			 dataType: "json",
+			 success: function(data){
+				 console.log(data);
+				 if(data == null){
+					 avg = 0;					 
+				 } else {
+					 avg = data.avg;					 
+				 }
+				 console.log(avg);
+				 var chart = bb.generate({
+					 data: {
+						    columns: [["평점", 0]],
+						    type: "gauge"						    
+						  },
+						    "gauge": {
+						    	label: {
+									show: true,
+									format: function(value, ratio) { return value+"점"; },
+									min: 0,
+									max: 10,								
+									width: 10
+								},
+								"max": 10
+						    },
+						  size: {
+						    height: 80
+						  },  
+						  bindto: "#gaugeChart"
+				});
+				setTimeout(function() {
+					chart.load({
+						columns: [["평점", avg]]
+					});
+				}, 500);
+			 },
+			 error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+			 }
+		});
+	}
+	
 </script>
 </head>
 

@@ -19,20 +19,34 @@
 	padding: 20px;
 }
 
+#movieRank tr:nth-child(1)>td {
+	padding-top: 40px;
+}
+
+#movieRank tr:nth-child(2)>td {
+	padding-bottom: 40px;
+}
+
+#movieRank tr:nth-child(1)>td>p {
+	margin-top: 40px;
+}
+
 #movieRank td>p {
-	transform: translateX(-50%);
-	width: 60px;
-	height: 60px;
+	width: 40px;
+	height: 40px;
+	background-color: #ac162c;
 	color: white;
 	position: absolute;
 	z-index: 9;
 	background-size: cover;
 	top: 0px;
-	line-height: 60px;
+	left: 0px;
+	line-height: 40px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 22px;
-	background-image: url('<%=request.getContextPath()%>/img/star.png');
+	margin: 20px;
+	opacity: 0.7;
 }
 </style>
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>

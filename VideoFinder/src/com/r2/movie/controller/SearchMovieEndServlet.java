@@ -64,7 +64,7 @@ public class SearchMovieEndServlet extends HttpServlet {
 
 		// a. [이전]
 		if (pageNo == 1) {
-			pageBar += "<li class='page-item'><a class='page-link'>이전</a></li>";
+			pageBar += "<li class='page-item disabled'><a href='#' class='page-link'>이전</a></li>";
 		} else {
 			pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+(pageNo-1)+"'>이전</a></li>";
 		}
@@ -73,7 +73,7 @@ public class SearchMovieEndServlet extends HttpServlet {
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			// 현재페이지인 경우. 링크 필요 없음.
 			if (pageNo == cPage) {
-				pageBar += "<li class='page-item'><a class='page-link' val='"+pageNo+"'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item active'><a href='#' class='page-link' val='"+pageNo+"'>" + pageNo + "</a></li>";
 			} else {
 				pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+pageNo+"'>" + pageNo + "</a></li>";
 			}
@@ -82,7 +82,7 @@ public class SearchMovieEndServlet extends HttpServlet {
 
 		// c. [다음]
 		if (pageNo > totalPage) {
-			pageBar += "<li class='page-item'><a class='page-link'>다음</a></li>";
+			pageBar += "<li class='page-item disabled'><a class='page-link'>다음</a></li>";
 		} else {
 			pageBar += "<li class='page-item'><a href='#' class='page-link' val='"+pageNo+"'>다음</a></li>";
 		}
