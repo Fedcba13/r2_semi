@@ -29,8 +29,12 @@ public class GetAvg extends HttpServlet {
 		String movieId = request.getParameter("id");
 		Map<String, String> map = new ReviewService().getAvg(movieId);
 		System.out.println("map=" + map);
+		if(map.get("avg") == null) {
+			response.getWriter().append(null);
+		} else {
+			new Gson().toJson(map, response.getWriter());			
+		}
 		
-		new Gson().toJson(map, response.getWriter());
 	}
 
 	/**

@@ -23,7 +23,12 @@ public class GetReviews extends HttpServlet {
 		
 		String movieId = request.getParameter("id");
 		List<Review> list = new ReviewService().getReviewList(movieId);
-		new Gson().toJson(list, response.getWriter());
+		System.out.println("reviewlist@servlet=" + list);
+		if(list.isEmpty()) {
+			response.getWriter().append(null);
+		} else {
+			new Gson().toJson(list, response.getWriter());			
+		}
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

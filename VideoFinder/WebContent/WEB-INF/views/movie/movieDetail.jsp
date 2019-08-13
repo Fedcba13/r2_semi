@@ -88,13 +88,21 @@
 				$.each(data.crew, (i)=>{
 					//console.log(data.crew[i].job);
 					if("Director" === data.crew[i].job){
-						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.crew[i].profile_path + "' class='img-thumbnail'/></span><br>"
+						if(data.crew[i].profile_path != null){
+							html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.crew[i].profile_path + "' class='img-thumbnail'/></span><br>"							
+						} else {
+							html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+						}
 						html += "<span>"+data.crew[i].name +"</span><br>";
 						html += "<span>감독</span><br><br></div>";
 					}
 				})
-				for(var i = 0; i < 5; i++){					
-					html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail'/></span><br>"
+				for(var i = 0; i < 5; i++){		
+					if(data.cast[i].profile_path != null){
+						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail'/></span><br>"						
+					} else {
+						html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+					}
 					html += "<span>"+data.cast[i].name +"</span><br>";
 					html += "<span>"+data.cast[i].character +"역</span><br><br></div>";
 				}
@@ -227,34 +235,37 @@
 			url: "<%=request.getContextPath()%>/movie/getReviews.do",
 			data: movieId,
 			dataType: "json",
-			success: function(data){
-				console.log(data);
-				
+			success: function(data){				
 				var html = "";
-				$.each(data, (i)=>{
-					html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
-					html += "<td colspan='2'>"
-					for(var j = 0; j < 10; j++){
-						if(j < data[i].reviewGrade){
-							html += "<span class='fa fa-star checked'></span>";							
-						} else {
-							html += "<span class='fa fa-star'></span>";
+				if(data == null){
+					html += "<tr><td colspan='5' id='noReview'>작성된 리뷰가 없습니다</td></tr>"
+				} else {
+					$.each(data, (i)=>{
+						html += "<tr><th scope='row'>"+data[i].memberId+"</th><td colspan='2' width=460 style='word-break:break-all'>"+data[i].reviewComment+"</td>";
+						html += "<td colspan='2'>"
+						for(var j = 0; j < 10; j++){
+							if(j < data[i].reviewGrade){
+								html += "<span class='fa fa-star checked'></span>";							
+							} else {
+								html += "<span class='fa fa-star'></span>";
+							}
 						}
-					}
-					html += "</td>";
-					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
-					<%if(memberLoggedIn != null){%>
-						if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
-							html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
-						} else {
+						html += "</td>";
+						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
+						<%if(memberLoggedIn != null){%>
+							if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
+								html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
+							} else {
+								html += "<td></td>";
+							}
+						<%} else {%>
 							html += "<td></td>";
-						}
-					<%} else {%>
-						html += "<td></td>";
-					<%}%>
-					html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
-					html += "</tr>";
-				});
+						<%}%>
+						html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
+						html += "</tr>";
+					});				
+				}
+				
 				
 				$("#written").html(html);
 			},
@@ -311,26 +322,29 @@
 			}
 		});		
 	}
-	function deleteReview(e){		
-		var tr = $(e).parent().parent();		
-		var td = tr.children();		
-		var param = {
-			rn:	td.eq(5).text()
-		}
-		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/deleteReview.do",
-			data: param,
-			success: function(){
-				getReviews();
-				getReviewGraph();
-				getAvg();
-			},
-			error: function(jqxhr, textStatus, errorThrown){
-				console.log("ajax처리실패!!");
-				console.log(jqxhr, textStatus, errorThrown);
+	function deleteReview(e){
+		if(confirm("삭제하시겠습니까?")){			
+			var tr = $(e).parent().parent();		
+			var td = tr.children();		
+			var param = {
+				rn:	td.eq(5).text()
 			}
-		});
-		
+			$.ajax({
+				url: "<%=request.getContextPath()%>/movie/deleteReview.do",
+				data: param,
+				success: function(){
+					getReviews();
+					getReviewGraph();
+					getAvg();
+				},
+				error: function(jqxhr, textStatus, errorThrown){
+					console.log("ajax처리실패!!");
+					console.log(jqxhr, textStatus, errorThrown);
+				}
+			});
+		} else {
+			return ;
+		}		
 	}
 	function likeReview(e){
 		<%if(memberLoggedIn == null){%>
@@ -400,7 +414,11 @@
 			 dataType: "json",
 			 success: function(data){
 				 console.log(data);
-				 avg = data.avg;
+				 if(data == null){
+					 avg = 0;					 
+				 } else {
+					 avg = data.avg;					 
+				 }
 				 console.log(avg);
 				 var chart = bb.generate({
 					 data: {

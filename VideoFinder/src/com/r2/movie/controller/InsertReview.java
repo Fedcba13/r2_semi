@@ -29,7 +29,9 @@ public class InsertReview extends HttpServlet {
 		if(result > 0) {
 			System.out.println("리뷰작성성공!");			
 		} else {
-			System.out.println("리뷰작성오류!");		}
+			System.out.println("리뷰작성오류!");		
+		}
+		response.getWriter().append(Integer.toString(result));
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
