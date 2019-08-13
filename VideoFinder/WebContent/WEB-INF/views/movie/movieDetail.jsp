@@ -198,12 +198,16 @@
 			  $.ajax({
 				 url: "<%=request.getContextPath()%>/movie/insertReview.do",
 				 data: param,
-				 success: function(data){
-					 getReviews();
-					 getReviewGraph();
-					 $("#review-comment").val("");
-					 $("#rating-input").val(0);
-					 getAvg();
+				 success: function(data){					 
+					 if(""==data){
+						 alert("이미 리뷰한 영화입니다.")
+					 } else {
+						 getReviews();
+						 getReviewGraph();
+						 $("#review-comment").val("");
+						 $("#rating-input").val(0);
+						 getAvg();						 
+					 }
 				 },
 				 error: function(jqxhr, textStatus, errorThrown){
 						console.log("ajax처리실패!!");
@@ -238,7 +242,7 @@
 						}
 					}
 					html += "</td>";
-					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요'><span>" + data[i].reviewDislike +"</span></td>"
+					html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
 					<%if(memberLoggedIn != null){%>
 						if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
 							html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
@@ -327,7 +331,68 @@
 			}
 		});
 		
-	} 
+	}
+	function likeReview(e){
+		<%if(memberLoggedIn == null){%>
+				alert("로그인후 이용하세요");
+				return ;
+		<%}%>
+		var tr = $(e).parent().parent();		
+		var td = tr.children();		
+		var param = {
+			<%if(memberLoggedIn!=null){%>
+			memberId: "<%=memberLoggedIn.getMemberId()%>",
+			<%}%>			
+			rn:	td.eq(5).text(),
+			movieId: <%=movieId%>,
+		}
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/likeReview.do",
+			data: param,
+			success:function(data){
+				if(""==data){
+					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
+				} else {
+					getReviews();					
+				}
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}
+		})
+	}
+	function dislikeReview(e){
+		<%if(memberLoggedIn == null){%>
+				alert("로그인후 이용하세요");
+				return ;
+		<%}%>
+		var tr = $(e).parent().parent();		
+		var td = tr.children();		
+		var param = {
+			<%if(memberLoggedIn!=null){%>
+			memberId: "<%=memberLoggedIn.getMemberId()%>",
+			<%}%>
+			rn:	td.eq(5).text(),
+			movieId: <%=movieId%>,
+		}
+		$.ajax({
+			url: "<%=request.getContextPath()%>/movie/dislikeReview.do",
+			data: param,
+			success:function(data){
+				if(""==data){
+					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
+				} else {
+					getReviews();					
+				}
+			},
+			error: function(jqxhr, textStatus, errorThrown){
+				console.log("ajax처리실패!!");
+				console.log(jqxhr, textStatus, errorThrown);
+			}
+		})
+		
+	}
 	function getAvg(){
 		$.ajax({
 			 url: "<%=request.getContextPath()%>/movie/getAvg.do",

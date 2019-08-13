@@ -102,6 +102,9 @@ div#review-editor{
 	padding: 5px;
 	width: 95%;
 }
+.like:hover{
+	cursor: pointer;
+}
 /* 별점CSS */
 .rating {
 	cursor: pointer;
