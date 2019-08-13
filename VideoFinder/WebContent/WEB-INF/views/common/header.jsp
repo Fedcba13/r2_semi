@@ -6,6 +6,10 @@
 	//로그인 성공 후 session객체에 저장된 memberLoggedIn가져오기
 	request.setCharacterEncoding("UTF-8");
 	Member memberLoggedIn = (Member) session.getAttribute("memberLoggedIn");
+	String searchKeyword = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
+	String searchGenre = request.getParameter("genre") != null ? request.getParameter("genre") : "";
+	String searchYearFrom = request.getParameter("yearFrom") != null ? request.getParameter("yearFrom") : "";
+	String searchYearTo = request.getParameter("yearTo") != null ? request.getParameter("yearTo") : "";
 %>
 
 <!DOCTYPE html>
@@ -14,6 +18,7 @@
 <meta charset="UTF-8">
 <title>Allvie</title>
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Gothic+A1|Oswald&display=swap" rel="stylesheet">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/style.css" />
 <link rel="stylesheet"
@@ -34,6 +39,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<%=request.getContextPath()%>/css/checkbox.css">
 <style>
+
 div.nav {
 	width: 300px;
 	height: 100%;
@@ -43,14 +49,14 @@ div.nav {
 	padding: 0;
 	top: 0;
 	z-index: 999;
-	
 }
 
 div.nav>div.content {
 	width: 300px;
-	background-color: skyblue;
+	background-color: #333335;
 	height: 100%;
 	padding: 30px 10px;
+	color: #e6e6e6;
 }
 
 div.nav>div.arrow {
@@ -67,6 +73,12 @@ div.nav>.arrow>img {
 </style>
 <script>
         $(() => {
+        	
+        	//검색 했을때 키워드 가져오기
+        	var prevKeyword = '<%=searchKeyword%>';
+        	var prevGenre = '<%=searchGenre%>';
+        	var prevYearFrom = '<%=searchYearFrom%>';
+        	var prevYearTo = '<%=searchYearTo%>';
         	
         	var chkList = new Array();
         	
@@ -93,6 +105,11 @@ div.nav>.arrow>img {
             		alert('2개만 선택 가능합니다.');
             		e.target.checked = false;
             	}
+            	
+            	if($("input:checked.chk_genre").length == 0){
+            		$('input.chk_all').prop("checked", true);
+            	}
+            	
             })
             
             //전체보기 change
@@ -128,7 +145,7 @@ div.nav>.arrow>img {
 					alert('종료일이 시작일보다 작습니다.');
 					$("#yearto option:eq(0)").prop("selected", true);
 				}
-            })
+            });
             
             //검색 버튼 클릭
             $("#button-addon2").click(()=>{
@@ -159,7 +176,7 @@ div.nav>.arrow>img {
             	$("input[name=categorySearch]").val('');
             	
             	//체크박스 전부 해제
-            	chkList = new Array();S
+            	chkList = new Array();
             	for(var i=0; i<$('input.chk_genre').length; i++){
             		$('input.chk_genre')[i].checked = false;
         			chkList.push($('input.chk_genre')[i].checked);
@@ -169,25 +186,51 @@ div.nav>.arrow>img {
             	$("#yearfrom option:eq(0)").prop("selected", true);
             });
             
-        })
+            if(prevKeyword != ''){
+        		$("input[name=categorySearch]").val(prevKeyword);
+        	}
+        	
+        	if(prevGenre != ''){
+        		$("input[name=chk_all]").prop("checked", false);
+        		$(prevGenre.split(',')).each((index, item) => {
+        			$("input[name=chk_genre][value="+item+"]").prop("checked", true);
+        		});
+        	}
+        	
+			if(prevYearFrom != ''){
+				$("#yearfrom").val(prevYearFrom).prop("selected", true);
+        	}
+        	
+			if(prevYearTo != ''){
+				$("#yearto").val(prevYearTo).prop("selected", true);
+			}
+            
+        });
     </script>
 </head>
 <body>
 	<div id="container">
 		<header>
-			<h1>Allvie</h1>
+			<h1><span>A</span>llvie</h1>
 			<!-- 메인 메뉴 시작 -->
 			<nav>
 				<ul class="main-nav">
 					<li><a href="<%=request.getContextPath()%>">HOME</a></li>
 					<li><a href="#">공지사항</a></li>
-					<%if(memberLoggedIn != null){ %>
-						<li><a href="<%=request.getContextPath()%>/member/memberView">회원정보보기</a></li>
-						<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
-					<%}else{%>
-						<li><a href="<%=request.getContextPath()%>/member/memberEnroll">회원가입하기</a></li>
-						<li><a href="<%=request.getContextPath()%>/member/memberLogin">로그인</a></li>
-					<%} %>
+					<%
+						if (memberLoggedIn != null) {
+					%>
+					<li><a href="<%=request.getContextPath()%>/member/memberView">회원정보보기</a></li>
+					<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
+					<%
+						} else {
+					%>
+					<li><a
+						href="<%=request.getContextPath()%>/member/memberEnroll">회원가입하기</a></li>
+					<li><a href="<%=request.getContextPath()%>/member/memberLogin">로그인</a></li>
+					<%
+						}
+					%>
 					<!-- 관리자메뉴추가:관리자인 경우만 출력 -->
 					<%
 						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {
@@ -200,7 +243,7 @@ div.nav>.arrow>img {
 			</nav>
 		</header>
 		<div class="nav">
-			
+
 			<div class="content">
 				<p>카테고리</p>
 				<div class="input-group mb-3">
@@ -286,7 +329,7 @@ div.nav>.arrow>img {
 				</div>
 			</div>
 			<div class="arrow">
-				<img src="<%=request.getContextPath()%>/img/arrow.png">
+				<img src="<%=request.getContextPath()%>/images/arrow.png">
 			</div>
 		</div>
 		<section id="content">

@@ -48,7 +48,7 @@ public class MovieDAO {
 			if(!condition.equals("")) {
 				condition += " and ";
 			}
-			condition += "title like '%" + keyword + "%'";
+			condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
 		}
 
 		if (genreList != null && genreList.length != 0) {
@@ -122,17 +122,15 @@ public class MovieDAO {
 			if(!condition.equals("")) {
 				condition += " and ";
 			}
-			condition += "title like '%" + keyword + "%'";
+			condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
 		}
 
 		if (genreList != null && genreList.length != 0) {
-			for(int i=0; i<genreList.length; i++) {			
-				if(!genreList[i].equals("")) {
-					if(!condition.equals("")) {
-						condition += " and ";
-					}
-					condition += "genre like '%"+genreList[i]+"%'";	
+			for(int i=0; i<genreList.length; i++) {				
+				if(!condition.equals("")) {
+					condition += " and ";
 				}
+				condition += "genre like '%"+genreList[i]+"%'";
 			}
 		}
 

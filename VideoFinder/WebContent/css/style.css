@@ -4,29 +4,36 @@ html, body {
 	width: 1024px;
 	margin: 0;
 	padding: 0;
-	font-family:"휴먼모음T";
+	font-family:"font-family: 'Gothic A1', sans-serif;";
 }
 
 /********** 전체컨테이너 **********/
 div#container	{background-color:#F0F0F0; width:1024px; margin:0 auto;}
 
 /********** header **********/
-header			{position:relative; background:skyblue; padding:20px; box-sizing:border-box;}
+header {position:relative; background:#333335; padding: 20px; box-sizing: border-box; color:#e6e6e6;}
 header:after {
 	content:'';
 	display:block;
 	clear:both;
 }
-header h1 		{float:left;}
+header h1 		{float:left; font-family: 'Oswald', sans-serif; padding-left:70px; font-weight: bold;}
+
+/* #f0522a */
+/* #e6e6e6 */
 
 
 /********** content **********/
-section#content	{ background-color:#F5F5F5; swidth:1024px; min-height:500px; }
+section#content	{ background-color:#515151; swidth:1024px; min-height:500px; }
 
 /* 메인메뉴관련 스타일 */
 header nav{
 	float:right;
 	margin-top:20px;
+}
+
+header h1 span{
+	color: #ac162c;
 }
 
 header nav ul.main-nav{
@@ -40,21 +47,21 @@ header nav ul.main-nav li{
 	width: 8em;
 	float: left;
 	text-align: center;
-	font-family: '휴먼모음T', sans-serif;
 }
 
 header nav ul.main-nav li a{
 	display: block;
 	text-decoration: none;
-	color: #292929;
+	color: #e6e6e6;
+	font-weight: bold;
 }
-header nav ul.main-nav li:hover{
-	background-color: #30f;
-}
+
 header nav ul.main-nav li:hover a{
-	color: #fff;
+	color: #f0522a;
 }
 
 
 /********** footer **********/
-footer			{ background-color:#00bcd4; clear:both; height:75px; text-align:center;padding-top:40px;}
+footer			{ background-color:#333335; color:#e6e6e6; clear:both; height:75px; text-align:center;}
+
+footer > p {height:75px; line-height: 75px;}
