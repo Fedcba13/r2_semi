@@ -293,26 +293,6 @@ div.nav>.arrow>img {
 						</tr>
 					</table>
 				</div>
-				<!-- <br>
-				<div class="categoryNation">
-					<p>국가별</p>
-					<div class="input-group mb-3">
-						<div class="input-group-prepend">
-							<label class="input-group-text" for="inputGroupSelect01">나라</label>
-						</div>
-						<select class="custom-select" id="inputGroupSelect01"
-							name="country">
-							<option selected value='0'>전체</option>
-							<option value="KR">한국</option>
-							<option value="JP">일본</option>
-							<option value="US">미국</option>
-							<option value="HK">홍콩</option>
-							<option value="GB">영국</option>
-							<option value="FR">프랑스</option>
-							<option value="ETC">기타</option>
-						</select>
-					</div>
-				</div> -->
 				<div class="categoryYear">
 					<p>개봉년도</p>
 					<div class="input-group mb-3">

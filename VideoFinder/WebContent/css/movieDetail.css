@@ -63,6 +63,9 @@ div#genres span{
 	font-style: italic;
 	color: blue;
 }
+div#genres span:hover{
+	cursor: pointer;
+}
 div#release_date span{
 	padding-left: 1em;
 	font-size: 15px;
