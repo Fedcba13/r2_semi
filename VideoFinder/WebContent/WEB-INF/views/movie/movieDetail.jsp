@@ -251,7 +251,7 @@
 							}
 						}
 						html += "</td>";
-						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
+						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like' ><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like' style='height: 35px;'><span>" + data[i].reviewDislike +"</span></td>"
 						<%if(memberLoggedIn != null){%>
 							if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
 								html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
@@ -452,8 +452,13 @@
 			 }
 		});
 	}
-	function searchByGenre(e){		
-		var genre = $(e).text();
+	function searchByGenre(e){
+		var docu = $(e).text();		
+		if(docu.indexOf("다큐멘터리")> -1){
+			docu = "다큐";
+		} 
+		var genre = docu;
+		console.log(genre);			
 		location.href="<%=request.getContextPath()%>/movie/searchByGenre?genre=" + genre;
 	}
 	function searchByActor(actorId){
