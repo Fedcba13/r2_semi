@@ -12,7 +12,7 @@ html, body {
 }
 
 /********** 전체컨테이너 **********/
-div#container	{background-color:#F0F0F0; width:1024px; margin:0 auto;}
+div#container	{background-color:#F0F0F0; width:1024px; margin:0 auto; position: relative;}
 
 /********** header **********/
 header {position:relative; background:#333335; padding: 20px; box-sizing: border-box; color:#e6e6e6;}

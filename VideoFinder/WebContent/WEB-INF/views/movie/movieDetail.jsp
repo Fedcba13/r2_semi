@@ -63,7 +63,7 @@
 				html += "<div id='overview'>줄거리<br><span> " + data.overview +"</span></div><br>";
 				html += "<div id='genres'>장르<br>"
 				$.each(data.genres, (i)=>{
-					html +="<span class='gr'>" +data.genres[i].name +" </span>";
+					html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
 				});
 				html +="</div><br>";
 				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
@@ -99,11 +99,11 @@
 				})
 				for(var i = 0; i < 5; i++){		
 					if(data.cast[i].profile_path != null){
-						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail'/></span><br>"						
+						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail' onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'/></span><br>"						
 					} else {
 						html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
 					}
-					html += "<span>"+data.cast[i].name +"</span><br>";
+					html += "<span onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'>"+data.cast[i].name +"</span><br>";
 					html += "<span>"+data.cast[i].character +"역</span><br><br></div>";
 				}
 				//html += "</p>";
@@ -451,6 +451,14 @@
 					console.log(jqxhr, textStatus, errorThrown);
 			 }
 		});
+	}
+	function searchByGenre(e){		
+		var genre = $(e).text();
+		location.href="<%=request.getContextPath()%>/movie/searchByGenre?genre=" + genre;
+	}
+	function searchByActor(actorId){
+		console.log(actorId);
+		location.href="<%=request.getContextPath()%>/movie/searchByActor?actorId=" + actorId;
 	}
 	
 </script>
