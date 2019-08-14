@@ -150,6 +150,9 @@ function regExpTest(regExp, what, message) {
         
         close();
     }
+    
+    
+    
 </script>
 <style>
 p.check{
@@ -189,11 +192,52 @@ width : 300px;
 flex : none;
 
 }
+
+h1.top{
+    color: #e6e6e6;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;    
+    padding-top: 30px;
+}
+
+#genreAll{
+    color: #e6e6e6;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;    
+}
+
+
+.btn-outline-secondary:hover, div.input-group .btn-outline-secondary:hover{
+  	 border-color: #ac162c;
+     background: #ac162c;
+     
+     
+}
+
+input.btn-outline-secondary, div.input-group .btn-outline-secondary{
+    border-color: #6c757d;
+    background: gray;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    /* margin-left : 25px; */
+}
+
+input{
+    font-family: 'Oswald', sans-serif;
+}
+
+div.button1 input.button{
+
+margin-left : 25px;	
+
+}
+
+ 
+ 
+
 </style>
 <section id="enroll-container">
-		<h1>회원가입</h1>
-		<br />
-		<br />
+		<h1 class='top'>회원가입</h1>
 		<br />
 		
 		<form action="<%=request.getContextPath()%>/member/memberEnrolled"
@@ -243,11 +287,18 @@ flex : none;
 				</tr>
 				<tr>
 
-					<td><input type="text" class="form-control" placeholder="주소를 입력하세요. " id="memberAddress" name="memberAddress">
-						<input type="text" class="form-control"
+
+					<td>
+					<input type="text" class="form-control" placeholder="주소를 입력하세요. " id="memberAddress" name="memberAddress">
+					<div class="input-group mb-3">
+					<input type="text" class="form-control"
 						placeholder="상세주소를 입력하세요. " id="memberAddress1" name="memberAddress1">
-						<input type="button" class="btn btn-outline-secondary" onclick="kakaoAddress()" value="주소 검색"><br>
-						<div id="map" style="width:300px;height:300px;margin-top:10px;display:none"></div>
+						
+					<div class="input-group-append">
+						<input type="button" class="btn btn-outline-secondary"
+								onclick="kakaoAddress()" value="주소 검색">
+							</div>		
+							</div>			
 
 					</td>
 				</tr>
@@ -302,9 +353,14 @@ flex : none;
 					</td>
 				</tr>
 			</table>
-			<input type="submit" class="btn btn-outline-secondary" value="회원가입">
-			<input type="reset" class="btn btn-outline-secondary" value="취소">
+			<div class='button1'>
+			<br />
+			<input type="submit" class="btn btn-outline-secondary button" value="회원가입">
+			<input type="reset" class="btn btn-outline-secondary button" value="취소">
+			
+			</div>
+			<br />
 		</form>
-		</form>
+
 	</section>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

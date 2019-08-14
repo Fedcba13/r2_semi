@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+*{
+	color : #e6e6e6;
+}
+
 html, body {
 	width: 1024px;
 	margin: 0;
@@ -24,7 +28,7 @@ header h1 		{float:left; font-family: 'Oswald', sans-serif; padding-left:70px; f
 
 
 /********** content **********/
-section#content	{ background-color:#515151; swidth:1024px; min-height:500px; }
+section#content	{ background-color:#515151; width:1024px; min-height:500px; }
 
 /* 메인메뉴관련 스타일 */
 header nav{

@@ -73,16 +73,28 @@ li {
 }
 
 
+
 * {
     box-sizing: border-box;
 }
 
 .member{text-align:center;}
 
-.btn-secondary {
-    /* color: #fff; */
-    /* background-color: #6c757d; */
+.btn-outline-secondary:hover, .btn-outline-dark:hover{
+  	 border-color: #ac162c;
+     background: #ac162c;
+     
+     
+}
+
+
+
+input.btn-outline-secondary{
     border-color: #6c757d;
+    background: gray;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    /* margin-left : 25px; */
 }
 
 img{
@@ -104,9 +116,9 @@ ul.join-find li#menu:after {
 
 </head>
 <body>
-<table style= 'margin-top: 60px;'>
+<table>
   <tr style="vertical-align:middle">
-    <td style="width:50%;border-right:1px solid gray; padding-right:12px; ">
+    <td style="padding-top: 60px;width:50%;border-right:1px solid gray; padding-right:12px; ">
 
 <img src="<%=request.getContextPath() %>/images/loginMovie.jpg" alt="" />
 
@@ -115,7 +127,7 @@ ul.join-find li#menu:after {
 <td style="padding-left:10px">
 <div class="member">
 	<div class='login member-layout'>
-		<h1>로그인</h1>
+		<h1 style='color:#e6e6e6;'>로그인</h1>
 		<form action="<%=request.getContextPath()%>/member/memberLoginEnd" 
 				id="logIn" name="logIn" method="post" onsubmit='return check();'>
 		<ul class="input-wrap01">

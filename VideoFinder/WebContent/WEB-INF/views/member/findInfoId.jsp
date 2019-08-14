@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <style>
-.join h5 {
-    font-size: 20px;
-    color: #212121;
-    margin: 0 0 10px;
-    text-align : center;
-}
+
 
 
 .member{
@@ -18,46 +13,90 @@
 
 }
 
+
 input#memberName.form-control, input#user-phone-email.form-control, input#user-phone-email_.form-control, input#memberName_.form-control{
 	width: 300px;
-    margin-left: 10px;
-    display: block;
-/*     width: 100%; */
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: .25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
 }
 
 .join ul li a {
     display: inline-block;
-    line-height: 58px;
     position: relative;
     top: -1px;
-    color: #212121;
     font-size: 16px;
     letter-spacing: -0.3px;
-    font-family: 'NanumSquareBold';        
+	color : #e6e6e6;
 }
 
 ul li{
     display: list-item;
     list-style : none;
     float : left;
-    padding : 10px;
+	padding : 10px; 
+	text-aligh : center;
     
 }
 
+div.join, div.join>ul{
+	overflow: hidden;
+}
+
+div#formdiv{
+	padding-top: 40px;
+}
+
+div.join>ul{
+    display: inline-block;
+    text-align: center;
+    margin: 0 auto;
+    padding:0;
+}
+
+div#formdiv, form#findInfoId{
+	overflow: hidden;
+	padding-bottom : 10px;
+	display: inline-block;
+}
+
+	
+}
+h2{
+	color: #e6e6e6;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;    
+    padding-top: 30px;
+}
+
+.btn-outline-secondary:hover{
+  	 border-color: #ac162c;
+     background: #ac162c;
+}
+
+input.btn-outline-secondary{
+    border-color: #6c757d;
+    background: gray;
+    color: white;
+    margin-left : 25px;
+    padding-botton : 10px;
+}
+
+ul li a:hover{
+	color : #f0522a;
+	text-decoration : none;
+}
+
+
 </style>
 <section id='findInfoId'>
+
 <div class="member">
+<div id="formdiv">
+<h2 class='top' style='color:#e6e6e6;'>본인인증으로 찾기</h2>
+<hr>
 <div class="join">
 	<ul>
 		<li><a href="<%=request.getContextPath() %>/member/findInfoId">아이디 찾기</a></li>
@@ -65,9 +104,6 @@ ul li{
 	</ul>
 	
 </div>
-
-<h5>본인인증으로 찾기</h5>
-<hr>
 <form action="<%=request.getContextPath()%>/member/findInfoIdByEmail" id="findInfoIdByEmail" name="findInfoIdByEmail" method="post">
 	<label for="memberName" class="dsn"></label> 
 	<input type="text"class='form-control' name='memberName_' id='memberName_'
@@ -78,9 +114,12 @@ ul li{
 			<br>
 	<input type="submit" value='확인' class="btn btn-outline-secondary"/>
 </form>
-<br />
+</div>
+
 <form action="<%=request.getContextPath()%>/member/findInfoIdEnd" id="findInfoId" name="findInfoId" method="post" >
-<h5>간편찾기</h5>
+<h2 class='top' style='color:#e6e6e6;'>간편찾기</h2>
+<hr>
+
 	<ul class="find-wrap01">
 		<li class="radio-style"><input type="radio" name="id-find"
 			id="id-phone" value='phone' checked onchange='radio();' /> 

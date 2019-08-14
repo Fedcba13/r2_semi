@@ -65,8 +65,56 @@ section#enroll-container{
 
 
 table{
-
+	padding-top : 20px;
+	padding-bottom : 20px;
+	width : 50%;
 	margin : auto;
+	border-collapse: separate;
+  	border-spacing: 0 10px;
+  	
+/*   	 font-family: 'Oswald', sans-serif; */
+}
+td, tr, tr td input {
+	color : #e6e6e6;
+	font-family: 'Oswald', sans-serif;
+	text-align : left;
+}
+td{
+	padding-rignt : 10px;
+}
+
+
+#password{
+	color : #e6e6e6;
+	font-weight : bold;
+}
+
+#password:hover{
+	color : #f0522a;
+	font-weight : bold;
+}
+
+#top{
+    color: #e6e6e6;
+    font-family: 'Oswald', sans-serif;
+    font-weight: bold;    
+    padding-top: 30px;
+}
+
+.btn-outline-secondary:hover{
+  	 border-color: #ac162c;
+     background: #ac162c;
+}
+
+input.btn-outline-secondary{
+    border-color: #6c757d;
+    background: gray;
+    color: white;
+    margin-left : 25px;
+}
+
+input{
+    font-family: 'Oswald', sans-serif;
 }
 </style>
 <script>
@@ -95,7 +143,7 @@ function updatePassword(){
 
 </script>
 <section id="enroll-container">
-	<h2>회원 정보 보기</h2>
+	<h2 id='top'>회원 정보 보기</h2>
 	<form action="<%=request.getContextPath()%>/member/memberUpdate"
 		  name="memberUpdateFrm"
 		  method="post"
@@ -115,7 +163,7 @@ function updatePassword(){
 			<tr>
 				<th>비밀번호</th>
 				<td>
-					<input type="button" value="비밀번호변경 	>>"
+					<input type="button" id='password' style='font-weight: bold;'value="비밀번호변경  >>"
 			   onclick="updatePassword();" />
 				</td>
 			</tr>
@@ -190,9 +238,9 @@ function updatePassword(){
 			</tr>
 			
 		</table>
-		<input type="submit" value="정보수정" />
-
-		<input type="button" value="회원탈퇴" onclick="deleteMember();" />	  
+		<input type="submit" class="btn btn-outline-secondary" value="정보수정" />
+		
+		<input type="button"  class="btn btn-outline-secondary"value="회원탈퇴" onclick="deleteMember();" />	  
 	</form>
 </section>
 <form action="<%=request.getContextPath() %>/member/memberDelete"
