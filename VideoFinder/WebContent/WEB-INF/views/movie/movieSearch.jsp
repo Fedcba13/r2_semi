@@ -3,10 +3,35 @@
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 
 <%
-	String keyword = request.getParameter("keyword");
-	String genre = request.getParameter("genre");
-	String yearFrom = request.getParameter("yearFrom");
-	String yearTo = request.getParameter("yearTo");
+	String keyword;
+	String genre;
+	String yearFrom;
+	String yearTo;
+	String actorId;
+	if(request.getParameter("keyword") != null){
+		keyword = request.getParameter("keyword");		
+	} else {
+		keyword = "";
+	}
+	
+	if(request.getParameter("genre") != null){
+		genre = request.getParameter("genre");
+	} else {
+		genre = "";		
+	}
+	
+	if(request.getParameter("yearFrom") != null){
+		yearFrom = request.getParameter("yearFrom");		
+	} else {
+		yearFrom = "";
+	}
+	
+	if(request.getParameter("yearTo") != null){
+		yearTo = request.getParameter("yearTo");	
+	} else {
+		yearTo = "";
+	}
+	
 %>
 
 <style>
