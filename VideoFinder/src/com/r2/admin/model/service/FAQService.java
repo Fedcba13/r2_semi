@@ -2,6 +2,7 @@ package com.r2.admin.model.service;
 
 import static com.r2.common.JDBCTemplate.close;
 import static com.r2.common.JDBCTemplate.getConnection;
+import static com.r2.common.JDBCTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,7 +17,7 @@ public class FAQService {
 	public List<FAQ> getFAQList() {
 		Connection conn = getConnection();
 		List<FAQ> list 
-			= new FAQDAO().getFAQListList(conn);
+			= new FAQDAO().getFAQList(conn);
 		close(conn);
 		return list;
 	}
@@ -38,13 +39,7 @@ public class FAQService {
 		
 	}
 
-	public List<FAQ> getFAQListInManage(int cPage, int numPerPage) {
-		Connection conn = getConnection();
-		List<FAQ> fAQList 
-			= new FAQDAO().getFAQListInManage(conn, cPage, numPerPage);
-		close(conn);
-		return fAQList;
-	}
+
 
 	public int selectTotalContents() {
 		Connection conn = getConnection();
@@ -61,34 +56,60 @@ public class FAQService {
 		return catList;
 	}
 
-	public List<FAQ> getFAQBySearch(String search_Keyword, int cPage, int numPerPage) {
+	public List<FAQ> getfAQList(int cPage, int numPerPage) {
 		Connection conn = getConnection();
-		List<FAQ> list 
-			= new FAQDAO().getFAQBySearch(conn, search_Keyword, cPage, numPerPage);
+		List<FAQ> fAQList 
+			= new FAQDAO().getfAQList(conn, cPage, numPerPage);
 		close(conn);
-		return list;
+		return fAQList;
+	}
+	
+	public List<FAQ> getFAQListByFilter(String search_Keyword, String cat, int cPage, int numPerPage) {
+		Connection conn = getConnection();
+		List<FAQ> fAQList 
+			= new FAQDAO().getFAQListByFilter(conn,cat,  cPage, numPerPage, search_Keyword);
+		close(conn);
+		return fAQList;
 	}
 
-	public int selectTotalContentsBySearch(String search_Keyword) {
+	public int getTotalContentsByFilter(String search_Keyword, String cat) {
 		Connection conn = getConnection();
-		int totalContents = new FAQDAO().selectTotalContentsBySearch(conn, search_Keyword);
+		int totalContents = new NoticeDAO().getTotalContentsByFilter(conn, cat, search_Keyword);
 		close(conn);
 		return totalContents;
 	}
 
-	public List<FAQ> getFAQListByCat(String cat, int cPage, int numPerPage) {
+	public int insertFAQ(FAQ f) {
 		Connection conn = getConnection();
-		List<FAQ> list 
-			= new FAQDAO().getFAQListByCat(conn, cat, cPage, numPerPage);
-		close(conn);
-		return list;
+		int result = new FAQDAO().insertFAQ(f, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
 	}
 
-	public int selectTotalContentsByCat(String cat) {
+	public int modifyFAQ(FAQ f) {
 		Connection conn = getConnection();
-		int totalContents = new FAQDAO().selectTotalContentsByCat(conn, cat);
-		close(conn);
-		return totalContents;
+		int result = new FAQDAO().modifyFAQ(f, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public int deleteFAQ(String fAQ_No) {
+		Connection conn = getConnection();
+		int result = new FAQDAO().deleteFAQ(fAQ_No, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
 	}
 	
 	

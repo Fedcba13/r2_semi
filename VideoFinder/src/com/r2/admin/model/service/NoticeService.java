@@ -1,11 +1,11 @@
 package com.r2.admin.model.service;
 
 import static com.r2.common.JDBCTemplate.*;
-import static com.r2.common.JDBCTemplate.getConnection;
 
 import java.sql.Connection;
 import java.util.List;
 
+import com.r2.admin.model.dao.FAQDAO;
 import com.r2.admin.model.dao.NoticeDAO;
 import com.r2.admin.model.vo.Notice;
 
@@ -68,6 +68,28 @@ public class NoticeService {
 		int totalContents = new NoticeDAO().getTotalContentsByFilter(conn, cat, search_Keyword);
 		close(conn);
 		return totalContents;
+	}
+
+	public int deleteNotice(String notice_No) {
+		Connection conn = getConnection();
+		int result = new NoticeDAO().deleteNotice(notice_No, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public int modifyNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = new NoticeDAO().modifyNotice(n, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
 	}
 	
 }

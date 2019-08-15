@@ -10,7 +10,7 @@
 	List<String> catList = (List<String>)request.getAttribute("catList");
 %>
 <h2>공지사항 쓰기</h2>
-<form action="<%=request.getContextPath()%>/admin/writeNotice"
+<form action="<%=request.getContextPath()%>/admin/notice/writeNotice"
 	onsubmit="return validate();" method="POST">
 	<div>
 		<select name="notice_Category" id="category">
@@ -29,7 +29,7 @@
 		<textarea name="notice_Content" id="notice_Con" cols="30" rows="10"
 			wrap="hard"></textarea>
 	</div>
-	<input type="button" value="d" onclick="validate();" /> <input
+	<input
 		type="submit" value="작성" />
 </form>
 <script>

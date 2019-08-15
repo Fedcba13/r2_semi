@@ -192,18 +192,17 @@ public class NoticeDAO {
 			 * xx
 			 */
 
-			if ((cat != null) && (search_Keyword == null)) {
+			if ((!"".equals(cat)) && ("".equals(search_Keyword))) {
 				pstmt.setString(1, cat);
 				pstmt.setString(2, "%");
 				pstmt.setString(3, "%");
 
-			} else if ((cat == null) && (search_Keyword != null)) {
+			} else if (("".equals(cat)) && (!"".equals(search_Keyword))) {
 				pstmt.setString(1, "%");
 				pstmt.setString(2, "%" + search_Keyword + "%");
 				pstmt.setString(3, "%" + search_Keyword + "%");
-				System.out.println("이게 맞나?????????????");
 
-			} else if ((cat != null) && (search_Keyword != null)) {
+			} else if ((!"".equals(cat)) && (!"".equals(search_Keyword))) {
 				pstmt.setString(1, cat);
 				pstmt.setString(2, "%" + search_Keyword + "%");
 				pstmt.setString(3, "%" + search_Keyword + "%");
@@ -252,18 +251,17 @@ public class NoticeDAO {
 		ResultSet rset = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-
-			if ((cat != null) && (search_Keyword == null)) {
+			if ((!"".equals(cat)) && ("".equals(search_Keyword))) {
 				pstmt.setString(1, cat);
 				pstmt.setString(2, "%");
 				pstmt.setString(3, "%");
 
-			} else if ((cat == null) && (search_Keyword != null)) {
+			} else if (("".equals(cat)) && (!"".equals(search_Keyword))) {
 				pstmt.setString(1, "%");
 				pstmt.setString(2, "%" + search_Keyword + "%");
 				pstmt.setString(3, "%" + search_Keyword + "%");
 
-			} else if ((cat != null) && (search_Keyword != null)) {
+			} else if ((!"".equals(cat)) && (!"".equals(search_Keyword))) {
 				pstmt.setString(1, cat);
 				pstmt.setString(2, "%" + search_Keyword + "%");
 				pstmt.setString(3, "%" + search_Keyword + "%");
@@ -287,6 +285,48 @@ public class NoticeDAO {
 		}
 
 		return totalContents;
+	}
+
+	public int deleteNotice(String notice_No, Connection conn) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteNotice");
+		int result = 0;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, notice_No);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int modifyNotice(Notice n, Connection conn) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("modifyFAQ");
+		int result = 0;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, n.getNotice_Title());
+			pstmt.setString(2, n.getNotice_Content());
+			pstmt.setString(3, n.getNotice_Category());
+			pstmt.setString(4, n.getNotice_No());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
 	}
 
 }

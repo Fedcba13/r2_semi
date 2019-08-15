@@ -10,19 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.r2.admin.model.service.NoticeService;
-import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeByNoticeNoServlet
+ * Servlet implementation class NoticeViewBeforeServlet
  */
-@WebServlet("/admin/notice/getNoticeByNo")
-public class NoticeByNoticeNoServlet extends HttpServlet {
+@WebServlet("/admin/notice/goWriteNoticeView")
+public class NoticeWriteViewBeforeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeByNoticeNoServlet() {
+    public NoticeWriteViewBeforeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +30,11 @@ public class NoticeByNoticeNoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		String Notice_No = request.getParameter("Notice_No");
-		Notice n = new NoticeService().getNoticeByNoticeNo(Notice_No);
-		
+
 		List<String> catList = new NoticeService().getNoticeCategory();
-		
-		request.setAttribute("n", n);
 		request.setAttribute("catList", catList);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/ViewNotice.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/WEB-INF/views/admin/notice/writeNotice.jsp").forward(request, response);
+
 	}
 
 	/**

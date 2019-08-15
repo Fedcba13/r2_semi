@@ -1,8 +1,13 @@
 package com.r2.admin.model.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Notice {
+public class Notice implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3325093484572704189L;
 	private String Notice_No;
 	private String Notice_Title;
 	private String Notice_Writer;

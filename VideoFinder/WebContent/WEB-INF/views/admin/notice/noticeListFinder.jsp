@@ -34,12 +34,11 @@ $(()=>{
 	$("#numPerPage").on("change", ()=>{
 
 		console.log("zzz")
-		$("#rrr").submit();
+		$("#searchNotice").submit();
 	});
 	$("#categoryChoice").on("change", ()=>{
 
-		console.log("zzz")
-		$("#rrr").submit();
+		$("#searchNotice").submit();
 	});
 	
 });
@@ -49,15 +48,15 @@ $(()=>{
 	}
 </script>
 <ul>
-	<li><a href="<%=request.getContextPath()%>/admin/getNoticeOfAllBoardList">공지사항</a></li>
-	<li><a href="<%=request.getContextPath()%>/admin/getFAQOfAllBoardList">FAQ</a></li>
+	<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
+	<li><a href="<%=request.getContextPath()%>/admin/fAQ/fAQList">FAQ</a></li>
 	<li><a href="">??</a></li>
 </ul>
 
 
 
 <form action="<%=request.getContextPath()%>/admin/notice/noticeFilter"
-	method="POST" id="rrr">
+	method="POST" id="searchNotice">
 	<input type="text" name="search_Keyword" id="searchInput"
 		value="<%=search_Keyword==null? "" : search_Keyword%>">
 	<button type="submit">검색</button>
@@ -102,7 +101,7 @@ $(()=>{
 			<th><%=n.getNotice_No() %></th>
 			<th><%=n.getNotice_Category() %></th>
 			<th><a
-				href="<%=request.getContextPath() %>/admin/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
+				href="<%=request.getContextPath() %>/admin/notice/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
 			<th><%=n.getNotice_Writer() %></th>
 			<th><%=n.getNotice_Date() %></th>
 			<th><%=n.getNotice_Readcount() %></th>
@@ -129,7 +128,7 @@ $(()=>{
 
 <script>
 	function goWrite(){
-		location.href = "<%=request.getContextPath() %>/admin/goWriteNoticeView";
+		location.href = "<%=request.getContextPath() %>/admin/notice/goWriteNoticeView";
 	}
 </script>
 

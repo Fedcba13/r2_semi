@@ -13,6 +13,8 @@
 	int numPerPage = (int)request.getAttribute("numPerPage");
 	List<String> catList = (List<String>)request.getAttribute("catList");
 	String nowCat = (String)request.getAttribute("cat");
+	String search_Keyword = (String)request.getAttribute("search_Keyword");
+	
 %>
 
 <script>
@@ -30,51 +32,53 @@ $(()=>{
 	});
 
 	$("#numPerPage").on("change", ()=>{
-		$("#numPerPageFrm").submit();
+
+		console.log("zzz")
+		$("#searchNotice").submit();
+	});
+	$("#categoryChoice").on("change", ()=>{
+
+		$("#searchNotice").submit();
 	});
 	
 });
 	function srchValidate(){
-		var $searchInput = $("#searchInput").val;
-		if($searchInput.trim().length == 0){
-			return false;
-		}
+
 		return true;
 	}
 </script>
 <ul>
-	<li><a href="<%=request.getContextPath()%>/admin/getNoticeOfAllBoardList">공지사항</a></li>
-	<li><a href="<%=request.getContextPath()%>/admin/getFAQOfAllBoardList">FAQ</a></li>
+	<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
+	<li><a href="<%=request.getContextPath()%>/admin/fAQ/fAQList">FAQ</a></li>
 	<li><a href="">??</a></li>
 </ul>
+
+
+
 <form action="<%=request.getContextPath()%>/admin/notice/noticeFilter"
-	method="POST" onsubmit="return srchValidate();">
+	method="POST" id="searchNotice">
 	<input type="text" name="search_Keyword" id="searchInput"
-		placeholder="어떤 도움이 필요하세요?">
+		value="<%=search_Keyword==null? "" : search_Keyword%>">
 	<button type="submit">검색</button>
-</form>
-<form action="<%=request.getContextPath()%>/admin/notice/noticeFilter"
-	id="catFrm">
 	<select name="cat" id="categoryChoice">
 		<option value="" selected>분류 선택</option>
 		<%
 				for(String cat : catList){
 			%>
-		<option <%=cat.equals(nowCat)? "selected" : "" %> value="<%=cat%>"><%=cat%></option>
+		<option value="<%=cat%>"  <%=cat.equals(nowCat)? "selected" : "" %>><%=cat%></option>
 		<%
 				}
 			%>
 	</select>
-</form>
-<div id="numPerPage-container">
-	<form name="numPerPageFrm" id="numPerPageFrm" action="<%=request.getContextPath()%>/admin/notice/noticeFilter">
 		페이지당 게시물수 <select name="numPerPage" id="numPerPage">
 			<option value="20" <%=numPerPage == 20? "selected":""%>>20</option>
 			<option value="10" <%=numPerPage == 10? "selected":""%>>10</option>
 			<option value="5" <%=numPerPage == 5? "selected":""%>>5</option>
 		</select>
 	</form>
-</div>
+
+
+
 <table>
 
 	<thead>
@@ -97,7 +101,7 @@ $(()=>{
 			<th><%=n.getNotice_No() %></th>
 			<th><%=n.getNotice_Category() %></th>
 			<th><a
-				href="<%=request.getContextPath() %>/admin/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
+				href="<%=request.getContextPath() %>/admin/notice/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
 			<th><%=n.getNotice_Writer() %></th>
 			<th><%=n.getNotice_Date() %></th>
 			<th><%=n.getNotice_Readcount() %></th>
@@ -105,7 +109,9 @@ $(()=>{
 		<%
 				}
 			}
-		%>
+				
+%>
+
 	</tbody>
 
 </table>
@@ -122,7 +128,7 @@ $(()=>{
 
 <script>
 	function goWrite(){
-		location.href = "<%=request.getContextPath() %>/admin/goWriteNoticeView";
+		location.href = "<%=request.getContextPath() %>/admin/notice/goWriteNoticeView";
 	}
 </script>
 

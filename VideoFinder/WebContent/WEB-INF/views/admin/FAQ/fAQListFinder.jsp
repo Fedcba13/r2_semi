@@ -1,3 +1,4 @@
+<%@page import="com.r2.admin.model.vo.FAQ"%>
 <%@page import="com.r2.admin.model.vo.Notice"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
@@ -8,7 +9,7 @@
 	href="<%=request.getContextPath()%>/css/admin.css">
 <!DOCTYPE html>
 <%
-	List<Notice> notList = (List<Notice>)request.getAttribute("notList");
+	List<FAQ> fAQList = (List)request.getAttribute("fAQList");
 	String pageBar = (String)request.getAttribute("pageBar");
 	int numPerPage = (int)request.getAttribute("numPerPage");
 	List<String> catList = (List<String>)request.getAttribute("catList");
@@ -34,11 +35,11 @@ $(()=>{
 	$("#numPerPage").on("change", ()=>{
 
 		console.log("zzz")
-		$("#searchNotice").submit();
+		$("#searchFAQ").submit();
 	});
 	$("#categoryChoice").on("change", ()=>{
 
-		$("#searchNotice").submit();
+		$("#searchFAQ").submit();
 	});
 	
 });
@@ -49,14 +50,14 @@ $(()=>{
 </script>
 <ul>
 	<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
-	<li><a href="<%=request.getContextPath()%>/admin/fAQ/fAQList">FAQ</a></li>
+	<li><a href="<%=request.getContextPath()%>/admin/notice/fAQList">FAQ</a></li>
 	<li><a href="">??</a></li>
 </ul>
 
 
 
-<form action="<%=request.getContextPath()%>/admin/notice/noticeFilter"
-	method="POST" id="searchNotice">
+<form action="<%=request.getContextPath()%>/admin/faq/fAQFilter"
+	method="POST" id="searchFAQ">
 	<input type="text" name="search_Keyword" id="searchInput"
 		value="<%=search_Keyword==null? "" : search_Keyword%>">
 	<button type="submit">검색</button>
@@ -93,18 +94,18 @@ $(()=>{
 	</thead>
 	<tbody>
 		<%
-			if(notList != null || !notList.isEmpty()){
-				for(Notice n : notList){
+			if(fAQList != null || !fAQList.isEmpty()){
+				for(FAQ f : fAQList){
 				
 		%>
 		<tr>
-			<th><%=n.getNotice_No() %></th>
-			<th><%=n.getNotice_Category() %></th>
+			<th><%=f.getFAQ_No() %></th>
+			<th><%=f.getFAQ_Category() %></th>
 			<th><a
-				href="<%=request.getContextPath() %>/admin/notice/getNoticeByNo?Notice_No=<%=n.getNotice_No() %>"><%=n.getNotice_Title() %></a></th>
-			<th><%=n.getNotice_Writer() %></th>
-			<th><%=n.getNotice_Date() %></th>
-			<th><%=n.getNotice_Readcount() %></th>
+				href="<%=request.getContextPath() %>/admin/getFAQByNo?FAQ_No=<%=f.getFAQ_No() %>"><%=f.getFAQ_Title() %></a></th>
+			<th><%=f.getFAQ_Writer() %></th>
+			<th><%=f.getFAQ_Date() %></th>
+			<th><%=f.getFAQ_Readcount() %></th>
 		</tr>
 		<%
 				}
@@ -128,7 +129,7 @@ $(()=>{
 
 <script>
 	function goWrite(){
-		location.href = "<%=request.getContextPath() %>/admin/notice/goWriteNoticeView";
+		location.href = "<%=request.getContextPath() %>/admin/goWriteNoticeView";
 	}
 </script>
 

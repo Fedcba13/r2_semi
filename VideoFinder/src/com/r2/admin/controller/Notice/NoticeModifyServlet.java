@@ -1,6 +1,7 @@
 package com.r2.admin.controller.Notice;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,16 +12,16 @@ import com.r2.admin.model.service.NoticeService;
 import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeWriteServlet
+ * Servlet implementation class FAQModifyServlet
  */
-@WebServlet("/admin/notice/writeNotice")
-public class NoticeWriteServlet extends HttpServlet {
+@WebServlet("/admin/notice/modifyNotice")
+public class NoticeModifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeWriteServlet() {
+    public NoticeModifyServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,29 +33,32 @@ public class NoticeWriteServlet extends HttpServlet {
 		String notice_Category = request.getParameter("notice_Category");
 		String notice_Title = request.getParameter("notice_Title");
 		String notice_Content = request.getParameter("notice_Content");
+		String notice_No= request.getParameter("notice_No");
 		
 		
 		Notice n = new Notice();
 		n.setNotice_Category(notice_Category);
 		n.setNotice_Title(notice_Title);
 		n.setNotice_Content(notice_Content);
+		n.setNotice_No(notice_No);
 		
-		int result = new NoticeService().insertNotice(n);
+		int result = new NoticeService().modifyNotice(n);
 		String view = "/WEB-INF/views/common/msg.jsp";
 		String msg = "";
-		String loc = "/admin/notice/noticeList";
+		String loc = "/admin/notice/getNoticeByNo?Notice_No="+notice_No;
 
 
 		if(result > 0) {
-			msg = "공지사항을 성공적으로 등록했습니다.";
+			msg = "공지사항을 성공적으로 수정했습니다.";
 		}else {
-			msg = "공지사항을 등록에 실패했습니다.";
+			msg = "공지사항 수정 실패했습니다.";
 		}
 		
 		request.setAttribute("msg", msg);
 		request.setAttribute("loc", loc);
 		
 		request.getRequestDispatcher(view).forward(request, response);
+		
 		
 	}
 

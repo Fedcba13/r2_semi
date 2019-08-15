@@ -1,8 +1,13 @@
 package com.r2.admin.model.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FAQ {
+public class FAQ implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8541124877401596041L;
 	private String FAQ_No;
 	private String FAQ_Title;
 	private String FAQ_Writer;
@@ -11,14 +16,17 @@ public class FAQ {
 	private int FAQ_Readcount;
 	private String FAQ_Category;
 	private int FAQ_Enabled;
+	private Date FAQ_Date_Modified;
 
 	public FAQ() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public FAQ(String fAQ_No, String fAQ_Title, String fAQ_Writer, String fAQ_Content, Date fAQ_Date, int fAQ_Readcount,
-			String fAQ_Category, int fAQ_Enabled) {
+			String fAQ_Category, int fAQ_Enabled, Date fAQ_Date_Modified) {
 		super();
 		FAQ_No = fAQ_No;
 		FAQ_Title = fAQ_Title;
@@ -28,7 +36,22 @@ public class FAQ {
 		FAQ_Readcount = fAQ_Readcount;
 		FAQ_Category = fAQ_Category;
 		FAQ_Enabled = fAQ_Enabled;
+		FAQ_Date_Modified = fAQ_Date_Modified;
 	}
+
+
+
+	public Date getFAQ_Date_Modified() {
+		return FAQ_Date_Modified;
+	}
+
+
+
+	public void setFAQ_Date_Modified(Date fAQ_Date_Modified) {
+		FAQ_Date_Modified = fAQ_Date_Modified;
+	}
+
+
 
 	public String getFAQ_No() {
 		return FAQ_No;
@@ -94,11 +117,15 @@ public class FAQ {
 		FAQ_Enabled = fAQ_Enabled;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "FAQ [FAQ_No=" + FAQ_No + ", FAQ_Title=" + FAQ_Title + ", FAQ_Writer=" + FAQ_Writer + ", FAQ_Content="
 				+ FAQ_Content + ", FAQ_Date=" + FAQ_Date + ", FAQ_Readcount=" + FAQ_Readcount + ", FAQ_Category="
-				+ FAQ_Category + ", FAQ_Enabled=" + FAQ_Enabled + "]";
+				+ FAQ_Category + ", FAQ_Enabled=" + FAQ_Enabled + ", FAQ_Date_Modified=" + FAQ_Date_Modified + "]";
 	}
+
+
 
 }

@@ -1,4 +1,4 @@
-package com.r2.admin.controller.Notice;
+package com.r2.admin.controller.FAQ;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.r2.admin.model.service.NoticeService;
-import com.r2.admin.model.vo.Notice;
+import com.r2.admin.model.service.FAQService;
+import com.r2.admin.model.vo.FAQ;
 
 /**
- * Servlet implementation class TestServlet
+ * Servlet implementation class NoteListServlet
  */
-@WebServlet("/admin/notice/noticeFilter")
-public class NoitceFilterServlet extends HttpServlet {
+@WebServlet("/admin/fAQ/fAQList")
+public class FAQListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoitceFilterServlet() {
+    public FAQListServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,11 +31,12 @@ public class NoitceFilterServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String search_Keyword = request.getParameter("search_Keyword");
-		String cat = request.getParameter("cat");
 		
-		System.out.println(cat+"****************");
+
 		
+		
+		
+		// 1.파라미터핸들링
 		int numPerPage = 5;
 		try {
 			numPerPage = Integer.parseInt(request.getParameter("numPerPage"));
@@ -49,19 +50,13 @@ public class NoitceFilterServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// 예외발생하면 기본값 1을 가져다 씀으로 따로 예외처리 필요 없음.
 		}
-		
-		List<Notice> notList = new NoticeService().getNotListByFilter(search_Keyword, cat, cPage, numPerPage);
-		int totalContents = new NoticeService().getTotalContentsByFilter(search_Keyword, cat);
 
-		
-		System.out.println(search_Keyword);
-		System.out.println(cat);
+		List<FAQ> fAQList = new FAQService().getfAQList(cPage, numPerPage);
+		int totalContents = new FAQService().selectTotalContents();
 		System.out.println("컨텐츠 수 : " + totalContents);
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
 		System.out.println("페이지 수 : " + totalPage);
 
-		
-		// pageBar html 코드작성
 		final int pageBarSize = 5;
 		String pageBar = "";
 
@@ -70,44 +65,46 @@ public class NoitceFilterServlet extends HttpServlet {
 
 		int pageNo = pageStart;
 
-
-//		a.[이전]
+		
 		if (pageNo == 1) {
 			pageBar += "<li class='page-item'><a class='page-link' href=''>Previous</a></li>";
 		} else {
-			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo - 1)
-					+ "&numPerPage=" + numPerPage + "&search_Keyword="+search_Keyword+"&cat="+cat+ "'>Previous</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/fAQfAQList?cPage=" + (pageNo - 1)
+					+ "&numPerPage=" + numPerPage + "'>Previous</a></li>";
 		}
-//		b.page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
 				pageBar += "<li class='page-item'><a class='page-link' href=''>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo)
-						+ "&numPerPage=" + numPerPage + "&search_Keyword="+search_Keyword+"&cat="+cat+  "'>" + pageNo + "</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/fAQfAQList?cPage=" + (pageNo)
+						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-//		c.[다음]
 		if (pageNo > totalPage) {
 			pageBar += "<li class='page-item'><a class='page-link' href=''>Next</a></li>";
 		} else {
-			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo)
-					+ "&numPerPage=" + numPerPage +"&search_Keyword="+search_Keyword+"&cat="+cat+ "'>Next</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/fAQfAQList?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage +"'>Next</a></li>";
 		}
+
 		
 		
-		System.out.println(notList);
-		List<String> catList = new NoticeService().getNoticeCategory();
-		request.setAttribute("search_Keyword", search_Keyword);
-		request.setAttribute("cat", cat);
-		request.setAttribute("notList", notList);
+		
+		
+		List<String> catList = new FAQService().getFAQCategory();
+		
+		
+		request.setAttribute("fAQList", fAQList);
 		request.setAttribute("catList", catList);
+		
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/noticeListFinder.jsp").forward(request, response);
 		
+	
+		request.getRequestDispatcher("/WEB-INF/views/admin/FAQ/fAQList.jsp").forward(request, response);
+
 		
 		
 	}

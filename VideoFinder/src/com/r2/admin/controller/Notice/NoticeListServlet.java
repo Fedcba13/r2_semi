@@ -31,6 +31,11 @@ public class NoticeListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+
+		
+		
+		
 		// 1.파라미터핸들링
 		int numPerPage = 5;
 		try {
@@ -64,14 +69,14 @@ public class NoticeListServlet extends HttpServlet {
 		if (pageNo == 1) {
 			pageBar += "<li class='page-item'><a class='page-link' href=''>Previous</a></li>";
 		} else {
-			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo - 1)
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/notice/noticeList?cPage=" + (pageNo - 1)
 					+ "&numPerPage=" + numPerPage + "'>Previous</a></li>";
 		}
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
 				pageBar += "<li class='page-item'><a class='page-link' href=''>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo)
+				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/notice/noticeList?cPage=" + (pageNo)
 						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
@@ -79,8 +84,8 @@ public class NoticeListServlet extends HttpServlet {
 		if (pageNo > totalPage) {
 			pageBar += "<li class='page-item'><a class='page-link' href=''>Next</a></li>";
 		} else {
-			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo)
-					+ "&numPerPage=" + numPerPage + "'>Next</a></li>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/notice/noticeList?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage +"'>Next</a></li>";
 		}
 
 		
@@ -96,6 +101,8 @@ public class NoticeListServlet extends HttpServlet {
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
+		
+	
 		request.getRequestDispatcher("/WEB-INF/views/admin/notice/noticeList.jsp").forward(request, response);
 
 		
