@@ -53,9 +53,6 @@ public class NoticeWriteServlet extends HttpServlet {
 		}
 		
 		request.setAttribute("msg", msg);
-		request.setAttribute("loc", loc);
-		
-		request.getRequestDispatcher(view).forward(request, response);
 		
 		
 	}

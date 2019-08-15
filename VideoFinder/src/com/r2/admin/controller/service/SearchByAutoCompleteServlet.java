@@ -1,4 +1,4 @@
-package com.r2.admin.controller.FAQ;
+package com.r2.admin.controller.service;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.r2.admin.model.service.UnionService;
 import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class FAQListBySearchServlet
+ * Servlet implementation class SearchByAutoCompleteServlet
  */
-@WebServlet("/union/getUnionList")
-public class FAQListBySearchServlet extends HttpServlet {
+@WebServlet("/admin/noticeSrch/csv/autoComplete.do")
+public class SearchByAutoCompleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQListBySearchServlet() {
+    public SearchByAutoCompleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +32,12 @@ public class FAQListBySearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json; charset=utf-8");
+		String searchKeyword = request.getParameter("searchKeyword");
 		
-		String search_Keyword = request.getParameter("search_Keyword");
+		List<Notice> autoList = new UnionService().getAutoListBysrchKeyword(searchKeyword);
 		
-		List<Notice> unionList = new UnionService().getUnionSearchList(search_Keyword);
-		
-		request.setAttribute("unionList", unionList);
-		request.setAttribute("search_Keyword", search_Keyword);
-		
-		request.getRequestDispatcher("/WEB-INF/views/admin/service/unionSearchList.jsp").forward(request, response);
+		new Gson().toJson(autoList, response.getWriter());
 		
 	}
 

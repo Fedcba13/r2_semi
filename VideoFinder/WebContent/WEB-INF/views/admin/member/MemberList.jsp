@@ -8,6 +8,7 @@
 	List<Member> memberList = (List<Member>) request.getAttribute("memberList");
 	String pageBar = (String) request.getAttribute("pageBar");
 	int numPerPage = (int) request.getAttribute("numPerPage");
+
 %>
 <style>
 div#search-memberId{display: inline-block;}
@@ -40,7 +41,7 @@ $(()=>{
 			<option value="memberEnrollDate">가입날짜</option>
 		</select>	
 		<div id="search-memberId" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Id" />
@@ -52,7 +53,7 @@ $(()=>{
 			</form>
 		</div>
 		<div id="search-memberName" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Name" />
@@ -64,7 +65,7 @@ $(()=>{
 			</form>
 		</div>
 		<div id="search-memberEmail" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Email" />
@@ -77,13 +78,14 @@ $(()=>{
 		</div>
 		
 		<div id="search-memberEnrollDate" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/memberFinder">
 				<input type="hidden" 
-					   name="searchType" 
+					   name="searchType" 	
 					   value="member_EnrollDate" />
 				<input type="date"
-					   name="searchKeyword"
-					   size="25" /> ~ 
+					   name="searchKeywordStart"
+					   size="25"
+					    /> ~ 
 				<input type="date"
 					   name="searchKeywordEnd"
 					   size="25"/>
@@ -93,7 +95,7 @@ $(()=>{
 	
 	</div>
     		<div id="numPerPage-container">
-			<form name="numPerPageFrm" id="numPerPageFrm">
+			<form name="numPerPageFrm" id="numPerPageFrm" action="<%=request.getContextPath()%>/admin/member/memberFinder">
 				페이지당 게시물수
 				<select name="numPerPage" id="numPerPage">
 					<option value="20" <%=numPerPage == 20? "selected":""%>>20</option>
@@ -132,8 +134,11 @@ $(()=>{
 
     </table>
 <div id="pageBar">
-		<%=pageBar%>
-	</div>
-
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<%=pageBar%>
+		</ul>
+	</nav>
+</div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

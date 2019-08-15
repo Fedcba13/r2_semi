@@ -13,16 +13,16 @@ import com.r2.admin.model.service.NoticeService;
 import com.r2.admin.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeFilterByCatServlet
+ * Servlet implementation class TestServlet
  */
-@WebServlet("/admin/filterNoitceByCat")
-public class NoticeFilterByCatServlet extends HttpServlet {
+@WebServlet("/admin/notice/noticeFilter")
+public class NoitceFilterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeFilterByCatServlet() {
+    public NoitceFilterServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,8 +31,11 @@ public class NoticeFilterByCatServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		// 1.파라미터핸들링
+		String search_Keyword = request.getParameter("search_Keyword");
+		String cat = request.getParameter("cat");
+		
+		System.out.println(cat+"****************");
+		
 		int numPerPage = 5;
 		try {
 			numPerPage = Integer.parseInt(request.getParameter("numPerPage"));
@@ -46,16 +49,14 @@ public class NoticeFilterByCatServlet extends HttpServlet {
 		} catch (NumberFormatException e) {
 			// 예외발생하면 기본값 1을 가져다 씀으로 따로 예외처리 필요 없음.
 		}
+		
+		List<Notice> notList = new NoticeService().getNotListByFilter(search_Keyword, cat, cPage, numPerPage);
+		int totalContents = new NoticeService().getTotalContentsByFilter(search_Keyword, cat);
 
-		// 2.업무로직
-		// 2.1 컨텐츠 영역
-		String cat = request.getParameter("cat");
-		List<Notice> list = new NoticeService().getNoticeListByCat(cat, cPage, numPerPage);
-//				2.2 페이지바 영역
-//				페이지 바 구하기 공식2
-//				전체 페이지 수 구하기 
-		int totalContents = new NoticeService().selectTotalContents();
+		
+		System.out.println("컨텐츠 수 : " + totalContents);
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
+		System.out.println("페이지 수 : " + totalPage);
 
 		// pageBar html 코드작성
 		final int pageBarSize = 5;
@@ -66,43 +67,45 @@ public class NoticeFilterByCatServlet extends HttpServlet {
 
 		int pageNo = pageStart;
 
-//				a.[이전]
+
+//		a.[이전]
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Previous</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo - 1)
-					+ "&numPerPage=" + numPerPage + "'>[이전]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo - 1)
+					+ "&numPerPage=" + numPerPage + "&search_Keyword="+search_Keyword+"&cat="+cat+ "'>Previous</a></li>";
 		}
-//				b.page
+//		b.page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
-				pageBar += "<span class = 'cPage'>" + pageNo + "</span>";
+				pageBar += "<li class='page-item'><a class='page-link' href=''>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo)
-						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a>";
+				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo)
+						+ "&numPerPage=" + numPerPage + "&search_Keyword="+search_Keyword+"&cat="+cat+  "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-//				c.[다음]
+//		c.[다음]
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Next</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getNoticeList?cPage=" + (pageNo) + "&numPerPage="
-					+ numPerPage + "'>[다음]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/filterNotice?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage +"&search_Keyword="+search_Keyword+"&cat="+cat+ "'>Next</a></li>";
 		}
 		
 		
-		//공지 카테고리 불러오기
-		
+		System.out.println(notList);
 		List<String> catList = new NoticeService().getNoticeCategory();
-		
-		
-		request.setAttribute("list", list);
+		request.setAttribute("search_Keyword", search_Keyword);
+		request.setAttribute("cat", cat);
+		request.setAttribute("notList", notList);
 		request.setAttribute("catList", catList);
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/NoticeList.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/admin/notice/noticeListFinder.jsp").forward(request, response);
+		
+		
 		
 	}
 

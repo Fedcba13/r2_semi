@@ -55,20 +55,19 @@ public class NoticeService {
 		return catList;
 	}
 
-	public List<Notice> getNoticeListByCat(String cat, int cPage, int numPerPage) {
+	public List<Notice> getNotListByFilter(String search_Keyword, String cat, int cPage, int numPerPage) {
 		Connection conn = getConnection();
-		List<Notice> list 
-			= new NoticeDAO().getNoticeListByCat(conn,cat,  cPage, numPerPage);
+		List<Notice> notList 
+			= new NoticeDAO().getNotListByFilter(conn,cat,  cPage, numPerPage, search_Keyword);
 		close(conn);
-		return list;
+		return notList;
 	}
 
-	public List<Notice> getNoticeBySearch(String search_Keyword, int cPage, int numPerPage) {
+	public int getTotalContentsByFilter(String search_Keyword, String cat) {
 		Connection conn = getConnection();
-		List<Notice> list 
-			= new NoticeDAO().getNoticeBySearch(conn, search_Keyword, cPage, numPerPage);
+		int totalContents = new NoticeDAO().getTotalContentsByFilter(conn, cat, search_Keyword);
 		close(conn);
-		return list;
+		return totalContents;
 	}
 	
 }

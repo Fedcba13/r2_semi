@@ -7,3 +7,17 @@
 .arrow img{
 	display: none;
 }
+table{
+	margin: auto;
+	border-collapse: collapse;	
+}
+#pageBar{
+	display: inline-block;
+}
+
+table th, td{
+	border: 1px solid black;
+}
+.table table-dark{
+	width: 830px;
+}
