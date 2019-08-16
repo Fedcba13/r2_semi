@@ -3,9 +3,9 @@
 
 <style>
 div#support{
-	top: 0px;
-	right: 20px;
-	position: absolute;
+	top: 1000px;
+	left: 910px;
+	position: fixed;
 	background-color: white;
 	border-radius: 50%;
 	width: 96px;

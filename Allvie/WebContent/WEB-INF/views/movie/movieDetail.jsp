@@ -58,17 +58,11 @@
 				$("title").text(pageTitle);
 				console.log(data);				
 				var html = "<table id='details'>";
-				/* html += "<tr style='width: 400px; padding: 5px;'><td id='main-poster' rowspan='3'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></tr>";
-				html += "<tr><td id='title'>타이틀</th></tr><tr><td><span>" + data.title +"</span></td></tr>";
-				html += "<tr><th id='overview'>줄거리</th><td><span> " + data.overview +"</span></td></tr>";
-				html += "<tr><th id='genres'>장르</td><td>"
-				$.each(data.genres, (i)=>{
-					html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
-				});
-				html +="</th></tr>";
-				html += "<tr><td id='release_date'>개봉일</td><td><span>" + data.release_date + "</span></td>";
-				html += "<td id='grade'>평점</td><td><div id='gaugeChart'></div></td></tr>"; */
-				html += "<tr><td rowspan='7' colspan='2'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></td></tr>"
+				if(data.poster_path == null){
+					html += "<tr><td rowspan='7' colspan='2'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:344px; height:515px;'/></td></tr>"										
+				} else {
+					html += "<tr><td rowspan='7' colspan='2'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></td></tr>"					
+				}
 				html += "<tr><td colspan='2' id='title'>타이틀</td></tr>"
 				html += "<tr><td colspan='2' id='title-data'>"+data.title+"</td></tr>"
 				html += "<tr><td colspan='2' id='overview'>줄거리</td></tr>"
@@ -109,7 +103,13 @@
 						html += "<span>감독</span><br><br></div>";
 					}
 				})
-				for(var i = 0; i < 5; i++){		
+				var castLength = 0;
+				if(data.cast.length <5){
+					castLength = data.cast.length;
+				} else {
+					castLength = 5;
+				}
+				for(var i = 0; i < castLength; i++){		
 					if(data.cast[i].profile_path != null){
 						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail' onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'/></span><br>"						
 					} else {
