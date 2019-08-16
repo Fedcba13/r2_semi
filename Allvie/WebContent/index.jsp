@@ -81,6 +81,7 @@ function findImg(title, year){
 			console.log(jqxhr, textStatus, errorThrown);
 			result[0] = '';
 			result[1] = "#";
+			location.reload();
 		}
 	});	
 	

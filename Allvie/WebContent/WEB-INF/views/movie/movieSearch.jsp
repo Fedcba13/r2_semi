@@ -128,14 +128,21 @@ function getMovie(){
 			$.each(movieList, (i, it)=>{
 				var html = '';
 					
+				if(it["poster_path"] == 'undefined' || typeof it["poster_path"] == 'undefined'){
+					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='<%=request.getContextPath()%>/images/noimage.gif'>";
+				}else{
 					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'>";
+				}
 					html += '<div>';
 					html += '<h5>'+it["title"]+'<br><br></h5>';
 					html += it["genre"] + "<br>";
 					html += it["release_date"];
 					html += '</div></a>';
 					
-				$("#movieSearch tr:eq("+Math.floor(i/4) +") > td:eq("+(i%4)+")").html(html);				
+					$("#movieSearch tr:eq("+Math.floor(i/4) +") > td:eq("+(i%4)+")").html(html);
+				if(it["poster_path"] == 'undefined' || typeof it["poster_path"] == 'undefined'){
+					$("#movieSearch tr:eq("+Math.floor(i/4) +") > td:eq("+(i%4)+") > a > div").css("top", "0px");
+				}
 					
 			});
 			$("div#movieSearch>#pageBar .pagination").html(pageBar);

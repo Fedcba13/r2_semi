@@ -1,12 +1,14 @@
 package com.r2.common;
 
-import java.io.FileReader;
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 /**
  * SingleTon Pattern : 클래스에 대한 객체가 프로그램 구동 내내 한개만 작성되어 사용되게 함. static을 이용할거임.
@@ -20,30 +22,54 @@ public class JDBCTemplate {
 	
 	public static Connection getConnection() {
 		Connection conn = null;
+		
 		try {
-			Properties prop = new Properties();
-			//prop.load(new FileReader("resources/driver.properties"));
-			//클래스객체로부터 buildpath의 절대경로로 파일접근
+			//jndi 제공 컨텍스트
+			Context ctx = new InitialContext();
+			DataSource pool
+				= (DataSource) ctx.lookup("java:/comp/env/jdbc/myoracle");
 			
-			String fileName = JDBCTemplate.class
-							  			  .getResource("/driver.properties")
-							  			  .getPath();//URL객체의 절대경로(문자열) 리턴
-			prop.load(new FileReader(fileName));
+			//DataSource로 부터 Connection객체 제공받기
+			conn = pool.getConnection();
+			conn.setAutoCommit(false);
 			
-			String driver = prop.getProperty("driver");
-			String url = prop.getProperty("url");
-			String user = prop.getProperty("user");
-			String password = prop.getProperty("password");
-			
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, user, password);
-			conn.setAutoCommit(false);// 기본값은 true, 원칙은 application에서 모든걸 제어하는 것임.
-		} catch (Exception e) {
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		return conn;
 	}
+	
+//	public static Connection getConnection() {
+//		Connection conn = null;
+//		try {
+//			Properties prop = new Properties();
+//			//prop.load(new FileReader("resources/driver.properties"));
+//			//클래스객체로부터 buildpath의 절대경로로 파일접근
+//			
+//			String fileName = JDBCTemplate.class
+//							  			  .getResource("/driver.properties")
+//							  			  .getPath();//URL객체의 절대경로(문자열) 리턴
+//			prop.load(new FileReader(fileName));
+//			
+//			String driver = prop.getProperty("driver");
+//			String url = prop.getProperty("url");
+//			String user = prop.getProperty("user");
+//			String password = prop.getProperty("password");
+//			
+//			Class.forName(driver);
+//			conn = DriverManager.getConnection(url, user, password);
+//			conn.setAutoCommit(false);// 기본값은 true, 원칙은 application에서 모든걸 제어하는 것임.
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return conn;
+//	}
 
 	public static void close(Connection conn) {
 		try {
