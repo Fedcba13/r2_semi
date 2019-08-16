@@ -33,16 +33,16 @@ public class AdminMemberService {
 		return totalContents;
 	}
 
-	public List<Member> selectMembersBySearch(String searchType, String searchKeyword) {
+	public List<Member> selectMembersBySearch(String searchType, String searchKeyword, int cPage, int numPerPage) {
 		Connection conn = getConnection();
-		List<Member> memberList = new AdminMemberDAO().selectMembersBySearch(conn, searchKeyword,searchType);
+		List<Member> memberList = new AdminMemberDAO().selectMembersBySearch(conn, searchKeyword,searchType , cPage, numPerPage);
 		close(conn);
 		return memberList;
 	}
 
-	public List<Member> selectMembersBySearchDate(Date searchKeyword, Date searchKeywordEnd) {
+	public List<Member> selectMembersBySearchDate(Date searchKeyword, Date searchKeywordEnd, int cPage, int numPerPage) {
 		Connection conn = getConnection();
-		List<Member> memberList = new AdminMemberDAO().selectMembersBySearchDate(conn, searchKeyword, searchKeywordEnd);
+		List<Member> memberList = new AdminMemberDAO().selectMembersBySearchDate(conn, searchKeyword, searchKeywordEnd, cPage, numPerPage);
 		close(conn);
 		return memberList;
 	}

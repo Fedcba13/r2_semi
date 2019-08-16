@@ -7,3 +7,38 @@
 .arrow img{
 	display: none;
 }
+#admin_board_tb{
+	margin: auto;
+	border-collapse: collapse;	
+	background-color: rgb(51, 51, 53);
+	width: 700px;
+}
+#pageBar{
+	display: inline-block;
+}
+
+#admin_board_tb th, td{
+	border: 1px solid black;
+	height: 40px;
+}
+.table table-dark{
+	width: 830px;
+}
+div{
+	display: inline-block;
+}
+
+#serviceUl {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px;
+}
+a{
+	color: #f0522a;
+	text-decoration: none;
+}
+a:hover{
+	color: #f0522a;
+}
+

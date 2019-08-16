@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -5,19 +7,48 @@
 <script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/admin.css">
 <%
+
 	List<Member> memberList = (List<Member>) request.getAttribute("memberList");
 	String pageBar = (String) request.getAttribute("pageBar");
 	int numPerPage = (int) request.getAttribute("numPerPage");
+	String searchType = (String)request.getAttribute("searchType");
+	String search_Keyword = (String)request.getAttribute("search_Keyword");
+
+	
+/* 	String search_KeywordStart1 = request.getAttribute("search_KeywordStart").toString();
+	String search_KeywordEnd1 = request.getAttribute("search_KeywordEnd").toString();
+ */
+ Date search_KeywordStart1 = null;
+ Date search_KeywordEnd1 = null;
+ String search_KeywordStart =null;
+ String search_KeywordEnd =null;
+ 
+	if(request.getAttribute("search_KeywordStart") != null){
+ 	search_KeywordStart1 = (Date)request.getAttribute("search_KeywordStart");
+	search_KeywordEnd1 = (Date)request.getAttribute("search_KeywordEnd");
+ 	
+ 
+	SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	 search_KeywordStart = transFormat.format(search_KeywordStart1);
+	 search_KeywordEnd = transFormat.format(search_KeywordEnd1);
+	 
+	}
+	 System.out.println("search_Keyword : "+search_Keyword);
+ 
+	
 %>
 <style>
-div#search-memberId{display: inline-block;}
-div#search-memberName{display: none;}
-div#search-memberEmail{display: none;}
-div#search-memberEnrollDate{display: none;}
+div#search-memberId{display: <%=((search_Keyword == null) || ("member_Id".equals(searchType)))? "inline-block":"none" %>;}
+div#search-memberName{display: <%="member_Name".equals(searchType)? "inline-block":"none"  %>;}
+div#search-memberEmail{display: <%="member_Email".equals(searchType)? "inline-block":"none"  %>;}
+div#search-memberEnrollDate{display: <%="member_EnrollDate".equals(searchType)? "inline-block":"none"  %>;}
 
 </style>
 <script>
 $(()=>{
+	
+
 	$("#searchType").on("change", (e)=>{
 		var type = $(e.target).val();
 		
@@ -34,66 +65,78 @@ $(()=>{
 	<div id="search-container">
 		검색타입: 
 		<select id="searchType">
-			<option value="memberId">아이디</option>
-			<option value="memberName">회원명</option>
-			<option value="memberEmail">e-mail</option>
-			<option value="memberEnrollDate">가입날짜</option>
+			<option value="memberId" <%="member_Id".equals(searchType)? "selected":""  %>>아이디</option>
+			<option value="memberName" <%="member_Name".equals(searchType)? "selected":""  %>>회원명</option>
+			<option value="memberEmail" <%="member_Email".equals(searchType)? "selected":""  %>>e-mail</option>
+			<option value="memberEnrollDate" <%="member_EnrollDate".equals(searchType)? "selected":""  %>>가입날짜</option>
 		</select>	
 		<div id="search-memberId" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/onlyAdmin/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Id" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
-					   placeholder="검색할 아이디를 입력하세요." />
+					   value='<%="member_Id".equals(searchType)? search_Keyword:""  %>'
+					   <%=(search_Keyword == null)? "placeholder='검색할 아이디를 입력해주세요.'" :""  %>
+					   
+					   />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 		<div id="search-memberName" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/onlyAdmin/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Name" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
-					   placeholder="검색할 회원명을 입력하세요." />
+					    value='<%="member_Name".equals(searchType)? search_Keyword:""  %>'
+					   <%=(search_Keyword == null)? "placeholder='검색할 이름를 입력해주세요.'" :""  %>  
+					   />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 		<div id="search-memberEmail" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/onlyAdmin/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Email" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
-					   placeholder="검색할 e-mail을 입력하세요." />
+					    value='<%="member_Email".equals(searchType)? search_Keyword:""  %>'
+					   <%=(search_Keyword == null)? "placeholder='검색할 이메일를 입력해주세요.'" :""  %>  
+					   />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 		
 		<div id="search-memberEnrollDate" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/member/onlyAdmin/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_EnrollDate" />
 				<input type="date"
-					   name="searchKeyword"
-					   size="25" /> ~ 
+					   name="search_KeywordStart"
+					   size="25"
+					    value='<%="member_EnrollDate".equals(searchType)? search_KeywordStart:""  %>'
+					    /> 
+					    ~ 
 				<input type="date"
-					   name="searchKeywordEnd"
-					   size="25"/>
+					   name="search_KeywordEnd"
+					   size="25"
+					    value='<%="member_EnrollDate".equals(searchType)? search_KeywordEnd:""  %>'
+					     />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 	
 	</div>
     		<div id="numPerPage-container">
-			<form name="numPerPageFrm" id="numPerPageFrm">
+			<form name="numPerPageFrm" id="numPerPageFrm" action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				페이지당 게시물수
 				<select name="numPerPage" id="numPerPage">
 					<option value="20" <%=numPerPage == 20? "selected":""%>>20</option>
@@ -102,7 +145,7 @@ $(()=>{
 				</select>
 			</form>
 		</div>
-    <table>
+    <table id="admin_board_tb">
         <thead>
             <tr>
                 <td>ID</td>
@@ -132,9 +175,12 @@ $(()=>{
 
     </table>
 <div id="pageBar">
-		<%=pageBar%>
-	</div>
-
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<%=pageBar%>
+		</ul>
+	</nav>
+</div>
 
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

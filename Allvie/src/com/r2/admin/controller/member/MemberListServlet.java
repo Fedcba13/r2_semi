@@ -1,4 +1,4 @@
-package com.r2.admin.controller.adMember;
+package com.r2.admin.controller.member;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.r2.member.model.vo.Member;
 /**
  * Servlet implementation class MemberListServlet
  */
-@WebServlet("/admin/getMemberList")
+@WebServlet("/admin/onlyAdmin/member/memberList")
 public class MemberListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -46,19 +46,13 @@ public class MemberListServlet extends HttpServlet {
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));// NumberFormatException발생을 가정하라.
 		} catch (NumberFormatException e) {
-			// 예외발생하면 기본값 1을 가져다 씀으로 따로 예외처리 필요 없음.
+			
 		}
 
-		// 2.업무로직
-		// 2.1 컨텐츠 영역
 		List<Member> memberList = new AdminMemberService().getrMemberList(cPage, numPerPage);
-//		2.2 페이지바 영역
-//		페이지 바 구하기 공식2
-//		전체 페이지 수 구하기 
 		int totalContents = new AdminMemberService().selectTotalMemberContents();
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
 
-// pageBar html 코드작성
 		final int pageBarSize = 5;
 		String pageBar = "";
 
@@ -66,30 +60,29 @@ public class MemberListServlet extends HttpServlet {
 		int pageEnd = pageStart + pageBarSize - 1;
 
 		int pageNo = pageStart;
+		
+		
 
-//		a.[이전]
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Previous</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo - 1)
-					+ "&numPerPage=" + numPerPage + "'>[이전]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberList?cPage=" + (pageNo - 1)
+					+ "&numPerPage=" + numPerPage + "'>Previous</a></li>";
 		}
-//		b.page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
-				pageBar += "<span class = 'cPage'>" + pageNo + "</span>";
+				pageBar += "<li class='page-item'><a class='page-link' href=''>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo)
-						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a>";
+				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberList?cPage=" + (pageNo)
+						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-//		c.[다음]
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Next</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/getMemberList?cPage=" + (pageNo)
-					+ "&numPerPage=" + numPerPage + "'>[다음]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberList?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage + "'>[다음]</a></li>";
 		}
 
 		request.setAttribute("pageBar", pageBar);

@@ -1,6 +1,6 @@
 package com.r2.admin.model.dao;
 
-import static com.r2.common.JDBCTemplate.close;
+import static com.r2.common.JDBCTemplate.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -33,8 +33,6 @@ public class UnionDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("getUnionSearchList");
-		System.out.println("디에오!!");
-		System.out.println(search_Keyword);
 
 		try {
 			// 미완성쿼리객체생성
@@ -67,6 +65,41 @@ public class UnionDAO {
 		}
 
 		return list;
+	}
+
+	public List<Notice> getAutoListBysrchKeyword(Connection conn, String searchKeyword) {
+		List<Notice> autoList = new ArrayList<>();
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("getAutoListBysrchKeyword");
+
+		try {
+			// 미완성쿼리객체생성
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, "%"+searchKeyword+"%");
+			pstmt.setString(2, "%"+searchKeyword+"%");
+			
+			// 쿼리실행
+			rset = pstmt.executeQuery();
+			String cat="";
+			while (rset.next()) {
+				Notice n = new Notice();
+				n.setNotice_Title(rset.getString("NOTICE_TITLE"));
+				n.setNotice_No(rset.getString("NOTICE_NO"));
+				
+				
+				autoList.add(n);
+				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		return autoList;
 	}
 
 }

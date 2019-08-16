@@ -1,4 +1,4 @@
-package com.r2.admin.controller.adMember;
+package com.r2.admin.controller.member;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -19,7 +19,7 @@ import com.r2.member.model.vo.Member;
 /**
  * Servlet implementation class MemberFinderServlet
  */
-@WebServlet("/admin/memberFinder")
+@WebServlet("/admin/onlyAdmin/member/memberFinder")
 public class MemberFinderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -48,11 +48,8 @@ public class MemberFinderServlet extends HttpServlet {
 		try {
 			cPage = Integer.parseInt(request.getParameter("cPage"));// NumberFormatException발생을 가정하라.
 		} catch (NumberFormatException e) {
-			// 예외발생하면 기본값 1을 가져다 씀으로 따로 예외처리 필요 없음.
 		}
 		
-		// 2.업무로직
-		// 2.1 컨텐츠 영역
 		int totalContents = 0;
 		
 		
@@ -60,6 +57,9 @@ public class MemberFinderServlet extends HttpServlet {
 		String searchType = request.getParameter("searchType");
 		List<Member> memberList = null;
 		
+		String search_Keyword = null;
+		Date search_KeywordStart = null;
+		Date search_KeywordEnd = null;
 		
 		
 		//가입 날짜를 조회시
@@ -68,34 +68,35 @@ public class MemberFinderServlet extends HttpServlet {
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 			
 			
-			Date searchKeyword = null;
-			Date searchKeywordEnd = null;
 			try {
-				searchKeyword = transFormat.parse(request.getParameter("searchKeyword"));
-				searchKeywordEnd = transFormat.parse(request.getParameter("searchKeywordEnd"));
+				search_KeywordStart = transFormat.parse(request.getParameter("search_KeywordStart"));
+				search_KeywordEnd = transFormat.parse(request.getParameter("search_KeywordEnd"));
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			memberList = new AdminMemberService().selectMembersBySearchDate(searchKeyword, searchKeywordEnd);
+			memberList = new AdminMemberService().selectMembersBySearchDate(search_KeywordStart, search_KeywordEnd, cPage, numPerPage);
 			
-			totalContents = new AdminMemberService().selectTotalSearchContentsDate(searchKeyword, searchKeywordEnd);
+			totalContents = new AdminMemberService().selectTotalSearchContentsDate(search_KeywordStart, search_KeywordEnd);
 			
 		}
-		//그외
-		else {
-			String searchKeyword = request.getParameter("searchKeyword");
+		
+		else if(searchType == null) {
+			memberList = new AdminMemberService().getrMemberList(cPage, numPerPage);
+			totalContents = new AdminMemberService().selectTotalMemberContents();
+		}else {
+			search_Keyword = request.getParameter("search_Keyword");
 			
-			memberList = new AdminMemberService().selectMembersBySearch(searchType, searchKeyword);
+			memberList = new AdminMemberService().selectMembersBySearch(searchType, search_Keyword, cPage, numPerPage);
 			
-			totalContents = new AdminMemberService().selectTotalSearchContents(searchType, searchKeyword);
+			totalContents = new AdminMemberService().selectTotalSearchContents(searchType, search_Keyword);
+			
 		}
 
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
 
 		
 		
-// pageBar html 코드작성
 		final int pageBarSize = 5;
 		String pageBar = "";
 
@@ -104,37 +105,51 @@ public class MemberFinderServlet extends HttpServlet {
 
 		int pageNo = pageStart;
 
-//		a.[이전]
+
 		if (pageNo == 1) {
-			pageBar += "<span>[이전]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Previous</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/memberFinder?cPage=" + (pageNo - 1)
-					+ "&numPerPage=" + numPerPage + "'>[이전]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberFinder?cPage=" + (pageNo - 1)
+					+ "&numPerPage=" + numPerPage + "'>Previous</a></li>";
 		}
-//		b.page
 		while (pageNo <= pageEnd && pageNo <= totalPage) {
 			if (pageNo == cPage) {
-				pageBar += "<span class = 'cPage'>" + pageNo + "</span>";
+				pageBar += "<li class='page-item'><a class='page-link' href=''>" + pageNo + "</a></li>";
 			} else {
-				pageBar += "<a href = '" + request.getContextPath() + "/admin/memberFinder?cPage=" + (pageNo)
-						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a>";
+				pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberFinder?cPage=" + (pageNo)
+						+ "&numPerPage=" + numPerPage + "'>" + pageNo + "</a></li>";
 			}
 			pageNo++;
 		}
-//		c.[다음]
 		if (pageNo > totalPage) {
-			pageBar += "<span>[다음]</span>";
+			pageBar += "<li class='page-item'><a class='page-link' href=''>Next</a></li>";
 		} else {
-			pageBar += "<a href = '" + request.getContextPath() + "/admin/memberFinder?cPage=" + (pageNo)
-					+ "&numPerPage=" + numPerPage + "'>[다음]</a>";
+			pageBar += "<li class='page-item'><a class='page-link' href='" + request.getContextPath() + "/admin/onlyAdmin/member/memberFinder?cPage=" + (pageNo)
+					+ "&numPerPage=" + numPerPage + "'>[다음]</a></li>";
 		}
-
 		request.setAttribute("pageBar", pageBar);
 		request.setAttribute("cPage", cPage);
 		request.setAttribute("numPerPage", numPerPage);
 		request.setAttribute("memberList", memberList);
+		request.setAttribute("search_Keyword", search_Keyword);
+		request.setAttribute("search_KeywordStart", search_KeywordStart);
+		request.setAttribute("search_KeywordEnd", search_KeywordEnd);
+		request.setAttribute("searchType", searchType);
 		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/admin/member/memberFinder.jsp");
 		reqDispatcher.forward(request, response);
+		
+		/*
+		 * 
+		 * 보내실때 date.gettime => 자바스크립트 => long
+		 * 타임스탬프를 date 
+		 * 
+		 * 빼올때 타임스템프
+		 * 
+		 * new date(밀리세컨드) =>? 자바스크립트
+		 * 
+		 * 
+		 * 
+		 */
 
 	}
 

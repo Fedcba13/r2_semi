@@ -111,16 +111,24 @@ public class AdminMemberDAO {
 		return totalContents;
 	}
 
-	public List<Member> selectMembersBySearch(Connection conn, String searchKeyword, String searchType) {
+	public List<Member> selectMembersBySearch(Connection conn, String searchKeyword, String searchType, int cPage, int numPerPage) {
 		List<Member> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectMembersBySearch");
+		System.out.println(searchKeyword);
+		System.out.println(searchType);
 		sql = sql.replace("column", searchType);
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + searchKeyword + "%");
-
+			int start = (cPage - 1) * numPerPage + 1;
+			int end = cPage * numPerPage;
+			System.out.println(start);
+			System.out.println(end);
+			pstmt.setInt(2, start);
+			pstmt.setInt(3, end);
+			
 			rset = pstmt.executeQuery();
 
 			while (rset.next()) {
@@ -143,7 +151,7 @@ public class AdminMemberDAO {
 		return list;
 	}
 
-	public List<Member> selectMembersBySearchDate(Connection conn, Date searchKeyword, Date searchKeywordEnd) {
+	public List<Member> selectMembersBySearchDate(Connection conn, Date searchKeyword, Date searchKeywordEnd, int cPage, int numPerPage) {
 		List<Member> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -154,6 +162,19 @@ public class AdminMemberDAO {
 			java.sql.Date sqlDate2 = new java.sql.Date(searchKeywordEnd.getTime());
 			pstmt.setDate(1, sqlDate1);
 			pstmt.setDate(2, sqlDate2);
+			
+			
+			int start = (cPage - 1) * numPerPage + 1;
+			int end = cPage * numPerPage;
+			System.out.println(start);
+			System.out.println(end);
+			pstmt.setInt(3, start);
+			pstmt.setInt(4, end);
+			
+			
+			
+			
+			
 
 			rset = pstmt.executeQuery();
 
