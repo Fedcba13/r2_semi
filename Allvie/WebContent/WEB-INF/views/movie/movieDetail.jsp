@@ -195,7 +195,7 @@
 		      setRating(rating);
 		    }
 		  });
-		  getReviews();
+		  getReviews(1);
 		  getReviewGraph();
 		  $("#send-review").on("click", ()=>{
 			  var param = {
@@ -222,7 +222,7 @@
 					 if(""==data){
 						 alert("이미 리뷰한 영화입니다.")
 					 } else {
-						 getReviews();
+						 getReviews(1);
 						 getReviewGraph();
 						 $("#review-comment").val("");
 						 $("#rating-input").val(0);
@@ -242,12 +242,17 @@
 		  })
 	})//onload함수 종료
 	//리뷰목록 가져오는 함수
-	function getReviews(){
+	function getReviews(cPage){
+		var numPerPage = 10;
+		var pageStart = (cPage-1)*numPerPage;
+		var pageEnd = cPage*numPerPage-1;
+		var totalPage = 1;
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getReviews.do",
 			data: movieId,
 			dataType: "json",
-			success: function(data){				
+			success: function(data){
+				console.log(data);
 				var html = "";
 				if(data == null){
 					html += "<tr><td colspan='5' id='noReview'>작성된 리뷰가 없습니다</td></tr>"
@@ -345,7 +350,7 @@
 				url: "<%=request.getContextPath()%>/movie/deleteReview.do",
 				data: param,
 				success: function(){
-					getReviews();
+					getReviews(1);
 					getReviewGraph();
 					getAvg();
 				},
@@ -379,7 +384,7 @@
 				if(""==data){
 					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
 				} else {
-					getReviews();					
+					getReviews(1);					
 				}
 			},
 			error: function(jqxhr, textStatus, errorThrown){
@@ -409,7 +414,7 @@
 				if(""==data){
 					alert("좋아요/싫어요는 한 리뷰당 한번만 할수 있습니다");
 				} else {
-					getReviews();					
+					getReviews(1);					
 				}
 			},
 			error: function(jqxhr, textStatus, errorThrown){
@@ -529,7 +534,7 @@
 			<i class="fa fa-star-o fa-2x rating-star" id="rating-10" data-rating="10" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="10점"></i>			
 		</div>
 		<div id="review-editor">
-			<textarea name="review-comment" id="review-comment" rows="3" placeholder="리뷰를 입력하세요"></textarea>
+			<textarea name="review-comment" id="review-comment" rows="3" placeholder="리뷰를 입력하세요" style='color:black;'></textarea>
 			<button type="button" class="btn btn-success" id="send-review">평가하기</button>		
 		</div>
 		</form>
