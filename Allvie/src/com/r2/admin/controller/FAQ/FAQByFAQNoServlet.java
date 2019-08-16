@@ -1,6 +1,7 @@
 package com.r2.admin.controller.FAQ;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import com.r2.admin.model.vo.FAQ;
 /**
  * Servlet implementation class FAQByFAQNoServlet
  */
-@WebServlet("/admin/getFAQByNo")
+@WebServlet("/admin/FAQ/getFAQByNo")
 public class FAQByFAQNoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -33,9 +34,11 @@ public class FAQByFAQNoServlet extends HttpServlet {
 		String FAQ_No = request.getParameter("FAQ_No");
 		
 		FAQ f = new FAQService().getFAQByFAQNo(FAQ_No);
+		List<String> catList = new FAQService().getFAQCategory();
 		
 		request.setAttribute("f", f);
-		request.getRequestDispatcher("/WEB-INF/views/admin/service/viewFAQ.jsp").forward(request, response);
+		request.setAttribute("catList", catList);
+		request.getRequestDispatcher("/WEB-INF/views/admin/FAQ/viewFAQ.jsp").forward(request, response);
 		
 	}
 

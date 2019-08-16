@@ -211,34 +211,36 @@ div.nav>.arrow>img {
 <body>
 	<div id="container">
 		<header>
-			<h1><span>A</span>llvie</h1>
+			<a href="<%=request.getContextPath()%>"><h1><span>A</span>llvie</h1></a>
 			<!-- 메인 메뉴 시작 -->
 			<nav>
 				<ul class="main-nav">
-					<li><a href="<%=request.getContextPath()%>">HOME</a></li>
-					<li><a href="#">공지사항</a></li>
+					<!-- 사이트 진입했을때 -->
+					<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
+					<li><a href="<%=request.getContextPath()%>/admin/getServiceList">고객센터</a> </li>
+					<li><a href="<%=request.getContextPath()%>/board/freeBoard">자유게시판</a> </li>
+					<li><a href="<%=request.getContextPath()%>/board/freeBoard">시나리오게시판</a> </li>
+				 	<!-- 관리자가 로그인했을때 -->
 					<%
-						if (memberLoggedIn != null) {
-					%>
+						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {
+					%>				 	
+					<li><a href="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberList">회원관리</a></li>
+					<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
+				 	
+				 	<!-- 일반 사용자가 로그인했을때 -->
+				 	<%
+						}else if(memberLoggedIn != null){
+				 	%>
 					<li><a href="<%=request.getContextPath()%>/member/memberView">회원정보보기</a></li>
 					<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
 					<%
-						} else {
+						}else{
+							
 					%>
-					<li><a
-						href="<%=request.getContextPath()%>/member/memberEnroll">회원가입하기</a></li>
 					<li><a href="<%=request.getContextPath()%>/member/memberLogin">로그인</a></li>
 					<%
-						}
-					%>
-					<!-- 관리자메뉴추가:관리자인 경우만 출력 -->
-					<%
-						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {
-					%>
-					<li><a href="<%=request.getContextPath()%>/admin/memberList">회원관리</a></li>
-					<%
-						}
-					%>
+					 	}
+					%>	
 				</ul>
 			</nav>
 		</header>

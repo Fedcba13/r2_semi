@@ -171,21 +171,53 @@ public class NoticeDAO {
 		return catList;
 	}
 
-	public List<Notice> getNoticeListByCat(Connection conn, String cat, int cPage, int numPerPage) {
-		List<Notice> list = new ArrayList<>();
+	public List<Notice> getNotListByFilter(Connection conn, String cat, int cPage, int numPerPage,
+			String search_Keyword) {
+		List<Notice> notList = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("getNoticeListByCat");
+		String sql = prop.getProperty("getNotListByFilter");
 
 		try {
 			// 미완성쿼리객체생성
 			pstmt = conn.prepareStatement(sql);
 
+			/*
+			 * 카테고리
+			 * 
+			 * 검색어
+			 * 
+			 * 카테고리 검색어
+			 * 
+			 * xx
+			 */
+
+			if ((!"".equals(cat)) && ("".equals(search_Keyword))) {
+				pstmt.setString(1, cat);
+				pstmt.setString(2, "%");
+				pstmt.setString(3, "%");
+
+			} else if (("".equals(cat)) && (!"".equals(search_Keyword))) {
+				pstmt.setString(1, "%");
+				pstmt.setString(2, "%" + search_Keyword + "%");
+				pstmt.setString(3, "%" + search_Keyword + "%");
+
+			} else if ((!"".equals(cat)) && (!"".equals(search_Keyword))) {
+				pstmt.setString(1, cat);
+				pstmt.setString(2, "%" + search_Keyword + "%");
+				pstmt.setString(3, "%" + search_Keyword + "%");
+			} else {
+				pstmt.setString(1, "%");
+				pstmt.setString(2, "%");
+				pstmt.setString(3, "%");
+
+			}
 			int start = (cPage - 1) * numPerPage + 1;
 			int end = cPage * numPerPage;
-			pstmt.setString(1, cat);
-			pstmt.setInt(2, start);
-			pstmt.setInt(3, end);
+			System.out.println(start);
+			System.out.println(end);
+			pstmt.setInt(4, start);
+			pstmt.setInt(5, end);
 
 			// 쿼리실행
 			rset = pstmt.executeQuery();
@@ -201,7 +233,7 @@ public class NoticeDAO {
 				n.setNotice_Category(rset.getString("Notice_CATEGORY"));
 				n.setNotice_Enabled(rset.getInt("Notice_ENABLED"));
 
-				list.add(n);
+				notList.add(n);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -209,50 +241,92 @@ public class NoticeDAO {
 			close(rset);
 			close(pstmt);
 		}
-		return list;
+		return notList;
 	}
 
-	public List<Notice> getNoticeBySearch(Connection conn, String search_Keyword, int cPage, int numPerPage) {
-		List<Notice> list = new ArrayList<>();
+	public int getTotalContentsByFilter(Connection conn, String cat, String search_Keyword) {
+		int totalContents = 0;
+		String sql = prop.getProperty("getTotalContentsByFilter");
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
-		String sql = prop.getProperty("getNoticeBySearch");
-
 		try {
-			// 미완성쿼리객체생성
 			pstmt = conn.prepareStatement(sql);
+			if ((!"".equals(cat)) && ("".equals(search_Keyword))) {
+				pstmt.setString(1, cat);
+				pstmt.setString(2, "%");
+				pstmt.setString(3, "%");
 
-			int start = (cPage - 1) * numPerPage + 1;
-			int end = cPage * numPerPage;
-			pstmt.setString(1, "%"+search_Keyword+"%");
-			pstmt.setString(2, "%"+search_Keyword+"%");
-			pstmt.setInt(3, start);
-			pstmt.setInt(4, end);
+			} else if (("".equals(cat)) && (!"".equals(search_Keyword))) {
+				pstmt.setString(1, "%");
+				pstmt.setString(2, "%" + search_Keyword + "%");
+				pstmt.setString(3, "%" + search_Keyword + "%");
 
-			// 쿼리실행
-			rset = pstmt.executeQuery();
+			} else if ((!"".equals(cat)) && (!"".equals(search_Keyword))) {
+				pstmt.setString(1, cat);
+				pstmt.setString(2, "%" + search_Keyword + "%");
+				pstmt.setString(3, "%" + search_Keyword + "%");
+			} else {
+				pstmt.setString(1, "%");
+				pstmt.setString(2, "%");
+				pstmt.setString(3, "%");
 
-			while (rset.next()) {
-				Notice n = new Notice();
-				n.setNotice_No(rset.getString("Notice_NO"));
-				n.setNotice_Title(rset.getString("Notice_TITLE"));
-				n.setNotice_Writer(rset.getString("Notice_WRITER"));
-				n.setNotice_Content(rset.getString("Notice_CONTENT"));
-				n.setNotice_Date(rset.getDate("Notice_DATE"));
-				n.setNotice_Readcount(rset.getInt("Notice_READCOUNT"));
-				n.setNotice_Category(rset.getString("Notice_CATEGORY"));
-				n.setNotice_Enabled(rset.getInt("Notice_ENABLED"));
-
-				list.add(n);
 			}
-		} catch (Exception e) {
+
+			rset = pstmt.executeQuery();
+			while (rset.next()) {
+				totalContents = (rset.getInt("RESULT"));
+
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close(rset);
 			close(pstmt);
 		}
-		return list;
 
+		return totalContents;
+	}
+
+	public int deleteNotice(String notice_No, Connection conn) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("deleteNotice");
+		int result = 0;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, notice_No);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int modifyNotice(Notice n, Connection conn) {
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("modifyFAQ");
+		int result = 0;
+
+		try {
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, n.getNotice_Title());
+			pstmt.setString(2, n.getNotice_Content());
+			pstmt.setString(3, n.getNotice_Category());
+			pstmt.setString(4, n.getNotice_No());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
 	}
 
 }

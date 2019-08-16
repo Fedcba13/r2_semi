@@ -17,21 +17,23 @@
 			for (Notice n : unionList) {
 				if("NOT".equals(n.getNotice_No().substring(0, 3))){
 	%>
-		<h3><a href="<%=request.getContextPath()%>/admin/getNoticeByNo?Notice_No=<%=n.getNotice_No()%>"><%=n.getNotice_Title() %></a></h3>
+		<h3><a href="<%=request.getContextPath()%>/admin/notice/getNoticeByNo?Notice_No=<%=n.getNotice_No()%>"><%=n.getNotice_Title() %></a></h3>
 		<p style="color: red;">
 		&lt;공지사항&gt;
 		</p>
 		<%
 				}else{
 		%>
-		<h3><a href="<%=request.getContextPath()%>/admin/getFAQByNo?FAQ_No=<%=n.getNotice_No()%>"><%=n.getNotice_Title() %></a></h3>
-		<p style="color: red;">
+		<h3><a href="<%=request.getContextPath()%>/admin/FAQ/getFAQByNo?FAQ_No=<%=n.getNotice_No()%>"><%=n.getNotice_Title() %></a></h3>
+		<p style="color: f0522a;;">
 		&lt;FAQ&gt;
 		</p>
 		<%
 				}
 		%>
-		<p><%=n.getNotice_Content() %></p>
+		<div style="text-align: left; width: 600px;">
+			<p><%=n.getNotice_Content() %></p>
+		</div>
 	<%
 			}
 		}

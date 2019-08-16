@@ -1,11 +1,11 @@
 package com.r2.admin.model.service;
 
-import static com.r2.common.JDBCTemplate.close;
-import static com.r2.common.JDBCTemplate.getConnection;
+import static com.r2.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
 
+import com.r2.admin.model.dao.FAQDAO;
 import com.r2.admin.model.dao.NoticeDAO;
 import com.r2.admin.model.vo.Notice;
 
@@ -37,7 +37,11 @@ public class NoticeService {
 	public int insertNotice(Notice n) {
 		Connection conn = getConnection();
 		int result = new NoticeDAO().insertNotice(n, conn);
-		close(conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
 		return result;
 				
 		
@@ -51,20 +55,41 @@ public class NoticeService {
 		return catList;
 	}
 
-	public List<Notice> getNoticeListByCat(String cat, int cPage, int numPerPage) {
+	public List<Notice> getNotListByFilter(String search_Keyword, String cat, int cPage, int numPerPage) {
 		Connection conn = getConnection();
-		List<Notice> list 
-			= new NoticeDAO().getNoticeListByCat(conn,cat,  cPage, numPerPage);
+		List<Notice> notList 
+			= new NoticeDAO().getNotListByFilter(conn,cat,  cPage, numPerPage, search_Keyword);
 		close(conn);
-		return list;
+		return notList;
 	}
 
-	public List<Notice> getNoticeBySearch(String search_Keyword, int cPage, int numPerPage) {
+	public int getTotalContentsByFilter(String search_Keyword, String cat) {
 		Connection conn = getConnection();
-		List<Notice> list 
-			= new NoticeDAO().getNoticeBySearch(conn, search_Keyword, cPage, numPerPage);
+		int totalContents = new NoticeDAO().getTotalContentsByFilter(conn, cat, search_Keyword);
 		close(conn);
-		return list;
+		return totalContents;
+	}
+
+	public int deleteNotice(String notice_No) {
+		Connection conn = getConnection();
+		int result = new NoticeDAO().deleteNotice(notice_No, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
+	}
+
+	public int modifyNotice(Notice n) {
+		Connection conn = getConnection();
+		int result = new NoticeDAO().modifyNotice(n, conn);
+		if(result>0) {
+			close(conn);
+		}else {
+			rollback(conn);
+		}
+		return result;
 	}
 	
 }

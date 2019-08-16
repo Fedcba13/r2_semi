@@ -8,6 +8,7 @@
 	List<Member> memberList = (List<Member>) request.getAttribute("memberList");
 	String pageBar = (String) request.getAttribute("pageBar");
 	int numPerPage = (int) request.getAttribute("numPerPage");
+
 %>
 <style>
 div#search-memberId{display: inline-block;}
@@ -40,36 +41,36 @@ $(()=>{
 			<option value="memberEnrollDate">가입날짜</option>
 		</select>	
 		<div id="search-memberId" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Id" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
 					   placeholder="검색할 아이디를 입력하세요." />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 		<div id="search-memberName" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Name" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
 					   placeholder="검색할 회원명을 입력하세요." />
 				<input type="submit" value="검색" />
 			</form>
 		</div>
 		<div id="search-memberEmail" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				<input type="hidden" 
 					   name="searchType" 
 					   value="member_Email" />
 				<input type="search"
-					   name="searchKeyword"
+					   name="search_Keyword"
 					   size="25"
 					   placeholder="검색할 e-mail을 입력하세요." />
 				<input type="submit" value="검색" />
@@ -77,15 +78,16 @@ $(()=>{
 		</div>
 		
 		<div id="search-memberEnrollDate" class="searchFrm">
-			<form action="<%=request.getContextPath()%>/admin/memberFinder">
+			<form action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				<input type="hidden" 
-					   name="searchType" 
+					   name="searchType" 	
 					   value="member_EnrollDate" />
 				<input type="date"
-					   name="searchKeyword"
-					   size="25" /> ~ 
+					   name="search_KeywordStart"
+					   size="25"
+					    /> ~ 
 				<input type="date"
-					   name="searchKeywordEnd"
+					   name="search_KeywordEnd"
 					   size="25"/>
 				<input type="submit" value="검색" />
 			</form>
@@ -93,7 +95,7 @@ $(()=>{
 	
 	</div>
     		<div id="numPerPage-container">
-			<form name="numPerPageFrm" id="numPerPageFrm">
+			<form name="numPerPageFrm" id="numPerPageFrm" action="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberFinder">
 				페이지당 게시물수
 				<select name="numPerPage" id="numPerPage">
 					<option value="20" <%=numPerPage == 20? "selected":""%>>20</option>
@@ -102,7 +104,7 @@ $(()=>{
 				</select>
 			</form>
 		</div>
-    <table>
+    <table id="admin_board_tb">
         <thead>
             <tr>
                 <td>ID</td>
@@ -132,8 +134,11 @@ $(()=>{
 
     </table>
 <div id="pageBar">
-		<%=pageBar%>
-	</div>
-
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<%=pageBar%>
+		</ul>
+	</nav>
+</div>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

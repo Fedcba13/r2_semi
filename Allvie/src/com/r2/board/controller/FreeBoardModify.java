@@ -1,27 +1,26 @@
-package com.r2.admin.controller.Notice;
+package com.r2.board.controller;
 
 import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.r2.admin.model.service.NoticeService;
-import com.r2.admin.model.vo.Notice;
+import com.r2.board.model.service.BoardService;
+import com.r2.board.model.vo.FreeBoard;
 
 /**
- * Servlet implementation class NoticeByNoticeNoServlet
+ * Servlet implementation class ModifyFreeBoard
  */
-@WebServlet("/admin/getNoticeByNo")
-public class NoticeByNoticeNoServlet extends HttpServlet {
+@WebServlet("/board/modifyFreeBoard")
+public class FreeBoardModify extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeByNoticeNoServlet() {
+    public FreeBoardModify() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,18 +29,23 @@ public class NoticeByNoticeNoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
 		
-		String Notice_No = request.getParameter("Notice_No");
-		Notice n = new NoticeService().getNoticeByNoticeNo(Notice_No);
+		String boardNo = request.getParameter("boardNo");
 		
-		request.setAttribute("n", n);
-		request.getRequestDispatcher("/WEB-INF/views/admin/notice/ViewNotice.jsp").forward(request, response);
+		
+		FreeBoard fb = new BoardService().selectOne(boardNo);
+		
+		
+		request.setAttribute("fb", fb);
+		request.getRequestDispatcher("/WEB-INF/views/board/freeboard/freeBoardModify.jsp").forward(request, response);
+		
+		
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
