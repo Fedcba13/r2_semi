@@ -1,4 +1,4 @@
-package com.r2.admin.controller.FAQ;
+package com.r2.admin.controller.notice;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.r2.admin.model.service.FAQService;
-import com.r2.admin.model.vo.FAQ;
+import com.r2.admin.model.service.NoticeService;
 
 /**
- * Servlet implementation class FAQByFAQNoServlet
+ * Servlet implementation class NoticeViewBeforeServlet
  */
-@WebServlet("/admin/FAQ/getFAQByNo")
-public class FAQByFAQNoServlet extends HttpServlet {
+@WebServlet("/admin/onlyAdmin/notice/goWriteNoticeView")
+public class NoticeWriteViewBeforeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FAQByFAQNoServlet() {
+    public NoticeWriteViewBeforeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +30,11 @@ public class FAQByFAQNoServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String FAQ_No = request.getParameter("FAQ_No");
-		
-		FAQ f = new FAQService().getFAQByFAQNo(FAQ_No);
-		List<String> catList = new FAQService().getFAQCategory();
-		
-		request.setAttribute("f", f);
+
+		List<String> catList = new NoticeService().getNoticeCategory();
 		request.setAttribute("catList", catList);
-		request.getRequestDispatcher("/WEB-INF/views/admin/FAQ/viewFAQ.jsp").forward(request, response);
-		
+		request.getRequestDispatcher("/WEB-INF/views/admin/notice/writeNotice.jsp").forward(request, response);
+
 	}
 
 	/**

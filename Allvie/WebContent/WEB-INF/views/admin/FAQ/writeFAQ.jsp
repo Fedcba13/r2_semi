@@ -15,10 +15,10 @@
 }
 </style>
 <h2>공지사항 쓰기</h2>
-<form action="<%=request.getContextPath()%>/admin/onlyAdmin/notice/writeNotice"
+<form action="<%=request.getContextPath()%>/admin/onlyAdmin/fAQ/writeFAQ"
 	onsubmit="return validate();" method="POST">
 	<div>
-		<select name="notice_Category" id="category">
+		<select name="fAQ_Category" id="category">
 			<%
 				for(String cat : catList){
 			%>
@@ -26,13 +26,12 @@
 			<%
 				}
 			%>
-		</select>&nbsp;&nbsp; <label for="title">제목</label> <input type="text" name="notice_Title"
+		</select>&nbsp;&nbsp;  <label for="title">제목</label> <input type="text" name="fAQ_Title"
 			id="title">
 	</div>
-	<br />
-	<br />
 	<div>
-		<textarea name="notice_Content" id="notice_Con" cols="70" rows="10"
+		<label for="content">내용</label>
+		<textarea name="fAQ_Content" id="fAQ_Con" cols="70" rows="10"
 			wrap="hard">내용을 입력하세요.</textarea>
 	</div>
 	<input
@@ -43,20 +42,18 @@
 		var $cateogory = $("#category option:selected").val();
 		
 		var $title = $("#title").val();		
-		var $content = $("#notice_Con").val();
+		var $content = $("#fAQ_Con").val();
 		console.log($content);
 		$content = $content.replace(/(?:\r\n|\r|\n)/g, '<br />');
 		console.log($content);
 		
-		$("#notice_Con").val($content);
+		$("#fAQ_Con").val($content);
 		
 		return true;
 		
 	}
-
-
-	$("#notice_Con").on("click", function(){
-		$("#notice_Con").val("");
+	$("#fAQ_Con").on("click", function(){
+		$("#fAQ_Con").val("");
 	});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

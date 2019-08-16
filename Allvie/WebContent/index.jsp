@@ -149,6 +149,8 @@ $(()=>{
 	<div id="movieRank">
 		<table></table>
 	</div>
+
+
 </section>
 
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
