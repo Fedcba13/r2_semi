@@ -57,18 +57,30 @@
 				pageTitle = data.title;
 				$("title").text(pageTitle);
 				console.log(data);				
-				var html = "<div id='details'>";
-				html += "<div id='main-poster'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></div>";
-				html += "<div id='title'>타이틀<br><span>" + data.title +"</span></div><br>";
-				html += "<div id='overview'>줄거리<br><span> " + data.overview +"</span></div><br>";
-				html += "<div id='genres'>장르<br>"
+				var html = "<table id='details'>";
+				/* html += "<tr style='width: 400px; padding: 5px;'><td id='main-poster' rowspan='3'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></tr>";
+				html += "<tr><td id='title'>타이틀</th></tr><tr><td><span>" + data.title +"</span></td></tr>";
+				html += "<tr><th id='overview'>줄거리</th><td><span> " + data.overview +"</span></td></tr>";
+				html += "<tr><th id='genres'>장르</td><td>"
 				$.each(data.genres, (i)=>{
 					html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
 				});
-				html +="</div><br>";
-				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
-				html += "<div id='gaugeChart'></div><p id='grade'>평점</p>";
-				html += "</div>";
+				html +="</th></tr>";
+				html += "<tr><td id='release_date'>개봉일</td><td><span>" + data.release_date + "</span></td>";
+				html += "<td id='grade'>평점</td><td><div id='gaugeChart'></div></td></tr>"; */
+				html += "<tr><td rowspan='7' colspan='2'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></td></tr>"
+				html += "<tr><td colspan='2' id='title'>타이틀</td></tr>"
+				html += "<tr><td colspan='2' id='title-data'>"+data.title+"</td></tr>"
+				html += "<tr><td colspan='2' id='overview'>줄거리</td></tr>"
+				html += "<tr><td colspan='2' id='overview-data'>"+data.overview+"</td></tr>"
+				html += "<tr><td colspan='2' id='genres'>장르</td></tr>"
+				html += "<tr><td colspan='2' id='genre-data'>"
+					$.each(data.genres, (i)=>{
+						html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
+					});
+				html += "</tr>"
+				html += "<tr><td id='release_date'>개봉일</td><td id='date-data'>"+data.release_date+"</td><td id='grade'>평점</td><td><div id='gaugeChart'></div></td></tr>"
+				html += "</table>";
 				$("#info-container").html(html);	
 				getAvg();
 			},
@@ -534,5 +546,5 @@
 			</table>
 		</div>
 	</div>
->>>>>>> origin/상세페이지검색:VideoFinder/WebContent/WEB-INF/views/movie/movieDetail.jsp
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
