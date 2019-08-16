@@ -29,7 +29,7 @@ public class GetActors extends HttpServlet {
 		String result = "";
 		try {
 			String movieId = request.getParameter("id");
-			System.out.println(movieId);
+			//System.out.println(movieId);
 			String urlStr = "https://api.themoviedb.org/3/movie/"+movieId+"/credits?api_key=84d7ecb7406790765081943aa6cac19b";
 			URL url = new URL(urlStr);
 	        HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
@@ -39,7 +39,7 @@ public class GetActors extends HttpServlet {
 	        while((line = br.readLine()) != null) {
 	            result = result + line;
 	        }
-	        System.out.println(result);
+	        //System.out.println(result);
 	        request.setAttribute("movieDetail", result);
 	    }catch(Exception e){
 	        System.out.println(e.getMessage());

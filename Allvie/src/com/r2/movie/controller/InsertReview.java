@@ -17,19 +17,21 @@ public class InsertReview extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");		
 		
+		//리뷰삽입 페이지
 		String memberId = request.getParameter("memberId");
 		int rate = Integer.parseInt(request.getParameter("rate"));
 		String movieId = request.getParameter("movieId");
 		String comment = request.getParameter("comment");
 		
+		//필요한 데이터가 많아질 경우 객체에 담아서 보낸다
 		Review r = new Review(null, memberId, movieId, rate, 0, 0, null, 1, comment);
 		
 				
 		int result = new ReviewService().insertReview(r);
 		if(result > 0) {
-			System.out.println("리뷰작성성공!");			
+			//System.out.println("리뷰작성성공!");			
 		} else {
-			System.out.println("리뷰작성오류!");		
+			//System.out.println("리뷰작성오류!");		
 		}
 		response.getWriter().append(Integer.toString(result));
 	}

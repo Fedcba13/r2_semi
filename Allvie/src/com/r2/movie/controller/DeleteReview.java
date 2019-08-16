@@ -27,9 +27,9 @@ public class DeleteReview extends HttpServlet {
 		int result = new ReviewService().deleteReview(reviewNum);
 		
 		if(result > 0) {
-			System.out.println("삭제 성공");
+			//System.out.println("삭제 성공");
 		} else {
-			System.out.println("삭제 실패");
+			//System.out.println("삭제 실패");
 		}
 		
 	}

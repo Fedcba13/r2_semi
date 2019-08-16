@@ -32,10 +32,10 @@ public class ListByActorServlet extends HttpServlet {
 		String result = "";
 		try {
 			String actorId = request.getParameter("actorId");
-			System.out.println(actorId);
+			//System.out.println(actorId);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String today = sdf.format(new Date());
-			System.out.println(today);
+			//System.out.println(today);
 			String urlStr = "http://api.themoviedb.org/3/discover/movie?with_cast="+actorId+"&sort_by=release_date.desc&api_key=84d7ecb7406790765081943aa6cac19b&language=ko-KR&primary_release_date.lte="+today;
 			URL url = new URL(urlStr);
 	        HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
@@ -45,7 +45,7 @@ public class ListByActorServlet extends HttpServlet {
 	        while((line = br.readLine()) != null) {
 	            result = result + line;
 	        }
-	        System.out.println(result);
+	        //System.out.println(result);
 	        request.setAttribute("actorList", result);
 	    }catch(Exception e){
 	        System.out.println(e.getMessage());

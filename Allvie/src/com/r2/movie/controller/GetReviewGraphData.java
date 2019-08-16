@@ -27,9 +27,11 @@ public class GetReviewGraphData extends HttpServlet {
 		response.setContentType("application/json; charset=utf-8");
 		
 		String movieId = request.getParameter("id");
+		//json의 형태로 만들기 위해 Map 객체를 사용한다
 		Map<String, Integer> map = new ReviewService().getReviewGraphData(movieId);
 		
 		request.setAttribute("gradeData", map);
+		//완성된 객체를 json의 형태로 전달
 		new Gson().toJson(map, response.getWriter());
 	}
 

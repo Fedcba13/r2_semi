@@ -22,11 +22,14 @@ public class GetReviews extends HttpServlet {
 		response.setContentType("application/json; charset=utf-8");
 		
 		String movieId = request.getParameter("id");
+		//작성된 리뷰 목록을 DB로부터  받아와서 list에 저장
 		List<Review> list = new ReviewService().getReviewList(movieId);
-		System.out.println("reviewlist@servlet=" + list);
+		//System.out.println("reviewlist@servlet=" + list);
 		if(list.isEmpty()) {
+			//작성된 리뷰가 없을경우 null을 전달
 			response.getWriter().append(null);
 		} else {
+			//작성된 리뷰가 있을경우 json의 형태로 전달
 			new Gson().toJson(list, response.getWriter());			
 		}
 	}

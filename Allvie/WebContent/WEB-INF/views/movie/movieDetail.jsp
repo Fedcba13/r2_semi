@@ -48,6 +48,7 @@
 	
 	$(()=>{
 		var pageTitle;		
+		//페이지 로딩시 영화에 대한 전반적인 정보를 받아오는 ajax
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getDetail.do",
 			data: movieId,
@@ -56,7 +57,8 @@
 			success:function(data){
 				pageTitle = data.title;
 				$("title").text(pageTitle);
-				console.log(data);				
+				//console.log(data);
+				//많은 정보를 받아오지만 포스터 이미지, 타이틀, 줄거리, 장르, 개봉일을 받아와 출력한다
 				var html = "<table id='details'>";
 				if(data.poster_path == null){
 					html += "<tr><td rowspan='7' colspan='2'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:344px; height:515px;'/></td></tr>"										
@@ -73,6 +75,8 @@
 						html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
 					});
 				html += "</tr>"
+				//평점은 API에서 제공하는 데이터도 있지만 사용하지 않고 테이블에 저장된 리뷰점수들의 평균을 내서 표시한다
+				//평점을 나타내는 그래프는 그래프를 제공하는 API를 사용하였다
 				html += "<tr><td id='release_date'>개봉일</td><td id='date-data'>"+data.release_date+"</td><td id='grade'>평점</td><td><div id='gaugeChart'></div></td></tr>"
 				html += "</table>";
 				$("#info-container").html(html);	
@@ -83,13 +87,15 @@
 				console.log(jqxhr, textStatus, errorThrown);
 			}			
 		});
+		//해당영화의 감독과 출연한 배우의 데이터를 받아와 출력한다.
+		//배우데이터는 주역급(상위 5명)만 표시한다
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getActors.do",
 			data: movieId,
 			type: "get",
 			dataType: "json",
 			success: function(data){
-				console.log(data);
+				//console.log(data);
 				var html = ""
 				$.each(data.crew, (i)=>{
 					//console.log(data.crew[i].job);
@@ -126,6 +132,8 @@
 				console.log(jqxhr, textStatus, errorThrown);
 			}
 		});
+		//해당 영화의 관련영상을 표시한다.
+		//관련영상은 youtube의 링크를 사용한다
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/getVideos.do",
 			data: movieId,
@@ -163,6 +171,7 @@
 			}
 		});
 		//별점관련
+		//클릭 시 class를 추가하거나 제거해서 클릭한 지점까지의 별을 채우고 점수를 입력하게 된다.
 		function setRating(rating) {
 		    $('#rating-input').val(rating);
 		    // fill all the stars assigning the '.selected' class
@@ -195,8 +204,12 @@
 		      setRating(rating);
 		    }
 		  });
+		  //페이지 로딩시 해당 영화에 대해 작성된 사용자 리뷰를 가져온다
 		  getReviews(1);
+		  //페이지 로딩시 리뷰 현황을 나타내는 그래프를 가져온다
+		  //평점 그래프와 마찬가지로 API를 사용하였다.
 		  getReviewGraph();
+		  //리뷰작성 버튼 클릭시 실행되는 이벤트 핸들러
 		  $("#send-review").on("click", ()=>{
 			  var param = {
 					  memberId: $("#memberId").val(),
@@ -204,24 +217,29 @@
 					  movieId: <%=movieId%>,
 					  comment: $("#review-comment").val()			  
 			  }
+			  //리뷰 멘트 또는 별점 모두 작성되지 않았다면 제출하지 않고 리턴한다
 			  if(param.rate == 0 || param.comment.trim().length == 0){
 				  alert("평점과 리뷰를 모두 작성하세요");
 				  return ;
 			  }
-			  if(param.comment.trim().length > 100){
+			  //리뷰의 길이가 너무 길어지는것을 방지
+			  if(param.comment.trim().length > 140){
 				  alert("너무 길어");
 				  return;
 			  }
 			 /*  console.log(data.comment);
 			  console.log(data.rate);
 			  console.log(data); */
+			  //리뷰작성에 문제가 없을 시 ajax를 실행
 			  $.ajax({
 				 url: "<%=request.getContextPath()%>/movie/insertReview.do",
 				 data: param,
-				 success: function(data){					 
+				 success: function(data){	
+					 //만약 접속한 아이디가 해당영화에 리뷰한 기록이 있다면 리뷰작성을 막는다(1영화당 하나의 리뷰만 작성가능)
 					 if(""==data){
 						 alert("이미 리뷰한 영화입니다.")
 					 } else {
+						 //리뷰 작성이성공적으로 됐을 경우 리뷰목록, 그래프, 평점을 새로 갱신한다
 						 getReviews(1);
 						 getReviewGraph();
 						 $("#review-comment").val("");
@@ -235,6 +253,7 @@
 					}
 			  });
 		  })
+		  //리뷰작성은 로그인 후 이용할 수 있도록 방지
 		  $("#review-comment").on("click", ()=>{
 			<%if(memberLoggedIn == null){%>
 				alert("로그인 후 이용해주세요");
@@ -252,7 +271,7 @@
 			data: movieId,
 			dataType: "json",
 			success: function(data){
-				console.log(data);
+				//console.log(data);
 				var html = "";
 				if(data == null){
 					html += "<tr><td colspan='5' id='noReview'>작성된 리뷰가 없습니다</td></tr>"
@@ -292,12 +311,13 @@
 			}			
 		});		
 	}	
+	//리뷰현황 그래프
 	function getReviewGraph(){
 		$.ajax({
 			url: "<%=request.getContextPath()%>/movie/reviewGraph.do",
 			data: movieId,
 			success: function(data){
-				console.log(data);				
+				//console.log(data);				
 				var chart = bb.generate({
 					 data: {
 					    columns: [
@@ -339,6 +359,8 @@
 			}
 		});		
 	}
+	//리뷰 삭제 함수
+	//리뷰삭제 버튼은 관리자 또는 접속한 아이디가 작성한 리뷰에만 보이기 때문에 따로 권한설정을 체크하지 않는다
 	function deleteReview(e){
 		if(confirm("삭제하시겠습니까?")){			
 			var tr = $(e).parent().parent();		
@@ -350,6 +372,7 @@
 				url: "<%=request.getContextPath()%>/movie/deleteReview.do",
 				data: param,
 				success: function(){
+					//성공시 리뷰목록, 현황, 평점을 갱신
 					getReviews(1);
 					getReviewGraph();
 					getAvg();
@@ -363,6 +386,7 @@
 			return ;
 		}		
 	}
+	//리뷰 좋아요
 	function likeReview(e){
 		<%if(memberLoggedIn == null){%>
 				alert("로그인후 이용하세요");
@@ -393,6 +417,7 @@
 			}
 		})
 	}
+	//리뷰 싫어요
 	function dislikeReview(e){
 		<%if(memberLoggedIn == null){%>
 				alert("로그인후 이용하세요");
@@ -424,19 +449,20 @@
 		})
 		
 	}
+	//평점 그래프 관련 함수
 	function getAvg(){
 		$.ajax({
 			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
 			 data: movieId,
 			 dataType: "json",
 			 success: function(data){
-				 console.log(data);
+				 //console.log(data);
 				 if(data == null){
 					 avg = 0;					 
 				 } else {
 					 avg = data.avg;					 
 				 }
-				 console.log(avg);
+				 //console.log(avg);
 				 var chart = bb.generate({
 					 data: {
 						    columns: [["평점", 0]],
@@ -469,17 +495,20 @@
 			 }
 		});
 	}
+	//장르 목록에서 클릭시 해당 장르가 포함된 영화를 검색
+	//검색 페이지로 넘어가야 하므로 location.href를 사용함
 	function searchByGenre(e){
 		var docu = $(e).text();		
 		if(docu.indexOf("다큐멘터리")> -1){
 			docu = "다큐";
 		} 
 		var genre = docu;
-		console.log(genre);			
+		//console.log(genre);			
 		location.href="<%=request.getContextPath()%>/movie/searchByGenre?genre=" + genre;
 	}
+	//배우 사진/이름을 클릭 시 해당 배우가 풀연한 최신 영화목록을 출력하는 페이지로 이동
 	function searchByActor(actorId){
-		console.log(actorId);
+		//console.log(actorId);
 		location.href="<%=request.getContextPath()%>/movie/searchByActor?actorId=" + actorId;
 	}
 	

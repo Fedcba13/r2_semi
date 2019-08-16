@@ -40,7 +40,7 @@ public class getList extends HttpServlet {
                 result = result + line;
             }
             response.getWriter().append(result);
-            System.out.println(result);
+            //System.out.println(result);
         }catch(Exception e){
             System.out.println(e.getMessage());
         }

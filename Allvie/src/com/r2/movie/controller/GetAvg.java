@@ -27,11 +27,13 @@ public class GetAvg extends HttpServlet {
 		response.setContentType("application/json; charset=utf=8");
 		
 		String movieId = request.getParameter("id");
+		//json의 형태로 만들기 위해 Map 객체를 사용한다
 		Map<String, String> map = new ReviewService().getAvg(movieId);
-		System.out.println("map=" + map);
+		//System.out.println("map=" + map);
 		if(map.get("avg") == null) {
 			response.getWriter().append(null);
 		} else {
+			//완성된 객체를 json의 형태로 전달
 			new Gson().toJson(map, response.getWriter());			
 		}
 		

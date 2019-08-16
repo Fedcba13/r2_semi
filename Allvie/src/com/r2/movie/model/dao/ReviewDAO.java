@@ -132,7 +132,7 @@ public class ReviewDAO {
 				pstmt.clearParameters();
 			}
 			
-			System.out.println("map@DAO=" + map);
+			//System.out.println("map@DAO=" + map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

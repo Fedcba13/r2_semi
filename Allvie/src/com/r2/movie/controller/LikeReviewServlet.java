@@ -29,9 +29,9 @@ public class LikeReviewServlet extends HttpServlet {
 		int result = new ReviewService().likeReview(reviewNo, memberId);
 		
 		if(result > 0) {
-			System.out.println("좋아요 성공");
+			//System.out.println("좋아요 성공");
 		} else {
-			System.out.println("좋아요 실패");
+			//System.out.println("좋아요 실패");
 		}
 		
 		response.getWriter().append(Integer.toString(result));

@@ -39,7 +39,7 @@ public class GetMovieId extends HttpServlet {
 	        while((line = br.readLine()) != null) {
 	            result = result + line;
 	        }
-	        System.out.println(result);
+	        //System.out.println(result);
 	        request.setAttribute("result", result);
 	    }catch(Exception e){
 	        System.out.println(e.getMessage());
