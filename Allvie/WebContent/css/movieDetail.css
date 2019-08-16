@@ -1,6 +1,6 @@
 @charset "UTF-8";
 div#info-container{
-	background-color: lightgray;
+	background-color: #515151;
 	display: inline-block;
 	margin-left: 5px;
 	padding: 10px;
@@ -8,65 +8,66 @@ div#info-container{
 	height: auto;
 	overflow: hidden;
 	position: relative;
+	color: black;
 }
-div#main-poster{
+td#main-poster{
 	margin: 5px;
 	display: inline;	
-	float: left
+	width: 400px;
+	padding: 10px;
 }
-div#details{	
+td#details{	
 	margin: 10px;
 	pading: 10px;
 	display: block;
 	float: left;
 }
-p#grade{
-	float: right;
+td#grade{	
 	font-size: 28px;
 	font-weight: bold;
 }
 div#gaugeChart{
 	width: 200px;
-	float: right;
 }
 .clear{
 	clear: both;
+	border-color: white;
 }
 div.tn{
 	float: left;
 	margin: 10px;
 }
+
 h2.subject{
 	font-size: 24px;
 	font-weight: bold;
-	font-style: italic;
-	color: gray;
+	font-style: italic;		
 }
-div#title, div#overview, div#genres, div#release_date{
+td#title, td#overview, td#genres, td#release_date{
 	font-size: 28px;
 	font-weight: bold;
 }
-div#title span{
+td#title-data{
 	padding-left: 1.8em;
 	font-size: 28px;
 	font-weight: bold;
 	font-style: italic;
 }
-div#overview span{
+td#overview-data{
 	padding-left: 1em;
-	font-size: 15px;
+	font-size: 17px;
 }
-div#genres span{
+.gr{
 	padding-left: 1em;
 	font-size: 16px;
 	font-weight: bold;
 	font-style: italic;
 	color: blue;
 }
-div#genres span:hover{
+.gr:hover{
 	cursor: pointer;
 }
-div#release_date span{
+td#date-data{
 	padding-left: 1em;
 	font-size: 15px;
 	font-weight: bold;
@@ -104,6 +105,10 @@ div#review-editor{
 	margin:  0 auto;
 	padding: 5px;
 	width: 95%;
+}
+.like{
+    width: 50px; 
+    height: 40px;
 }
 .like:hover{
 	cursor: pointer;

@@ -55,7 +55,11 @@
 				console.log(data);
 				var html = "";
 				for(var i = 0; i < 5; i++){
-					html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='https://image.tmdb.org/t/p/w185//" + data.results[i].poster_path + "'/>"+data.results[i].title+"</span><br><br>";
+					if(data.results[i].poster_path == null){
+						html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:185px; height:278px;'/>"+data.results[i].title+"</span><br><br>";
+					} else {
+						html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='https://image.tmdb.org/t/p/w185//" + data.results[i].poster_path + "'/>"+data.results[i].title+"</span><br><br>";						
+					}
 				}
 				$("#movie-list").html(html);
 			},

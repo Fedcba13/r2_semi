@@ -57,18 +57,24 @@
 				pageTitle = data.title;
 				$("title").text(pageTitle);
 				console.log(data);				
-				var html = "<div id='details'>";
-				html += "<div id='main-poster'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></div>";
-				html += "<div id='title'>타이틀<br><span>" + data.title +"</span></div><br>";
-				html += "<div id='overview'>줄거리<br><span> " + data.overview +"</span></div><br>";
-				html += "<div id='genres'>장르<br>"
-				$.each(data.genres, (i)=>{
-					html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
-				});
-				html +="</div><br>";
-				html += "<div id='release_date'>개봉일<br><span>" + data.release_date + "</span></div>";
-				html += "<div id='gaugeChart'></div><p id='grade'>평점</p>";
-				html += "</div>";
+				var html = "<table id='details'>";
+				if(data.poster_path == null){
+					html += "<tr><td rowspan='7' colspan='2'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:344px; height:515px;'/></td></tr>"										
+				} else {
+					html += "<tr><td rowspan='7' colspan='2'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></td></tr>"					
+				}
+				html += "<tr><td colspan='2' id='title'>타이틀</td></tr>"
+				html += "<tr><td colspan='2' id='title-data'>"+data.title+"</td></tr>"
+				html += "<tr><td colspan='2' id='overview'>줄거리</td></tr>"
+				html += "<tr><td colspan='2' id='overview-data'>"+data.overview+"</td></tr>"
+				html += "<tr><td colspan='2' id='genres'>장르</td></tr>"
+				html += "<tr><td colspan='2' id='genre-data'>"
+					$.each(data.genres, (i)=>{
+						html += "<span class='gr' onclick='searchByGenre(this);' title='"+data.genres[i].name+"(으)로 검색'>" +data.genres[i].name +" </span>";
+					});
+				html += "</tr>"
+				html += "<tr><td id='release_date'>개봉일</td><td id='date-data'>"+data.release_date+"</td><td id='grade'>평점</td><td><div id='gaugeChart'></div></td></tr>"
+				html += "</table>";
 				$("#info-container").html(html);	
 				getAvg();
 			},
@@ -97,7 +103,13 @@
 						html += "<span>감독</span><br><br></div>";
 					}
 				})
-				for(var i = 0; i < 5; i++){		
+				var castLength = 0;
+				if(data.cast.length <5){
+					castLength = data.cast.length;
+				} else {
+					castLength = 5;
+				}
+				for(var i = 0; i < castLength; i++){		
 					if(data.cast[i].profile_path != null){
 						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail' onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'/></span><br>"						
 					} else {
@@ -251,7 +263,7 @@
 							}
 						}
 						html += "</td>";
-						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like'><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like'><span>" + data[i].reviewDislike +"</span></td>"
+						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like' ><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like' style='width: 30px; height: 30px;'><span>" + data[i].reviewDislike +"</span></td>"
 						<%if(memberLoggedIn != null){%>
 							if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
 								html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
@@ -452,8 +464,13 @@
 			 }
 		});
 	}
-	function searchByGenre(e){		
-		var genre = $(e).text();
+	function searchByGenre(e){
+		var docu = $(e).text();		
+		if(docu.indexOf("다큐멘터리")> -1){
+			docu = "다큐";
+		} 
+		var genre = docu;
+		console.log(genre);			
 		location.href="<%=request.getContextPath()%>/movie/searchByGenre?genre=" + genre;
 	}
 	function searchByActor(actorId){
@@ -529,4 +546,5 @@
 			</table>
 		</div>
 	</div>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
