@@ -25,6 +25,9 @@ public class FreeBoardModifyEnd extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
+		
 		String loc= null;
 		
 		String boardNo = request.getParameter("boardNo");

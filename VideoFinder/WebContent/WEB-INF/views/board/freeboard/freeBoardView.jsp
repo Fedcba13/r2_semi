@@ -3,11 +3,11 @@
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%
 	FreeBoard fb = (FreeBoard)request.getAttribute("fb");
-	String memberLoggedIn = fb.getFree_Board_Writer();
-	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
+/* 	String memberLoggedIn = fb.getFree_Board_Writer();
+ */	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
 %>
 
 <script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
@@ -59,7 +59,7 @@ th{
 
 #buttons{
 	margin-top: 25px;
-	margin-left: 28em;
+	margin-left: 26em;
 	text-align: center;
 	
 
@@ -99,7 +99,7 @@ table#tbl-comment{
 	<section id="contentPage">
 	<h2>게시글 상세보기</h2>
 	<br />
-	<table class="table table-hover" id="board-table" >
+	<table class="table table-hover border border-primary" id="board-table" >
 		<tr>
 <%-- 		<th>번호</th>
 			<% int idx =fb.getFree_Board_No().indexOf("_");%>

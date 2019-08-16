@@ -24,6 +24,9 @@ public class FreeBoardSrchServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
+		
 		final int numPerPage = 4;//한페이지당 수
 		int cPage = 1;//요청페이지
 		try{
@@ -58,7 +61,7 @@ public class FreeBoardSrchServlet extends HttpServlet {
 			//pageBar += "<span>[이전]</span>"; 
 		}
 		else {
-			pageBar += "<a href='"+request.getContextPath()+"/board/freeBoard?cPage="+(pageNo-1)+" '>[이전]</a> ";
+			pageBar += "<a class='cPage' href='"+request.getContextPath()+"/board/freeBoard?cPage="+(pageNo-1)+" '>[이전]</a> ";
 		}
 		
 		
@@ -77,7 +80,7 @@ public class FreeBoardSrchServlet extends HttpServlet {
 		if(pageNo > totalPage){
 			//pageBar += "<span>[다음]</span>";
 		} else {
-			pageBar += "<a href='"+request.getContextPath()+"/board/freeBoard?cPage="+pageNo+" >[다음]</a>";
+			pageBar += "<a class='cPage' href='"+request.getContextPath()+"/board/freeBoard?cPage="+pageNo+" >[다음]</a>";
 		}
 		
 		

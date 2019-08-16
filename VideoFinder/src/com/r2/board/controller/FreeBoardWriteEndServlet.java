@@ -25,18 +25,16 @@ public class FreeBoardWriteEndServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			request.setCharacterEncoding("utf-8");
 
-		//1.파라미터 핸들링: MultipartRequest객체 생성후에는
-				//더이상 HttpServletRequest객체로부터 사용자입력값을 가져올수 없다.
-
+	
 		
 		
 		
 		
 				String title = request.getParameter("title");
 				String writer = request.getParameter("writer");
-				System.out.println("title="+title);
-				System.out.println("writer="+writer);
+
 	
 				//Secure-Coding
 				//XSS Cross-site Scripting:

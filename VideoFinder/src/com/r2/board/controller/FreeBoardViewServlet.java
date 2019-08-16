@@ -31,6 +31,10 @@ public class FreeBoardViewServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
+		
+		
 		FreeBoard fb = null;	
 		
 		//게시물 번호 가져오기

@@ -27,6 +27,9 @@ public class FreeBoardListServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+
+		
 		final int numPerPage = 8;//한페이지당 수
 		int cPage = 1;//요청페이지
 		try{

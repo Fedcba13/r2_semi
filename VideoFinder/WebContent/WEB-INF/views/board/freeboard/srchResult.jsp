@@ -14,6 +14,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
 
 <style>
+
+.cPage {
+	font-size: 30px;
+}
 #srchPanel{
 
 		margin: auto;

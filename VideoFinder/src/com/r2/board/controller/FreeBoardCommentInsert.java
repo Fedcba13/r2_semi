@@ -26,7 +26,7 @@ public class FreeBoardCommentInsert extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		
+		request.setCharacterEncoding("utf-8");
 		
 		String boardCommentWriter= request.getParameter("boardCommentWriter");
 		int boardCommentLevel = Integer.parseInt(request.getParameter("boardCommentLevel"));
