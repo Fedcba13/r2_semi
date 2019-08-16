@@ -1,0 +1,9 @@
+@charset "UTF-8";
+/*전체 정렬 센터  */
+#content {
+	text-align: center;
+}
+/* 검색 패널 없애기 */
+.arrow img{
+	display: none;
+}
