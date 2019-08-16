@@ -25,15 +25,19 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <style>
-#chat-container{
+div.msg{
 	width: 500px;
 	margin: 0 auto;
 	padding: 10px;
 }
 
 #msg-container{
-	height: 500px;
+	height: 400px;
 	overflow-y: scroll;
+}
+
+#msg-container > div > input#dm-msg{
+	height: 50px;
 }
 </style>	
 <script>
@@ -46,7 +50,7 @@ $(()=>{
 	}
 	
 	if(id == 'admin'){
-		$("#msg-container").hide();
+		adminMessageList();
 	}
 	
 	var receiver = 'admin';
@@ -63,43 +67,8 @@ $(()=>{
 		console.log("ws message: "+e.data);
 		var o = JSON.parse(e.data);
 		
-		var html ='';
-		if(o.sender == id){
-			html = "<li class='list-group-item' style='text-align: right;'>";
-		}else{
-			html = "<li class='list-group-item'>";
-		}
-		html += "<span class='badge badge-dark'>"+o.sender+"</span>";
-		html += "&nbsp;&nbsp;"+o.msg;
-		html += "</li>";
 		
-		if(id == 'admin'){
-			//관리자 전용
-			//div가 있는지 확인
-			console.log("#msg-"+o.sender);
-			if (o.sender != 'admin'&& $("#msg-"+o.sender+"").length == 0) {
-			//div가 없을때 option 추가 및 div추가
-				$("#chat-container").append("<div class='msg' id='msg-"+o.sender+"' style='display: none;'><ul class='list-group list-group-flush'></ul></div>");
-				$("#dm-client").append("<option value='"+o.sender+"'>"+o.sender+" - "+"</option>");
-			}
-			
-			if(o.sender == 'admin'){
-				$("#msg-"+o.receiver+" ul").append(html);
-			}else{
-				$("#msg-"+o.sender+" ul").append(html);
-			}
-			//scroll처리
-			var scrollHeight = $("#msg-"+o.sender).prop("scrollHeight");
-			$("#msg-"+o.sender).scrollTop(scrollHeight);
-		}else{
-			//개인 전용
-			$("#msg-container ul").append(html);
-			//scroll처리
-			var scrollHeight = $("#msg-container").prop("scrollHeight");
-			//console.log(scrollHeight);
-			$("#msg-container").scrollTop(scrollHeight);
-		}
-		
+		messageAdd(o);
 		
 		
 	}
@@ -148,7 +117,7 @@ $(()=>{
 			data: param,
 			dataType: "json",
 			success: data => {
-				console.log(data);
+				//console.log(data);
 			}, 
 			error: (jqxhr, textStatus, err)=>{
 				console.log("ajax처리실패!");
@@ -165,7 +134,7 @@ $(()=>{
 			url: "<%=request.getContextPath()%>/chat/userList.do",
 			dataType: "json",
 			success: function(data){
-				console.log(data);
+				//console.log(data);
 				
 				var html = "<option value='' disabled>접속자 목록</option>";
 				$.each(data, (i, userId)=>{
@@ -177,7 +146,7 @@ $(()=>{
 				console.log("ajax처리실패");
 				console.log(jqxhr, textStatus, err);
 			}
-		})
+		});
 	};
 	
 	
@@ -199,6 +168,73 @@ $(()=>{
 		$("#msg-"+selected).show();
 		
 	});
+	
+	//관리자 이전 데이터추가 db 가져오기
+	
+	function adminMessageList(){
+		$.ajax({
+			url: "<%=request.getContextPath()%>/chat/adminMessageList.do",
+			dataType: "json",
+			success: function(data){
+				//console.log(data);
+				for(key in data) {
+					//console.log(key);
+					console.log(data[key].length);
+					for(var num=data[key].length-1; num>=0; num--){
+						messageAdd(data[key][num]);
+					}
+				}
+			},
+			error: function(jqxhr, textStatus, err){
+				console.log("ajax처리실패");
+				console.log(jqxhr, textStatus, err);
+			}
+		});
+	}
+	
+	
+	//관리자 메세지 추가
+	function messageAdd(o){
+		var html ='';
+		if(o.sender == id){
+			html = "<li class='list-group-item' style='text-align: right;'>";
+		}else{
+			html = "<li class='list-group-item'>";
+		}
+		html += "<span class='badge badge-dark'>"+o.sender+"</span>";
+		html += "&nbsp;&nbsp;"+o.msg;
+		html += "</li>";
+		
+		if(id == 'admin'){
+			//관리자 전용
+			//div가 있는지 확인
+			
+			var container = o.sender;
+			
+			if(o.sender == 'admin'){
+				container = o.receiver;
+			}
+			
+			if ($("#msg-"+container+"").length == 0) {
+			//div가 없을때 option 추가 및 div추가
+				$("#chat-container").prepend("<div class='msg' id='msg-"+container+"' style='display: none;'><ul class='list-group list-group-flush'></ul></div>");
+				$("#dm-client").append("<option value='"+container+"'>"+container+" - "+"</option>");
+			}
+
+			$("#msg-"+container+" ul").append(html);
+
+			//scroll처리
+			var scrollHeight = $("#msg-"+container).prop("scrollHeight");
+			$("#msg-"+container).scrollTop(scrollHeight);
+		}else{
+			//개인 전용
+			$("#msg-container ul").append(html);
+			//scroll처리
+			var scrollHeight = $("#msg-container").prop("scrollHeight");
+			//console.log(scrollHeight);
+			$("#msg-container").scrollTop(scrollHeight);
+		}
+	}
 	 
 	
 })
@@ -207,20 +243,20 @@ $(()=>{
 <body>
 	<section id="chat-container">
 		<!-- 메세지목록 -->
-		<div id="msg-container">
+		<div id="msg-container" class="msg">
 			<ul class="list-group list-group-flush"></ul>
 		</div>
-		<%-- 접속자 목록은 관리자만 확인 가능 --%>
-		<%if(id != null && "admin".equals(id)){ %>
-		<div id="dm-container" class="input-group mb-3">
-			<div class="input-group-prepend">
-				<label class="input-group-text" for="dm-client">Options</label>
+			<%-- 접속자 목록은 관리자만 확인 가능 --%>
+			<%if(id != null && "admin".equals(id)){ %>
+			<div id="dm-container" class="input-group mb-3">
+				<div class="input-group-prepend">
+					<label class="input-group-text" for="dm-client">Options</label>
+				</div>
+				<select class="custom-select" id="dm-client">
+					<option selected>접속자 목록</option>
+				</select>
 			</div>
-			<select class="custom-select" id="dm-client">
-				<option selected>접속자 목록</option>
-			</select>
-		</div>
-		<%} %>
+			<%} %>
 		<!-- 사용자입력 -->
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" id="dm-msg">

@@ -8,6 +8,7 @@
 	FreeBoard fb = (FreeBoard)request.getAttribute("fb");
 /* 	String memberLoggedIn = fb.getFree_Board_Writer();
  */	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
+ 
 %>
 
 <script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
@@ -91,6 +92,52 @@ table#tbl-comment{
 <head>
 <meta charset="UTF-8">
 <title><%=fb.getFree_Board_Title() %></title>
+
+<script>
+$(()=>{
+	//답글(대댓글)작성
+	$(".btn-reply").on("click",function(e){
+		/*로그인 여부에 따라 분기*/
+		<%if(memberLoggedIn != null){%>
+			//로그인한 경우
+			var level = (this.getAttribute('level')*1) + 1;
+			var tr = $("<tr></tr>");
+			var html = "<td style='display:none; text-align:left;' colspan='2'>";
+
+			html += "<form action='<%=request.getContextPath()%>/board/freeBoardCommentInsert' method='post'>";
+			html += "<input type='hidden' name='boardRef' value='<%=fb.getFree_Board_No()%>'>";
+			html += "<input type='hidden' name='boardCommentWriter' value='<%=memberLoggedIn.getMemberId()%>'>";
+			html += "<input type='hidden' name='boardCommentLevel' value='"+level+"'>";
+			html += "<input type='hidden' name='boardCommentRef' value='"+e.target.value+"'>";
+			html += "<textarea name='boardCommentContent' cols='60' rows='1'></textarea>";
+			html += "<button type='submit' class='btn-insert2'>등록</button>";
+			html += "</form>";
+			html += "</td>";
+			
+			tr.html(html);
+			
+			//클릭한 버튼이 속한 tr다음에 tr을 추가
+			tr.insertAfter($(e.target).parent().parent())
+				.children("td").slideDown(800)
+				.children("form").submit(()=>{
+					var len = $(e.target).children("textarea")
+										.val().trim().length;
+					if(len == 0){
+			            e.preventDefault();
+			        }
+				});
+			
+			//한번 댓글폼 생성후 이벤트핸들러 제거
+			$(e.target).off('click');
+			
+		<%}else{%>
+			//로그인하지 않은 경우
+			alert('로그인 부터 하세요.');
+		<%}%>
+	});
+});
+</script>
+
 </head>
 <body>
 
@@ -156,9 +203,8 @@ table#tbl-comment{
 			<%
 			if(bclist != null){
 				for(BoardComment bc : bclist){
-					if(bc.getBoard_Comment_Level()==1){
 			%>
-			<!-- 댓글 레빌 1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
+			<!-- 댓글 레벨 1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 					<tr class=level1>
 						<td>
 							<sub class=comment-writer><%=bc.getBoard_Comment_Writer() %></sub>
@@ -168,7 +214,7 @@ table#tbl-comment{
 							<%=bc.getBoard_Comment_Content() %>
 						</td>
 						<td>
-							<button class="btn-reply btn btn-success" 
+							<button class="btn-reply btn btn-success btn-reply" level='<%=bc.getBoard_Comment_Level() %>'
 									value="<%=bc.getBoard_Comment_No()%>">답글</button>
 							<%--@실습문제:
 								 관리자/댓글작성자에 한해 이버튼을 노출시키고,
@@ -180,28 +226,8 @@ table#tbl-comment{
 						
 						</td>
 					</tr>
-			<% 		} else { %>
-			<!-- 댓글 레빌 2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-<%-- 					<tr class=level2>
-						<td>
-							<sub class=comment-writer><%=bc.getBoard_Comment_Writer() %></sub>
-							<sub class=comment-date><%=bc.getBoard_Comment_Date()%></sub>
-							<br />
-							
-							<%=bc.getBoard_Comment_Content() %>
-						</td>
-						<td>
-							삭제버튼 추가
-							<%if(memberLoggedIn!=null 
-								&& ("admin".equals(memberLoggedIn.getMemberId()) 
-										|| bc.getBoardCommentWriter().equals(memberLoggedIn.getMemberId()) )){%>
-							<button class="btn-delete" value="1<%=bc.getBoardCommentNo()%>">삭제</button>
-							<%} %>
-						</td>
-					</tr> --%>
 		
 			<%
-					}//end of if : level1, level2
 		
 				}//end of for	
 			} 
