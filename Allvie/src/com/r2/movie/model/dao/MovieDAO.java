@@ -43,12 +43,31 @@ public class MovieDAO {
 
 		// 조건절 처리
 		String condition = "";
+		String function = "fn_choSearch";
 
 		if (keyword != null && !keyword.equals("")) {
 			if(!condition.equals("")) {
 				condition += " and ";
 			}
-			condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
+			
+			keyword = keyword.replace(" ", "");
+			
+			boolean choseong = false;
+			
+			for(int i=0; i<keyword.length(); i++) {
+				if(!(keyword.charAt(i) >= 12593 && keyword.charAt(i) <= 12622)) {
+					choseong = true;
+					break;
+				}
+			}
+			
+			if(choseong) {
+				condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
+				function = "FN_GET_DIV_KO_CHAR";
+			}else {
+				condition += "fn like '%'||fn_choSearch('" + keyword + "')||'%'";
+				function = "fn_choSearch";
+			}
 		}
 
 		if (genreList != null && genreList.length != 0) {
@@ -77,6 +96,7 @@ public class MovieDAO {
 			condition = "1 = 1";
 		}
 		
+		sql = sql.replace("function", function);
 		sql = sql.replace("condition", condition);
 		
 		try {
@@ -116,42 +136,63 @@ public class MovieDAO {
 		String sql = prop.getProperty("selectTotalMovie");
 
 		// 조건절 처리
-		String condition = "";
+				String condition = "";
+				String function = "fn_choSearch";
 
-		if (keyword != null && !keyword.equals("")) {
-			if(!condition.equals("")) {
-				condition += " and ";
-			}
-			condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
-		}
-
-		if (genreList != null && genreList.length != 0) {
-			for(int i=0; i<genreList.length; i++) {				
-				if(!condition.equals("")) {
-					condition += " and ";
+				if (keyword != null && !keyword.equals("")) {
+					if(!condition.equals("")) {
+						condition += " and ";
+					}
+					
+					keyword = keyword.replace(" ", "");
+					
+					boolean choseong = false;
+					
+					for(int i=0; i<keyword.length(); i++) {
+						if(!(keyword.charAt(i) >= 12593 && keyword.charAt(i) <= 12622)) {
+							choseong = true;
+							break;
+						}
+					}
+					
+					if(choseong) {
+						condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
+						function = "FN_GET_DIV_KO_CHAR";
+					}else {
+						condition += "fn like '%'||fn_choSearch('" + keyword + "')||'%'";
+						function = "fn_choSearch";
+					}
 				}
-				condition += "genre like '%"+genreList[i]+"%'";
-			}
-		}
 
-		if (yearFrom != null && !yearFrom.equals("")) {
-			if(!condition.equals("")) {
-				condition += " and ";
-			}
-			condition += "release_date >= '" +  yearFrom + "'";
-		}
-		if (yearTo != null && !yearTo.equals("")) {
-			if(!condition.equals("")) {
-				condition += " and ";
-			}
-			condition += "release_date <= '" +  yearTo + "'";
-		}
+				if (genreList != null && genreList.length != 0) {
+					for(int i=0; i<genreList.length; i++) {				
+						if(!condition.equals("")) {
+							condition += " and ";
+						}
+						condition += "genre like '%"+genreList[i]+"%'";
+					}
+				}
 
-		if(condition.equals("")) {
-			condition = "1 = 1";
-		}
-		
-		sql = sql.replace("condition", condition);
+				if (yearFrom != null && !yearFrom.equals("")) {
+					if(!condition.equals("")) {
+						condition += " and ";
+					}
+					condition += "release_date >= '" +  yearFrom + "'";
+				}
+				if (yearTo != null && !yearTo.equals("")) {
+					if(!condition.equals("")) {
+						condition += " and ";
+					}
+					condition += "release_date <= '" +  yearTo + "'";
+				}
+
+				if(condition.equals("")) {
+					condition = "1 = 1";
+				}
+				
+				sql = sql.replace("function", function);
+				sql = sql.replace("condition", condition);
+				
 		try {
 			pstmt = conn.prepareStatement(sql);
 			
