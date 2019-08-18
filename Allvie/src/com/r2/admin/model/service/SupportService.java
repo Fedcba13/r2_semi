@@ -18,9 +18,12 @@ public class SupportService {
 		
 		int result = new SupportDAO().insertSupport(conn, s);
 		
-		close(conn);
 		
-		if(result>0)
+		if(result > 0 && s.getSupportSender().equals("admin")) {
+			result = new SupportDAO().updateSupport(conn, s);
+		}
+		
+		if(result > 0)
 			commit(conn);
 		else 
 			rollback(conn);

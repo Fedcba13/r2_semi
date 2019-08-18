@@ -27,6 +27,7 @@
 <style>
 div.msg{
 	width: 500px;
+	height: 400px;
 	margin: 0 auto;
 	padding: 10px;
 }
@@ -49,9 +50,8 @@ $(()=>{
 		self.close();
 	}
 	
-	if(id == 'admin'){
-		adminMessageList();
-	}
+	//메세지 불러오기
+	messageList();
 	
 	var receiver = 'admin';
 	
@@ -117,7 +117,11 @@ $(()=>{
 			data: param,
 			dataType: "json",
 			success: data => {
-				//console.log(data);
+				console.log(data);
+				if(data["result"] == 'no' && id != 'admin'){
+					var html = "<li class='list-group-item' style='text-align: center; background-color: gray;'>관리자가 부재중입니다. 잠시만 기다려주세요.</li>";
+					$("#msg-container ul").append(html);
+				}
 			}, 
 			error: (jqxhr, textStatus, err)=>{
 				console.log("ajax처리실패!");
@@ -160,6 +164,7 @@ $(()=>{
 	//관리자 전용 => 목록 바꾸기.
 	$("#dm-client").on('change', e=>{
 		var selected = $("#dm-client option:selected").val();
+		console.log(selected);
 		if(selected == '')
 			return;
 		
@@ -167,23 +172,27 @@ $(()=>{
 		
 		$("#msg-"+selected).show();
 		
+		if(selected == '접속자 목록'){
+			$("#msg-container").show();
+		}
+		
 	});
 	
 	//관리자 이전 데이터추가 db 가져오기
 	
-	function adminMessageList(){
+	function messageList(){
+		
 		$.ajax({
-			url: "<%=request.getContextPath()%>/chat/adminMessageList.do",
+			url: "<%=request.getContextPath()%>/chat/messageList.do?id=<%=id%>",
 			dataType: "json",
 			success: function(data){
-				//console.log(data);
+				console.log(data);
 				for(key in data) {
-					//console.log(key);
-					console.log(data[key].length);
 					for(var num=data[key].length-1; num>=0; num--){
 						messageAdd(data[key][num]);
 					}
 				}
+			
 			},
 			error: function(jqxhr, textStatus, err){
 				console.log("ajax처리실패");
@@ -193,7 +202,7 @@ $(()=>{
 	}
 	
 	
-	//관리자 메세지 추가
+	//메세지 추가
 	function messageAdd(o){
 		var html ='';
 		if(o.sender == id){

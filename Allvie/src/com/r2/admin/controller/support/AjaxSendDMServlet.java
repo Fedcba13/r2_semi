@@ -56,17 +56,9 @@ public class AjaxSendDMServlet extends HttpServlet {
 			receiver.getBasicRemote()
 				    .sendText(dm);
 			
-			Support s = new Support();
-			s.setSupportRecevier(dmMap.get("receiver").toString());
-			s.setSupportSender(dmMap.get("sender").toString());
-			s.setSupportContent(dmMap.get("msg").toString());
-			
-			new SupportService().insertSupport(s);
-			
-			result = "DM 전송 성공!";
-		}
-		else {
-			result = "해당 사용자가 접속중이 아닙니다.";
+			result = "ok";
+		}else {
+			result = "no";
 		}
 		
 		//본인에게 보내기
@@ -75,11 +67,15 @@ public class AjaxSendDMServlet extends HttpServlet {
 			receiver.getBasicRemote()
 				    .sendText(dm);
 			
-			result = "DM 전송 성공!";
 		}
-		else {
-			result = "해당 사용자가 접속중이 아닙니다.";
-		}
+		
+		
+		//DB에 저장
+		Support s = new Support();
+		s.setSupportRecevier(dmMap.get("receiver").toString());
+		s.setSupportSender(dmMap.get("sender").toString());
+		s.setSupportContent(dmMap.get("msg").toString());
+		new SupportService().insertSupport(s);
 		
 		//4.view단
 		Map<String, String> resultMap 

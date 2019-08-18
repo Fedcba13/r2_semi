@@ -51,7 +51,7 @@ public class SupportDAO {
 			close(pstmt);
 		}
 		
-		
+		System.out.println("insertSupport = " + result);
 		
 		return result;
 	}
@@ -116,6 +116,33 @@ public class SupportDAO {
 		}
 		
 		return list;
+	}
+
+	public int updateSupport(Connection conn, Support s) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		String sql = prop.getProperty("updateSupport");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, s.getSupportRecevier());
+			pstmt.setString(2, s.getSupportRecevier());
+			pstmt.setString(3, s.getSupportRecevier());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		
+		System.out.println("insertSupport = " + result);
+		
+		return result;
 	}
 
 }
