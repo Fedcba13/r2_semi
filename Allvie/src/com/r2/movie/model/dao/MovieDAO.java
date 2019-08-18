@@ -54,6 +54,7 @@ public class MovieDAO {
 			
 			boolean choseong = false;
 			
+			//초성인지 확인하는 부분
 			for(int i=0; i<keyword.length(); i++) {
 				if(!(keyword.charAt(i) >= 12593 && keyword.charAt(i) <= 12622)) {
 					choseong = true;

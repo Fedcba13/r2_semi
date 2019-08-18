@@ -55,6 +55,7 @@
 var curPage = 1;
 var numPerPage = 10;
 
+//사진 찾기 (영화 진흥 위원회에서 가져온 무비오피스의 이름으로 tmdb에서 가져옵니다.)
 function findImg(title, year){
 	
 	var param = {

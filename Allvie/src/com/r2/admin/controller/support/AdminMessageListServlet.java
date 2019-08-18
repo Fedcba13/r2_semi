@@ -40,9 +40,9 @@ public class AdminMessageListServlet extends HttpServlet {
 
 		String id = request.getParameter("id");
 
-		// 질문한 사람 목록 가져오기(안 읽은것만)
 		List<String> userList = null;
 
+		// admin일 경우 질문한 사람 목록 가져오기(안 읽은것만)
 		if (id.equals("admin")) {
 			userList = new SupportService().getUserList();
 		} else {
@@ -51,7 +51,8 @@ public class AdminMessageListServlet extends HttpServlet {
 		}
 
 		HashMap<String, List<Support>> map = new HashMap<String, List<Support>>();
-
+		
+		//메세지 목록 가져오기
 		if (userList != null && userList.size() != 0) {
 			for (int i = 0; i < userList.size(); i++) {
 				System.out.println(userList.get(i));
