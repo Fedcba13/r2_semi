@@ -64,7 +64,7 @@ section#enroll-container{
 }
 
 
-table{
+table#view{
 	padding-top : 20px;
 	padding-bottom : 20px;
 	width : 50%;
@@ -74,17 +74,15 @@ table{
   	
 /*   	 font-family: 'Oswald', sans-serif; */
 }
-td, tr, tr td input {
+td, tr {
 	color : #e6e6e6;
 	font-family: 'Oswald', sans-serif;
 	text-align : left;
 }
-td{
-	padding-rignt : 10px;
-}
 
 
-#password{
+
+#password{ 
 	color : #e6e6e6;
 	font-weight : bold;
 }
@@ -148,7 +146,7 @@ function updatePassword(){
 		  name="memberUpdateFrm"
 		  method="post"
 		  onsubmit="return updateValidate();">
-		<table>
+		<table id='view'>
 			<tr>
 				<th>아이디</th>
 				<td>

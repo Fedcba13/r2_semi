@@ -68,7 +68,7 @@ public class MemberEnrolled extends HttpServlet {
 		String loc = "/";
 
 		if(result>0)
-			msg = "성공적으로 회원등록했습니다.";
+			msg = "회원가입이 완료되었습니다.";
 		else 
 			msg = "회원등록에 실패했습니다.";	
 		

@@ -30,7 +30,7 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <style>
-div#updatePassword-container{background:red;}
+div#updatePassword-container{background-color:#333335;}
 div#updatePassword-container table {margin:0 auto; border-spacing: 20px;}
 div#updatePassword-container table tr:last-of-type td {text-align:center;}
 </style>
