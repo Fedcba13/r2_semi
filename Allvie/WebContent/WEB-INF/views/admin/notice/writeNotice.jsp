@@ -10,12 +10,13 @@
 	List<String> catList = (List<String>)request.getAttribute("catList");
 %>
 <style>
-#title{
-	width:300px;
+#title {
+	width: 300px;
 }
 </style>
 <h2>공지사항 쓰기</h2>
-<form action="<%=request.getContextPath()%>/admin/onlyAdmin/notice/writeNotice"
+<form
+	action="<%=request.getContextPath()%>/admin/onlyAdmin/notice/writeNotice"
 	onsubmit="return validate();" method="POST">
 	<div>
 		<select name="notice_Category" id="category">
@@ -26,17 +27,15 @@
 			<%
 				}
 			%>
-		</select>&nbsp;&nbsp; <label for="title">제목</label> <input type="text" name="notice_Title"
-			id="title">
+		</select>&nbsp;&nbsp; <label for="title">제목</label> <input type="text"
+			name="notice_Title" id="title">
 	</div>
-	<br />
-	<br />
+	<br /> <br />
 	<div>
 		<textarea name="notice_Content" id="notice_Con" cols="70" rows="10"
 			wrap="hard">내용을 입력하세요.</textarea>
 	</div>
-	<input
-		type="submit" value="작성" />
+	<input type="submit" value="작성" />
 </form>
 <script>
 	function validate(){
@@ -56,7 +55,9 @@
 
 
 	$("#notice_Con").on("click", function(){
+		if('내용을 입력하세요.'==$("#notice_Con").val()){
 		$("#notice_Con").val("");
+		}
 	});
 </script>
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>

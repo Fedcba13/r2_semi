@@ -16,6 +16,7 @@ public class Notice implements Serializable{
 	private int Notice_Readcount;
 	private String Notice_Category;
 	private int Notice_Enabled;
+	private Date FAQ_Date_Modified;
 
 	public Notice() {
 		super();
@@ -23,9 +24,21 @@ public class Notice implements Serializable{
 	}
 	
 	
-	//union 검색 결과용 생성자
+
+	public Date getFAQ_Date_Modified() {
+		return FAQ_Date_Modified;
+	}
+
+
+
+	public void setFAQ_Date_Modified(Date fAQ_Date_Modified) {
+		FAQ_Date_Modified = fAQ_Date_Modified;
+	}
+
+
+
 	public Notice(String notice_No, String notice_Title, String notice_Writer, String notice_Content, Date notice_Date,
-			int notice_Readcount, String notice_Category, int notice_Enabled) {
+			int notice_Readcount, String notice_Category, int notice_Enabled, Date fAQ_Date_Modified) {
 		super();
 		Notice_No = notice_No;
 		Notice_Title = notice_Title;
@@ -35,8 +48,11 @@ public class Notice implements Serializable{
 		Notice_Readcount = notice_Readcount;
 		Notice_Category = notice_Category;
 		Notice_Enabled = notice_Enabled;
+		FAQ_Date_Modified = fAQ_Date_Modified;
 	}
-	
+
+
+
 	public Notice(String notice_Title, String notice_Writer, String notice_Content, Date notice_Date,
 			String notice_Category) {
 		super();
@@ -116,7 +132,7 @@ public class Notice implements Serializable{
 		return "Notice [Notice_No=" + Notice_No + ", Notice_Title=" + Notice_Title + ", Notice_Writer=" + Notice_Writer
 				+ ", Notice_Content=" + Notice_Content + ", Notice_Date=" + Notice_Date + ", Notice_Readcount="
 				+ Notice_Readcount + ", Notice_Category=" + Notice_Category + ", Notice_Enabled=" + Notice_Enabled
-				+ "]";
+				+ ", FAQ_Date_Modified=" + FAQ_Date_Modified + "]";
 	}
 
 }

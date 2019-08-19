@@ -1,6 +1,7 @@
+<%@page import="com.r2.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+    
 <style>
 div#support{
 	top: 1000px;
@@ -35,9 +36,14 @@ div#support:hover > img{
 		$("div#support").css("top",$("section#content").height()-20);
 		
 		$("div#support").click(()=>{
-			var option = "width = 500, height = 500, top = "+((window.screen.height-500)/2)+", left = "+((window.screen.width-500)/2)+", location = no"
-			console.log(option);
-			window.open("<%=request.getContextPath()%>/support/chatRoom.do", "관리자 문의방", option);
+			
+			<%if(memberLoggedIn != null){%>
+				var option = "width = 500, height = 500, top = "+((window.screen.height-500)/2)+", left = "+((window.screen.width-500)/2)+", location = no"
+				console.log(option);
+				window.open("<%=request.getContextPath()%>/support/chatRoom.do", "관리자 문의방", option);
+			<%}else{%>
+				alert('로그인 부터 해주세요.');
+			<%}%>
 		});
 		
 	});

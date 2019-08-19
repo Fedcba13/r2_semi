@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.r2.common.filter.MVCUtils;
 import com.r2.common.mail.GmailSend;
 import com.r2.member.model.service.MemberService;
 import com.r2.member.model.vo.Member;
@@ -51,9 +52,15 @@ public class MemberFindInfoPwd extends HttpServlet {
 		if(memberEmail.equals(m.getMemberEmail())) {
 			
 			String mPwd = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다. 
-	        mPwd = mPwd.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌. 
-
-	        int result = new MemberService().changePwd(memberId, mPwd);
+			mPwd = mPwd.substring(0, 10); //uuid를 앞에서부터 10자리 잘라줌. 
+			
+			System.out.println(mPwd);
+			
+			Member member = new Member();
+			member.setMemberId(memberId);
+			member.setMemberPassword(MVCUtils.getSha512(mPwd));
+	        
+			int result = new MemberService().changePwd(member);
 			String mailContent = "안녕하세요. Allvie 입니다. "
 					+ "<br>" + m.getMemberId() + "님의 임시비밀번호는 아래와 같습니다. "
 					+ "<br><span style='font-weight:bold;'>임시 비밀번호 : </span>" 

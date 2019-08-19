@@ -116,16 +116,16 @@ public class AdminMemberDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
 		String sql = prop.getProperty("selectMembersBySearch");
-		System.out.println(searchKeyword);
-		System.out.println(searchType);
 		sql = sql.replace("column", searchType);
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, "%" + searchKeyword + "%");
+			if("".equals(searchKeyword)) {
+				pstmt.setString(1, "%");
+			}else {
+				pstmt.setString(1, "%" + searchKeyword + "%");
+			}
 			int start = (cPage - 1) * numPerPage + 1;
 			int end = cPage * numPerPage;
-			System.out.println(start);
-			System.out.println(end);
 			pstmt.setInt(2, start);
 			pstmt.setInt(3, end);
 			
@@ -158,16 +158,20 @@ public class AdminMemberDAO {
 		String sql = prop.getProperty("selectMembersBySearchDate");
 		try {
 			pstmt = conn.prepareStatement(sql);
+			
+			/*
+			 * java.sql.Date형태로 SQL에 set
+			 */
 			java.sql.Date sqlDate1 = new java.sql.Date(searchKeyword.getTime());
 			java.sql.Date sqlDate2 = new java.sql.Date(searchKeywordEnd.getTime());
 			pstmt.setDate(1, sqlDate1);
 			pstmt.setDate(2, sqlDate2);
 			
 			
+			
+			
 			int start = (cPage - 1) * numPerPage + 1;
 			int end = cPage * numPerPage;
-			System.out.println(start);
-			System.out.println(end);
 			pstmt.setInt(3, start);
 			pstmt.setInt(4, end);
 			

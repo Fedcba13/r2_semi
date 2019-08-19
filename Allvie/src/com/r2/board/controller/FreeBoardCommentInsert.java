@@ -43,7 +43,7 @@ public class FreeBoardCommentInsert extends HttpServlet {
 		bc.setBoard_Comment_Content(boardCommentContent);
 		bc.setBoard_Comment_Level(boardCommentLevel);
 		bc.setBoard_Ref(boardRef);
-//		bc.setBoard_Comment_Ref(boardCommentRef);
+		bc.setBoard_Comment_Ref(boardCommentRef);
 
 		
 		int result = new BoardService().insertBoardComment(bc);

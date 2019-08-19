@@ -137,7 +137,7 @@ ul.join-find li#menu:after {
 			</li>
 			<br />
 			<li>
-				<input type="text" class="form-control" name='memberPassword' id='memberPassword'
+				<input type="password" class="form-control" name='memberPassword' id='memberPassword'
 				placeholder='비밀번호를 입력하여주세요' />
 			</li>
 		</ul>

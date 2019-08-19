@@ -35,7 +35,6 @@ public class NoticeModifyServlet extends HttpServlet {
 		String notice_Content = request.getParameter("notice_Content");
 		String notice_No= request.getParameter("notice_No");
 		
-		
 		Notice n = new Notice();
 		n.setNotice_Category(notice_Category);
 		n.setNotice_Title(notice_Title);

@@ -17,8 +17,6 @@ public class MemberService {
 		
 		int result = new MemberDAO().insertMember(conn, m);
 		
-		close(conn);
-		
 		if(result>0)
 			commit(conn);
 		else 
@@ -66,10 +64,10 @@ public class MemberService {
 		return m;
 	}
 
-	public int changePwd(String memberId, String mPwd) {
+	public int changePwd(Member member) {
 		
 		Connection conn = getConnection();
-		int result = new MemberDAO().changePwd(conn, memberId, mPwd);
+		int result = new MemberDAO().changePwd(conn, member);
 		
 		if(result > 0) {
 			commit(conn);

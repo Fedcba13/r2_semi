@@ -41,7 +41,7 @@ public class AdminFilter implements Filter {
 		//관리자가 아닌 부정요청에 대한 처리
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		Member memberLoggedIn = ((Member)session.getAttribute("memberLoggedIn"));
-		System.out.println("[관리자 권한 페이지 요청 @AdminFilter]");
+		//System.out.println("[관리자 권한 페이지 요청 @AdminFilter]");
 		
 		if(memberLoggedIn==null || !"admin".equals(memberLoggedIn.getMemberId())){
 			request.setAttribute("msg", "잘못된 경로로 접근하셨습니다.");

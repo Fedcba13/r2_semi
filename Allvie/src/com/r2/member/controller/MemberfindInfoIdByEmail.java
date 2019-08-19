@@ -58,7 +58,7 @@ public class MemberfindInfoIdByEmail extends HttpServlet {
 						+ "<br> 로그인을 하시려면 하단의 로고를 클릭해주세요. "
 						+ "<br><span><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 						+ "<a href='htp://localhost:9090/vf/member/memberLogin'style='font-size:30px; color:#e6e6e6; background-color:#333335;'>&nbsp<span style='color:#ac162c;'>A</span>llvie&nbsp</a></h1></span>";
-
+						
 				GmailSend mail = new GmailSend();
 				mail.GmailSet(m.getMemberEmail(), "Allvie 아이디입니다.", mailContent);
 

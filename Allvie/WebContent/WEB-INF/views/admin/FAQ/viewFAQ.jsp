@@ -45,22 +45,28 @@
 		}
 		
 	}
-	
+	function goModifyFrm(){
+		location.href="<%=request.getContextPath()%>/admin/fAQ/goModify?fAQ_No="+"<%=f.getFAQ_No()%>";
+};
 </script>
 <div id="viewFrm">
 	<h2><%=f.getFAQ_Title()%></h2>
-	<p>게시날짜 : <%=f.getFAQ_Date() %></p>
+	<p>게시날짜 : <%=f.getFAQ_Date() %>
+	<br />
+	최종 수정일 : <%=f.getFAQ_Date_Modified() %>
+		</p>
 
 	<br> <br>
 	<div id="contentDiv">
 		<%=f.getFAQ_Content()%>
 	</div>
 	<%
-	if((memberLoggedIn !=null) &&("admin".equals(memberLoggedIn))){
+	if((memberLoggedIn !=null) &&("admin".equals(memberLoggedIn.getMemberId()))){
 		
 %>
-<button onclick="displayModify();">수정하기</button>
-	<form action="<%=request.getContextPath()%>/admin/fAQ/deleteFAQ" id="delFrm">
+<br />
+<button onclick="goModifyFrm();">수정하기</button>
+	<form action="<%=request.getContextPath()%>/admin/onlyAdmin/fAQ/deleteFAQ" id="delFrm">
 		<input type="hidden" name="FAQ_No" value="<%=f.getFAQ_No()%>" />
 		<button onclick="goDelete();">삭제하기</button>
 	</form>
@@ -74,29 +80,6 @@
 </div>
 
 
-<form action="<%=request.getContextPath()%>/admin/fAQ/modifyFAQ"
-	onsubmit="return validate();" method="POST" id="modifyFrm">
-	<div>
-		<select name="fAQ_Category" id="category">
-			<%
-				for (String cat : catList) {
-			%>
-			<option value="<%=cat%>"
-				<%=cat.equals(f.getFAQ_Category()) ? "seleted" : ""%>><%=cat%></option>
-			<%
-				}
-			%>
-		</select> <label for="title">제목</label> <input type="text" name="fAQ_Title"
-			id="title" value="<%=f.getFAQ_Title()%>">
-	</div>
-	<div>
-		<label for="content">내용</label>
-		<textarea name="fAQ_Content" id="fAQ_Con" cols="30" rows="10"
-			wrap="hard" ><%=f.getFAQ_Content()%></textarea>
-	</div>
-	<input type="hidden" name="FAQ_No" value="<%=f.getFAQ_No()%>" />
-	<input type="submit" value="작성" />
-</form>
 
 
 

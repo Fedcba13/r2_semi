@@ -2,11 +2,16 @@ package com.r2.admin.model.vo;
 
 import java.sql.Date;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Support {
 
 	private String supportNo;
+	@SerializedName("sender")
 	private String supportSender;
+	@SerializedName("receiver")
 	private String supportRecevier;
+	@SerializedName("msg")
 	private String supportContent;
 	private Date supportDate;
 

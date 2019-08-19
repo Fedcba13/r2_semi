@@ -58,7 +58,7 @@ function validate(){
 	var rep2 = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
 	var rep3 = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
 
-  if(!regExpTest(rep1, memberIdS, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
+  if(!regExpTest(rep1, memberId, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
 		
 	  	return false;
     } 
@@ -102,24 +102,11 @@ function regExpTest(regExp, what, message) {
 
 </script>
 <script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-        mapOption = {
-            center: new daum.maps.LatLng(37.537187, 127.005476), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
-        };
- 
-    //지도를 미리 생성
-    var map = new daum.maps.Map(mapContainer, mapOption);
-    //주소-좌표 변환 객체를 생성
-    var geocoder = new daum.maps.services.Geocoder();
-    //마커를 미리 생성
-    var marker = new daum.maps.Marker({
-        position: new daum.maps.LatLng(37.537187, 127.005476),
-        map: map
-    });
+
+
  
  
-    function kakaoAddress() {
+ function kakaoAddress() {
         new daum.Postcode({
             oncomplete: function(data) {
                 // 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -181,14 +168,14 @@ table.memberEnroll td.badge badge-light{
 }
 
 table.memberEnroll tr td input.form-control{
-width : 300px;
+width : 200px;
 padding: 0 10px; 
 text-align: left;
 
 }
 
 .input-group>.form-control{
-width : 300px;
+width : 200px;
 flex : none;
 
 }
@@ -236,6 +223,7 @@ margin-left : 25px;
  
 
 </style>
+
 <section id="enroll-container">
 		<h1 class='top'>회원가입</h1>
 		<br />
@@ -281,9 +269,14 @@ margin-left : 25px;
 				</tr>
 				<tr>
 
-					<td><input type="email" class="form-control"
+					<td>
+					<div class="input-group mb-3">
+					<input type="email" class="form-control"
 						placeholder="이메일 주소를 입력하세요. " id="memberEmail" name="memberEmail"
-						required></td>
+						required>
+						<input type="button" id='chkEmail' class="btn btn-outline-secondary"
+								onclick="emailConfirm();" value="이메일 인증">	
+					</div></td>
 				</tr>
 				<tr>
 
@@ -361,6 +354,29 @@ margin-left : 25px;
 			</div>
 			<br />
 		</form>
+<form action="" name="forEmail">
+	<input type="hidden" name="memberEmail" />
+</form>
+<script>
+$('#chkEmail').click(() =>{
+    
+    var url = "<%=request.getContextPath()%>/member/emailCheck";
+    var title = "EmailCheck";
+    var status =  "left=500px, top=200px, width=400px, height=210px";
+        
+    var popup = open("", title, status);
+    
+    var email = document.getElementById('memberEmail');
+    //폼이랑 팝업연결
+    var frm = document.forEmail;
+    frm.memberEmail.value = email.value;
+    frm.action = url;
+    frm.target = title;
+    frm.method = "post";
+    frm.submit();
 
+ });
+
+</script>
 	</section>
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>

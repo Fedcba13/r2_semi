@@ -58,7 +58,6 @@ public class NoticeDAO {
 				n.setNotice_Readcount(rset.getInt("Notice_READCOUNT"));
 				n.setNotice_Category(rset.getString("Notice_CATEGORY"));
 				n.setNotice_Enabled(rset.getInt("Notice_ENABLED"));
-				System.out.println(n);
 
 				list.add(n);
 			}
@@ -113,6 +112,7 @@ public class NoticeDAO {
 				n.setNotice_Readcount(rset.getInt("NOTICE_READCOUNT"));
 				n.setNotice_Category(rset.getString("NOTICE_CATEGORY"));
 				n.setNotice_Enabled(rset.getInt("NOTICE_ENABLED"));
+				n.setFAQ_Date_Modified(rset.getDate("NOTICE_DATE_MODIFIED"));
 			}
 
 		} catch (SQLException e) {
@@ -183,13 +183,10 @@ public class NoticeDAO {
 			pstmt = conn.prepareStatement(sql);
 
 			/*
-			 * 카테고리
-			 * 
-			 * 검색어
-			 * 
-			 * 카테고리 검색어
-			 * 
-			 * xx
+			 * 1. 카테고리로만 필터링
+			 * 2. 검색어로 필터링
+			 * 3. 카테고리 && 검색어 필터링
+			 * 4. 필터링 조건 없음
 			 */
 
 			if ((!"".equals(cat)) && ("".equals(search_Keyword))) {
@@ -214,8 +211,6 @@ public class NoticeDAO {
 			}
 			int start = (cPage - 1) * numPerPage + 1;
 			int end = cPage * numPerPage;
-			System.out.println(start);
-			System.out.println(end);
 			pstmt.setInt(4, start);
 			pstmt.setInt(5, end);
 
@@ -308,7 +303,7 @@ public class NoticeDAO {
 
 	public int modifyNotice(Notice n, Connection conn) {
 		PreparedStatement pstmt = null;
-		String sql = prop.getProperty("modifyFAQ");
+		String sql = prop.getProperty("modifyNotice");
 		int result = 0;
 
 		try {

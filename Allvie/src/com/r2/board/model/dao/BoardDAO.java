@@ -395,6 +395,7 @@ public class BoardDAO {
 			
 			pstmt.setString(1, freeBoardNo);
 			
+			
 			//쿼리문실행
 			//완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			rset = pstmt.executeQuery();
@@ -402,15 +403,14 @@ public class BoardDAO {
 			while(rset.next()){
 				BoardComment bc = new BoardComment();
 				//컬럼명은 대소문자 구분이 없다.
-				bc.setBoard_Comment_No(rset.getString(1));
-				bc.setBoard_Comment_Writer(rset.getString(2));
-				bc.setBoard_Comment_Level(rset.getInt(3));
-				bc.setBoard_Comment_Content(rset.getString(4));
-				bc.setBoard_Ref(rset.getString(5));
-				bc.setBoard_Comment_Ref(rset.getString(6));
-				bc.setBoard_Comment_Date(rset.getDate(7));
-				bc.setBoard_Comment_Enabled(rset.getInt(8));
-				
+				bc.setBoard_Comment_No(rset.getString(2));
+				bc.setBoard_Comment_Writer(rset.getString(3));
+				bc.setBoard_Comment_Level(rset.getInt(4));
+				bc.setBoard_Comment_Content(rset.getString(1));
+				bc.setBoard_Ref(rset.getString(6));
+				bc.setBoard_Comment_Ref(rset.getString(7));
+				bc.setBoard_Comment_Date(rset.getDate(8));
+				bc.setBoard_Comment_Enabled(rset.getInt(9));
 				
 				list.add(bc);
 			}
@@ -468,7 +468,6 @@ public class BoardDAO {
 			pstmt.setString(1, boardNo);
 
 
-			System.out.println(query);
 			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
 			//DML은 executeUpdate()
 			result = pstmt.executeUpdate();
@@ -546,6 +545,30 @@ public class BoardDAO {
 
 		System.out.println("srchcount@dao(totalPage)"+totalPage);
 		return totalPage;
+	}
+
+
+
+	public int deleteBoardComment(Connection conn, String boardCommentNo) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = prop.getProperty("deleteBoardComment"); 
+		
+		try {
+			//미완성쿼리문을 가지고 객체생성.
+			pstmt = conn.prepareStatement(query);
+			//쿼리문미완성
+			pstmt.setString(1, boardCommentNo);
+			
+			//쿼리문실행 : 완성된 쿼리를 가지고 있는 pstmt실행(파라미터 없음)
+			//DML은 executeUpdate()
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 

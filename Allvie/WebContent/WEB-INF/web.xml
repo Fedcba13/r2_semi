@@ -52,6 +52,14 @@
     <servlet-name>memberPwdUpdate</servlet-name>
     <url-pattern>/member/memberUpdatePwd</url-pattern>
   </servlet-mapping>
+    <servlet>
+    <servlet-name>memberEmailChk</servlet-name>
+    <jsp-file>/WEB-INF/views/member/emailChk.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>memberEmailChk</servlet-name>
+    <url-pattern>/member/emailCheck</url-pattern>
+  </servlet-mapping>
   <filter>
     <filter-name>EncodeFilter</filter-name>
     <filter-class>com.r2.common.EncodeFilter</filter-class>
@@ -64,13 +72,10 @@
     <filter-name>EncodeFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
-  <!-- dbcp자원등록 -->
   <resource-ref>
-  	<description>Allvie Oracle DataSource</description>
-  	<res-ref-name>jdbc/myoracle</res-ref-name>
-  	<res-type>javax.sql.DataSource</res-type>
-  	<res-auth>Container</res-auth>
+    <description>Allvie Oracle DataSource</description>
+    <res-ref-name>jdbc/myoracle</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
   </resource-ref>
-  
 </web-app>
