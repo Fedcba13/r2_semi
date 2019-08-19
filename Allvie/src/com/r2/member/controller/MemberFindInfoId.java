@@ -43,22 +43,23 @@ public class MemberFindInfoId extends HttpServlet {
 		String loc = "";
 		String msg = "";
 		
-		if(m.getMemberCheck() == 4) {
+		
+		
+		if (m!= null && m.getMemberCheck() == 4) {
 			msg = "조회되는 회원이 없습니다.";
-			view = "/WEB-INF/views/common/msg.jsp"; 
+			view = "/WEB-INF/views/common/msg.jsp";
 			request.setAttribute("msg", msg);
 			request.setAttribute("loc", loc);
-		}else {
-		if(m != null) {			
-			view = "/WEB-INF/views/member/finalFindId.jsp";
-			request.setAttribute("m", m);
-		}
-		else {
-			view = "/WEB-INF/views/common/msg.jsp"; 
-			msg = "해당회원이 없습니다.";
-			request.setAttribute("msg", msg);
-			request.setAttribute("loc", loc);
-		}
+		} else {
+			if (m != null) {
+				view = "/WEB-INF/views/member/finalFindId.jsp";
+				request.setAttribute("m", m);
+			} else {
+				view = "/WEB-INF/views/common/msg.jsp";
+				msg = "해당회원이 없습니다.";
+				request.setAttribute("msg", msg);
+				request.setAttribute("loc", loc);
+			}
 		}
 		
 		RequestDispatcher reqDispatcher = request.getRequestDispatcher(view);

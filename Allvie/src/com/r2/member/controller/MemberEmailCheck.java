@@ -34,8 +34,8 @@ public class MemberEmailCheck extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String email = request.getParameter("memberEamil");
-//		System.out.println(email);
+		String email = request.getParameter("memberEmail");
+		/* System.out.println(email); */
 		
 
 		
@@ -48,7 +48,7 @@ public class MemberEmailCheck extends HttpServlet {
 				+ "<span style='font-size:15px; font-weight:bolder;'>" + num + "</span>" 
 				+ "<br>감사합니다."
 				+ "<br><br><span><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "<a href='#'style='font-size:30px; color:#e6e6e6; background-color:#333335;'>&nbsp<span style='color:#ac162c;'>A</span>llvie&nbsp</a></h1></span>";
+				+ "<a href='#'style='font-size:30px; color:#e6e6e6; background-color:#333335;'><span style='color:#ac162c;'>A</span>llvie</a></h1></span>";
 		
         		
         GmailSend mail = new GmailSend();

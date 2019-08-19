@@ -29,9 +29,9 @@ function checkIdDuplication(){
 					var html = "";
 					
 					if(data > 0){
-						html += "<br><p class='check'>중복된 아이디가 존재합니다.</p>";
+						html += "<p class='check'>중복된 아이디가 존재합니다.</p>";
 					}else{
-						html += "<br><p>사용할 수 있는 아이디입니다. </p>";
+						html += "<p>사용할 수 있는 아이디입니다. </p>";
 					}
 					
 					$(".dbi").html(html);
@@ -53,23 +53,26 @@ function validate(){
 	var memberPasswordChk = document.getElementById("memberPasswordChk");
 	var memberName = document.getElementById("memberName");
 	var memberPhone = document.getElementById("memberPhone");
+	var emailCheck =document.getElementById("emailChk");
 	
     var rep1 = /^[a-z][a-z\d]{3,11}$/;
 	var rep2 = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).*$/g;
 	var rep3 = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{2,}$/;
+	
 
-  if(!regExpTest(rep1, memberId, "아이디는 첫글자는 영문 소문자, 하나이상의 숫자를 포함한 4~12자의 조합입니다. " )){
+
+  if(!regExpTest(rep1, memberId, "4~12자리 영문 소문자, 숫자 " )){
 		
 	  	return false;
     } 
   
 
-  if(!regExpTest(rep2, memberPassword, "비밀번호는 8~15자리 숫자/문자/특수문자를 포함해야합니다.")){
+  if(!regExpTest(rep2, memberPassword, "8~15자리 숫자/문자/특수문자 포함")){
           return false;
   }
     
   if(memberPassword.value == memberPasswordChk.value){
-      return true;
+      
   }else{
 	memberPassword.value = "";
 	memberPassword.placeholder = "비밀번호가 일치하지않습니다";
@@ -78,11 +81,13 @@ function validate(){
      return false;
   }
   
-  
 
-  
+	if(emailCheck.value != 0){
+		alert('a');
+		return false;
+	  }
     
-	return false;
+	return true;
 	
 }
 
@@ -146,6 +151,9 @@ p.check{
 	color : red;
 }
 
+div.dbi{
+	height: 30px;
+}
 .red::placeholder {
 	color : red;
 }
@@ -168,15 +176,15 @@ table.memberEnroll td.badge badge-light{
 }
 
 table.memberEnroll tr td input.form-control{
-width : 200px;
-padding: 0 10px; 
-text-align: left;
+	width: 270px;
+	padding: 0 10px; 
+	text-align: left;
 
 }
 
 .input-group>.form-control{
-width : 200px;
-flex : none;
+	width : 200px;
+	flex : none;
 
 }
 
@@ -214,9 +222,7 @@ input{
 }
 
 div.button1 input.button{
-
-margin-left : 25px;	
-
+	margin-left : 25px;	
 }
 
  
@@ -274,8 +280,9 @@ margin-left : 25px;
 					<input type="email" class="form-control"
 						placeholder="이메일 주소를 입력하세요. " id="memberEmail" name="memberEmail"
 						required>
-						<input type="button" id='chkEmail' class="btn btn-outline-secondary"
-								onclick="emailConfirm();" value="이메일 인증">	
+					<input type="button" id='chkEmail' class="btn btn-outline-secondary"
+						onclick="emailConfirm();" value="이메일 인증">	
+					<input type="hidden" id='emailChk' value='1' />
 					</div></td>
 				</tr>
 				<tr>
@@ -362,7 +369,7 @@ $('#chkEmail').click(() =>{
     
     var url = "<%=request.getContextPath()%>/member/emailCheck";
     var title = "EmailCheck";
-    var status =  "left=500px, top=200px, width=400px, height=210px";
+    var status =  "left=500px, top=200px, width=665px, height=327px";
         
     var popup = open("", title, status);
     

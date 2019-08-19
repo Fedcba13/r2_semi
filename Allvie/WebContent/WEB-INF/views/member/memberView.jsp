@@ -16,7 +16,7 @@
 	String phone = m.getMemberPhone();
 	String address = m.getMemberAddress()!=null?m.getMemberAddress():"";
 	
-	String[] genre = new String[11];
+	String[] genre = null;
 	//똑같은 크기의 checked배열생성
 	String[] genreChk = new String[11];
 	for(int i=0; i< genreChk.length; i++){
@@ -24,7 +24,7 @@
 	}
 
 	if(m.getMemberFavoriteGenre() != null){
-		genre = m.getMemberFavoriteGenre().split(", ");
+		genre = m.getMemberFavoriteGenre().split(",");
 	
 		for(int i=0; i<genre.length; i++){
 			
@@ -133,9 +133,9 @@ function deleteMember(){
 function updatePassword(){
 	var url = "<%=request.getContextPath()%>/member/memberUpdatePwd?memberId=<%=memberId_%>";
     var title = "updatePassword";
-    var status =  "left=500px, top=200px, width=400px, height=210px";
-    
-	var popup = window.open(url,title,status);
+    var status =  "left=500px, top=200px, width=665px, height=327px";
+
+    var popup = window.open(url,title,status);
 	
 }
 
@@ -181,7 +181,7 @@ function updatePassword(){
 					<input type="email"
 						   name="memberEmail"
 						   value="<%=email%>" 
-						   id="memberEmail"/>
+						   id="memberEmail" readonly/>
 				</td>
 			</tr>
 			<tr>
