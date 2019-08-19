@@ -23,7 +23,6 @@ public class FAQDAO {
 		String fileName = FAQDAO.class.getResource("/sql/admin/FAQ/FAQ-query.properties").getPath();
 		try {
 			prop.load(new FileReader(fileName));
-			System.out.println("[[prop loading 완료:" + fileName + "]]");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -115,7 +114,7 @@ public class FAQDAO {
 				f.setFAQ_Readcount(rset.getInt("FAQ_READCOUNT"));
 				f.setFAQ_Category(rset.getString("FAQ_CATEGORY"));
 				f.setFAQ_Enabled(rset.getInt("FAQ_ENABLED"));
-				System.out.println(f);
+				f.setFAQ_Date_Modified(rset.getDate("FAQ_DATE_MODIFIED"));
 			}
 
 		} catch (SQLException e) {
@@ -296,8 +295,6 @@ public class FAQDAO {
 			}
 			int start = (cPage - 1) * numPerPage + 1;
 			int end = cPage * numPerPage;
-			System.out.println(start);
-			System.out.println(end);
 			pstmt.setInt(4, start);
 			pstmt.setInt(5, end);
 

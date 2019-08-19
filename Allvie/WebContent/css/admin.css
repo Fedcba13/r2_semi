@@ -41,4 +41,30 @@ a{
 a:hover{
 	color: #f0522a;
 }
-
+input, select, button, .list-group-item, .page-link {
+	background-color: rgb(51, 51, 53);
+}
+#serviceUl {
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0 10px 64px;
+}
+.page-link{
+	color: #f0522a;
+	border: 1px solid black;
+}
+#numPerPage-container{
+	float: right;
+}
+#above_tb{
+	width: 700px;
+	padding: 0 0 20px 0;
+}
+textarea{
+	background-color: rgb(51, 51, 53);
+	color: white;
+}
+#contentDiv{
+	width: 600px;
+}

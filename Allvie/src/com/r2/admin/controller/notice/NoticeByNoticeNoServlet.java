@@ -37,6 +37,8 @@ public class NoticeByNoticeNoServlet extends HttpServlet {
 		
 		List<String> catList = new NoticeService().getNoticeCategory();
 		
+		
+		
 		request.setAttribute("n", n);
 		request.setAttribute("catList", catList);
 		request.getRequestDispatcher("/WEB-INF/views/admin/notice/ViewNotice.jsp").forward(request, response);

@@ -1,3 +1,4 @@
+<%@page import="com.r2.admin.model.vo.FAQ"%>
 <%@page import="java.util.List"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -8,16 +9,20 @@
 
 <%
 	List<String> catList = (List<String>) request.getAttribute("catList");
+	FAQ f = (FAQ)request.getAttribute("f");
+	String modCon = (String)request.getAttribute("modCon");
+	
 %>
 <style>
 #title {
 	width: 300px;
 }
 </style>
-<h2>공지사항 쓰기</h2>
+<h2>FAQ 수정</h2>
 <form
-	action="<%=request.getContextPath()%>/admin/onlyAdmin/fAQ/writeFAQ"
+	action="<%=request.getContextPath()%>/admin/onlyAdmin/fAQ/modifyFAQ"
 	onsubmit="return validate();" method="POST">
+	<input type="hidden" name="FAQ_No" value="<%=f.getFAQ_No()%>" />
 	<div>
 		<select name="fAQ_Category" id="category">
 			<%
@@ -28,14 +33,14 @@
 				}
 			%>
 		</select>&nbsp;&nbsp; <label for="title">제목</label> <input type="text"
-			name="fAQ_Title" id="title">
+			name="fAQ_Title" id="title" value='<%=f.getFAQ_Title()%>'>
 	</div>
 	<div>
 		<label for="content">내용</label>
 		<textarea name="fAQ_Content" id="fAQ_Con" cols="70" rows="10"
-			wrap="hard">내용을 입력하세요.</textarea>
+			wrap="hard"><%=modCon %></textarea>
 	</div>
-	<input type="submit" value="작성" />
+	<input type="submit" value="수정" />
 </form>
 <script>
 	function validate() {
