@@ -32,7 +32,6 @@ public class SearchUnionListServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String search_Keyword = request.getParameter("search_Keyword");
-		System.out.println(search_Keyword+"**************");
 		
 		List<Notice> unionList = new UnionService().getUnionSearchList(search_Keyword);
 		

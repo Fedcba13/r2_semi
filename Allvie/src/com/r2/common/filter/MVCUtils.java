@@ -36,7 +36,7 @@ public class MVCUtils {
 		//해싱처리
 		byte[] encryptedBytes = md.digest();
 		
-		System.out.println(new String(encryptedBytes));
+		//System.out.println(new String(encryptedBytes));
 		
 		//2.인코딩
 		encPwd = Base64.getEncoder()

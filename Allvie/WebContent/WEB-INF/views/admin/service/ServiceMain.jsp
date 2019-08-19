@@ -57,6 +57,7 @@ div {
 </style>
 
 	<h1>고객센터</h1>
+	<br />
 	<form action="<%=request.getContextPath()%>/union/getUnionList"
 		method="POST" onkeydown="return captureReturnKey(event)">
 		<input type="text" name="search_Keyword" id="searchInput"
@@ -66,13 +67,17 @@ div {
 
 	</ul>
 </form>
-<div id="fAQ_Area">
+<div id="fAQ_Area" style="width: 700px;">
 	<div id="div_01">
 		<h2>가입 절차</h2>
 	</div>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	<div id="div_02">
 		<h2>내 계정 관리</h2>
 	</div>
+	&nbsp;&nbsp;&nbsp;&nbsp;
+	&nbsp;&nbsp;&nbsp;&nbsp;
 	<div id="div_03">
 		<h2>서비스/콘텐츠</h2>
 	</div>
@@ -188,7 +193,6 @@ div {
 									cat = '&lt;FAQ&gt;';
 								} 
 								name =  n.Notice_Title.replace(search_Keyword, "<span class='srchVal'>"+search_Keyword+"</span>");
-							
 								
 		
 								html += "<li class='list-group-item d-flex justify-content-between align-items-center'>";

@@ -56,9 +56,6 @@ $(()=>{
 
 <form action="<%=request.getContextPath()%>/admin/faq/fAQFilter"
 	method="POST" id="searchFAQ">
-	<input type="text" name="search_Keyword" id="searchInput"
-		value="<%=search_Keyword==null? "" : search_Keyword%>">
-	<button type="submit">검색</button>
 	<select name="cat" id="categoryChoice">
 		<option value="" selected>분류 선택</option>
 		<%
@@ -69,13 +66,16 @@ $(()=>{
 				}
 			%>
 	</select>
+	<input type="text" name="search_Keyword" id="searchInput"
+		value="<%=search_Keyword==null? "" : search_Keyword%>">
+	<button type="submit">검색</button>
 		페이지당 게시물수 <select name="numPerPage" id="numPerPage">
 			<option value="20" <%=numPerPage == 20? "selected":""%>>20</option>
 			<option value="10" <%=numPerPage == 10? "selected":""%>>10</option>
 			<option value="5" <%=numPerPage == 5? "selected":""%>>5</option>
 		</select>
 	</form>
-
+<br />
 
 
 <table id="admin_board_tb">
@@ -115,24 +115,27 @@ $(()=>{
 
 </table>
 
+<br />
+<div style="width: 700px; ">
+	<div id="pageBar">
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<%=pageBar%>
+			</ul>
+		</nav>
+	</div>
+	<div style="float: right;">
+		<%
+			if ((memberLoggedIn != null) && ("admin".equals(memberLoggedIn.getMemberId()))) {
+		%>
+		<button onclick="goWrite();">글쓰기</button>
 
-<div id="pageBar">
-	<nav aria-label="Page navigation example">
-		<ul class="pagination">
-			<%=pageBar%>
-		</ul>
-	</nav>
+
+		<%
+			}
+		%>
+	</div>
 </div>
-<%
-	if((memberLoggedIn !=null) &&("admin".equals(memberLoggedIn))){
-		
-%>
-<button onclick="goWrite();">글쓰기</button>
-
-<%
-	}
-%>
-
 <script>
 	function goWrite(){
 		location.href = "<%=request.getContextPath() %>/admin/onlyAdmin/FAQ/goWriteFAQView";

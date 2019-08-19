@@ -34,7 +34,6 @@ public class NoitceFilterServlet extends HttpServlet {
 		String search_Keyword = request.getParameter("search_Keyword");
 		String cat = request.getParameter("cat");
 		
-		System.out.println(cat+"****************");
 		
 		int numPerPage = 5;
 		try {
@@ -54,11 +53,7 @@ public class NoitceFilterServlet extends HttpServlet {
 		int totalContents = new NoticeService().getTotalContentsByFilter(search_Keyword, cat);
 
 		
-		System.out.println(search_Keyword);
-		System.out.println(cat);
-		System.out.println("컨텐츠 수 : " + totalContents);
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
-		System.out.println("페이지 수 : " + totalPage);
 
 		
 		// pageBar html 코드작성
@@ -97,7 +92,6 @@ public class NoitceFilterServlet extends HttpServlet {
 		}
 		
 		
-		System.out.println(notList);
 		List<String> catList = new NoticeService().getNoticeCategory();
 		request.setAttribute("search_Keyword", search_Keyword);
 		request.setAttribute("cat", cat);

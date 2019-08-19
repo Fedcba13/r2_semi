@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -122,3 +124,5 @@ $("#goBackToBoard").click(function () {
 
 
 </script>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
