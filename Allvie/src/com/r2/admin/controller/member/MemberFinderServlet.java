@@ -65,10 +65,13 @@ public class MemberFinderServlet extends HttpServlet {
 		//가입 날짜를 조회시
 		if("member_EnrollDate".equals(searchType)) {
 			
+			
+			
 			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-			
-			
 			try {
+				/*
+				 * name 값으로부터 날짜를 String으로 가져옴과 동시에 날짜형식으로 parse
+				 */
 				search_KeywordStart = transFormat.parse(request.getParameter("search_KeywordStart"));
 				search_KeywordEnd = transFormat.parse(request.getParameter("search_KeywordEnd"));
 			} catch (ParseException e1) {
@@ -138,19 +141,7 @@ public class MemberFinderServlet extends HttpServlet {
 		RequestDispatcher reqDispatcher = request.getRequestDispatcher("/WEB-INF/views/admin/member/memberFinder.jsp");
 		reqDispatcher.forward(request, response);
 		
-		/*
-		 * 
-		 * 보내실때 date.gettime => 자바스크립트 => long
-		 * 타임스탬프를 date 
-		 * 
-		 * 빼올때 타임스템프
-		 * 
-		 * new date(밀리세컨드) =>? 자바스크립트
-		 * 
-		 * 
-		 * 
-		 */
-
+		
 	}
 
 	/**

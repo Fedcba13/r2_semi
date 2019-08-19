@@ -53,9 +53,7 @@ public class FAQListServlet extends HttpServlet {
 
 		List<FAQ> fAQList = new FAQService().getfAQList(cPage, numPerPage);
 		int totalContents = new FAQService().selectTotalContents();
-		System.out.println("컨텐츠 수 : " + totalContents);
 		int totalPage = (int) Math.ceil(totalContents / (double) numPerPage);
-		System.out.println("페이지 수 : " + totalPage);
 
 		final int pageBarSize = 5;
 		String pageBar = "";
