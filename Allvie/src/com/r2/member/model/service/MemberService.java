@@ -17,8 +17,6 @@ public class MemberService {
 		
 		int result = new MemberDAO().insertMember(conn, m);
 		
-		close(conn);
-		
 		if(result>0)
 			commit(conn);
 		else 
