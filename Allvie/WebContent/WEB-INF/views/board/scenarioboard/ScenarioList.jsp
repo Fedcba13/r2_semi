@@ -21,6 +21,10 @@
 
 <style>
 
+#main-text{
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
 
 #pageBar{
 	text-align: center;
@@ -34,13 +38,17 @@
 
 #srchForm{
 	text-align: center;
-	margin-right: 160px;
 	}
 
 #btn-write{
 	float: right;
-	margin-right: 100px;
 }
+
+select#srchType, select#srchType option {
+	color: black;
+	height: 38px;
+}
+
 #srchField{
 	display: inline-block;
 	size: 30px;

@@ -118,7 +118,7 @@ td#content-td{
 	height: 180px;
 }
 section#contentPage{
-	margin-top: 30px;
+	padding-top: 30px;
 }
 
 h2{
@@ -138,7 +138,6 @@ table#board-table {
 
 table td{
 	width: 500px;
-	text-align: center;
 	word-break:break-all;
 }
 
@@ -146,11 +145,8 @@ th{
 	width: 100px;
 	height: 50px;
 	background-color: lightgray;
-	
+	color: black;
 }
-
-
-
 
 #buttons{
 	margin-top: 25px;
@@ -167,11 +163,20 @@ section#comment-section{
 }
 
 table#tbl-comment{
-	width:580px; 
+	width:600px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
-	}
+	border-bottom: 1px solid;
+}
+
+table#tbl-comment td:nth-child(2n){
+	width: 130px;
+}
+
+table#tbl-comment td:nth-child(2n+1){
+	width: 370px;
+}
 
 
 #boardCommentFrm{
@@ -180,7 +185,13 @@ table#tbl-comment{
 
 #btn-insert{
 	margin-left: 22.3em;
+	color: black;
 }
+
+#boardCommentContent{
+	color: #333335;
+}
+
 </style>
 
 <head>
@@ -210,7 +221,7 @@ table#tbl-comment{
 	
 		<tr>
 		<th>작성자</th>
-		<td><a href=""><%=fb.getFree_Board_Writer() %></a></td>		
+		<td><%=fb.getFree_Board_Writer() %></td>		
 		</tr>	
 		
 			
@@ -280,15 +291,10 @@ table#tbl-comment{
 			%>
 		</table>
 	</section>
-			<br />
-			<br />
-			<br />
-			
-			
-			
+				
 			
 	<%if(memberLoggedIn!=null) {%>
-	<h2>댓글 입력창</h2>
+	<h2 style="padding: 30px;">댓글 입력창</h2>
 	<div class="comment-editor">
 		<form
 			action="<%=request.getContextPath()%>/board/freeBoardCommentInsert"

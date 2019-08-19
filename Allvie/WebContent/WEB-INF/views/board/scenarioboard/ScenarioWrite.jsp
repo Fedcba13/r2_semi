@@ -28,6 +28,21 @@ img{
 	max-width: 200px;
 	max-height: 300px;
 }
+
+form#frm{
+    text-align: center;
+    display: inline-block;
+}
+
+form#frm > table{
+	width: 655px;
+}
+
+form#frm table td input{
+	color: black;
+}
+
+
 </style>
 <script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
 <link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->

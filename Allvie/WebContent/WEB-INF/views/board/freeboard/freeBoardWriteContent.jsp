@@ -8,16 +8,19 @@
 
 <style>
 #main-text{
-	margin-top: 50px;
-	margin-bottom: 50px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	text-align: center;
-	margin-right: 9em;
 }
 
 #main{
 	width: 700px;
-	height: 100%;
-	margin: auto;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#main > form{
+	display: inline-block;
 }
 
 #submitBtn{
@@ -36,7 +39,6 @@ th{
 </style>
 
 
-<title>글쓰기</title>
 <div id="main">
 	<h2 id="main-text">글쓰기</h2>
 	<form action="<%=request.getContextPath()%>/board/freeBoardWriteEnd"

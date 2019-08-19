@@ -33,8 +33,8 @@
 }
 
 #main-text{
-	margin-top: 50px;
-	margin-bottom: 50px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	text-align: center;
 }
 #main{
@@ -45,6 +45,21 @@
 
 #goBackToBoard{
 	text-align: center;
+	margin: 10px;
+	color: black;
+}
+
+select#srchType{
+	height: 30px;
+	color: black;
+}
+
+input[name=keyword]{
+	color: black;
+}
+
+form[name=srchForm] > input[type=submit]{
+	color: black;
 }
 </style>
 

@@ -17,7 +17,6 @@
 
 <style>
 
-
 img{
 	max-width: 400px;
 	max-height: 500px;
@@ -31,13 +30,10 @@ td{
 td#content-td{
 	height: 180px;
 }
-section#contentPage{
-	margin-top: 30px;
-}
 
 h2{
-	margin-top: 50px;
-	margin-bottom: 100px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -48,6 +44,10 @@ table#board-table {
 /* 	border-collapse: collapse;
  */	border: 0.5px solid;
 	border-top: 0.5 solid;
+}
+
+table#board-table th{
+	color:black;
 }
 
 table td{
@@ -81,11 +81,12 @@ section#comment-section{
 }
 
 table#tbl-comment{
-	width:580px; 
+	width:600px; 
 	margin:0 auto; 
 	border-collapse:collapse; 
 	clear:both; 
-	}
+	border-bottom: 1px solid;
+}
 
 
 #boardCommentFrm{
@@ -94,6 +95,7 @@ table#tbl-comment{
 
 #btn-insert{
 	margin-left: 22.3em;
+	color: black;
 }
 </style>
 
@@ -153,8 +155,6 @@ table#tbl-comment{
 	<%} %>
 	</div>
 	</section>
-	<br />
-	<br />
 
 	<!-- 댓글 테이블@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
 
@@ -217,9 +217,6 @@ table#tbl-comment{
 			%>
 		</table>
 	 </section>
-			<br />
-			<br />
-			<br />
 
 			<h2>댓글 입력창</h2>
 

@@ -13,10 +13,9 @@
 
 <style>
 #main-text{
-	margin-top: 50px;
-	margin-bottom: 50px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	text-align: center;
-	margin-right: 9em;
 }
 
 #main{
@@ -57,6 +56,9 @@ width: 317px;
     text-align: center;
 }
 
+input[name=title], textarea#content{
+	color: black;
+}
 
 
 </style>

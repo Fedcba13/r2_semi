@@ -219,7 +219,7 @@ div.nav>.arrow>img {
 					<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
 					<li><a href="<%=request.getContextPath()%>/admin/getServiceList">고객센터</a> </li>
 					<li><a href="<%=request.getContextPath()%>/board/freeBoard">자유게시판</a> </li>
-					<li><a href="<%=request.getContextPath()%>/board/freeBoard">시나리오게시판</a> </li>
+					<li><a href="<%=request.getContextPath()%>/board/ScenarioBoard">시나리오게시판</a> </li>
 				 	<!-- 관리자가 로그인했을때 -->
 					<%
 						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {

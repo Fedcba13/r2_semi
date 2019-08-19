@@ -33,8 +33,8 @@
 }
 
 #main-text{
-	margin-top: 50px;
-	margin-bottom: 50px;
+	padding-top: 50px;
+	padding-bottom: 50px;
 	text-align: center;
 }
 #main{
@@ -46,6 +46,11 @@
 #goBackToBoard{
 	text-align: center;
 }
+
+select#srchType, input[name=keyword][type=text], div#srchPanel input[type=submit], #goBackToBoard{
+	color: black;
+}
+
 </style>
 
 

@@ -1,29 +1,20 @@
-<<<<<<< HEAD
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/header.jsp"%>
-<!DOCTYPE html>
 
 <%
 	List<FreeBoard> list = (List<FreeBoard>) request.getAttribute("list");
 	String pageBar = (String) request.getAttribute("pageBar");
 %>
 
-<html>
-<script
-	src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script>
-<!-- jquery  -->
 <script
 	src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script>
 <!-- 부트스트랩 기본 -->
 
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css">
-<!-- 부트스트랩 기본 -->
-<%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard.css" />
- --%>
 
 <style>
 #main-text {
@@ -145,9 +136,7 @@ select#srchType, select#srchType option {
 $("#btn-write").click(function () {
 	
 
-	location.href 
-	= "<%=request.getContextPath()%>
-		/board/freeBoardWrite";
+	location.href = "<%=request.getContextPath()%>/board/freeBoardWrite";
 						});
 	</script>
 
