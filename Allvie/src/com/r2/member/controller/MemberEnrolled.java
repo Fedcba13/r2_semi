@@ -44,7 +44,7 @@ public class MemberEnrolled extends HttpServlet {
 		String mGenre = "";
 		
 		if(Genre != null) {
-			mGenre = String.join(", ", Genre);
+			mGenre = String.join(",", Genre);
 		}
 		
 		Member m = new Member();

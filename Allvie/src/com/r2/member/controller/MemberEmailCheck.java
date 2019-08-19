@@ -34,13 +34,13 @@ public class MemberEmailCheck extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String email = request.getParameter("memberEamil");
-//		System.out.println(email);
+		String email = request.getParameter("memberEmail");
+
 		
 
 		
 		String num = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거해 주었다. 
-		num = num.substring(0, 5); //uuid를 앞에서부터 10자리 잘라줌. 
+		num = num.substring(0, 5);
 
         String mailContent = "안녕하세요. Allvie 입니다. "
 				+ "<br> E-Mail 인증 번호 입니다. "
@@ -48,7 +48,7 @@ public class MemberEmailCheck extends HttpServlet {
 				+ "<span style='font-size:15px; font-weight:bolder;'>" + num + "</span>" 
 				+ "<br>감사합니다."
 				+ "<br><br><span><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-				+ "<a href='#'style='font-size:30px; color:#e6e6e6; background-color:#333335;'>&nbsp<span style='color:#ac162c;'>A</span>llvie&nbsp</a></h1></span>";
+				+ "<a href='#'style='font-size:30px; color:#e6e6e6; background-color:#333335;'>&nbsp;<span style='color:#ac162c;'>A</span>llvie&nbsp;</a></h1></span>";
 		
         		
         GmailSend mail = new GmailSend();

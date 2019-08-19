@@ -1,114 +1,26 @@
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+
 <%@page import="java.util.List"%>
 <%@page import="com.r2.board.model.vo.BoardComment"%>
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+    pageEncoding="UTF-8"%>
 <%
 	FreeBoard fb = (FreeBoard)request.getAttribute("fb");
 /* 	String memberLoggedIn = fb.getFree_Board_Writer();
  */	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
- 
- 	String memberId = "";
+	String memberId = "";
  	
- 	if(memberLoggedIn != null){
- 		memberId = memberLoggedIn.getMemberId();
- 	}
- 
+	if(memberLoggedIn != null){
+		memberId = memberLoggedIn.getMemberId();
+	}
+
+
 %>
 
-<script
-	src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script>
-<!-- 부트스트랩 기본 -->
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css">
-<!-- 부트스트랩 기본 -->
-<script
-	src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script>
-<!-- jquery  -->
-
-<style>
-#board-table td {
-	height: 60px;
-}
-
-td#content-td {
-	height: 180px;
-}
-
-section#contentPage {
-	margin-top: 30px;
-}
-
-h2 {
-	margin-top: 50px;
-	margin-bottom: 100px;
-	margin: 0 auto;
-	text-align: center;
-}
-
-table#board-table {
-	width: 700px;
-	margin: 0 auto;
-	border-collapse: collapse;
-	border-top: 0.5 solid;
-}
-
-table td {
-	width: 500px;
-	word-break: break-all;
-}
-
-th {
-	width: 100px;
-	height: 50px;
-	background-color: lightgray;
-}
-
-#buttons {
-	margin-top: 25px;
-	margin-left: 26em;
-	text-align: center;
-}
-
-section#comment-section {
-	margin-top: 10px;
-}
-
-table#tbl-comment {
-	width: 600px;
-	margin: 0 auto;
-	border-collapse: collapse;
-	clear: both;
-}
-
-table#tbl-comment td:nth-child(2n) {
-	width: 150px;
-}
-
-table#tbl-comment td:nth-child(2n+1) {
-	width: 450px;
-}
-
-#boardCommentFrm {
-	text-align: center;
-}
-
-#btn-insert {
-	margin-left: 22.3em;
-}
-
-.comment pre {
-	margin: 0;
-	padding: 0;
-	color: #e6e6e6;
-}
-</style>
-
-<head>
-<meta charset="UTF-8">
-<title><%=fb.getFree_Board_Title() %></title>
-
+<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
 <script>
 $(()=>{
 	//답글(대댓글)작성
@@ -190,60 +102,145 @@ $(()=>{
 		if(!confirm("정말 삭제하시겠습니까?")){
 			alert('삭제를 취소하셨습니다');
 		}else{
-			location.href="<%=request.getContextPath()%>/board/boardCommentDelete?boardNo=<%=fb.getFree_Board_No() %>&del=this.getAttribute('no')";
+			location.href="<%=request.getContextPath()%>/board/boardCommentDelete?boardNo=<%=fb.getFree_Board_No() %>&del="+this.getAttribute('no');
 		}
 	});
 	
 });
-</script>
 
+</script>
+<style>
+td{
+	height: 60px;
+}
+
+td#content-td{
+	height: 180px;
+}
+section#contentPage{
+	margin-top: 30px;
+}
+
+h2{
+	margin-top: 50px;
+	margin-bottom: 100px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+table#board-table {
+	width: 700px;
+	margin: 0 auto;
+/* 	border-collapse: collapse;
+ */	border: 0.5px solid;
+	border-top: 0.5 solid;
+}
+
+table td{
+	width: 500px;
+	text-align: center;
+	word-break:break-all;
+}
+
+th{
+	width: 100px;
+	height: 50px;
+	background-color: lightgray;
+	
+}
+
+
+
+
+#buttons{
+	margin-top: 25px;
+	margin-left: 26em;
+	text-align: center;
+	
+
+}
+
+
+
+section#comment-section{
+	margin-top: 10px;
+}
+
+table#tbl-comment{
+	width:580px; 
+	margin:0 auto; 
+	border-collapse:collapse; 
+	clear:both; 
+	}
+
+
+#boardCommentFrm{
+	text-align: center;
+}
+
+#btn-insert{
+	margin-left: 22.3em;
+}
+</style>
+
+<head>
+<meta charset="UTF-8">
+<title><%=fb.getFree_Board_Title() %></title>
 </head>
 <body>
 
 
 
 	<section id="contentPage">
-		<h2>게시글 상세보기</h2>
-		<br />
-		<table class="table table-hover border border-primary"
-			id="board-table">
-
-			<tr>
-				<th>제목</th>
-				<td><%=fb.getFree_Board_Title()%></td>
-			</tr>
-
-
-			<tr>
-				<th>작성자</th>
-				<td><a href=""><%=fb.getFree_Board_Writer()%></a></td>
-			</tr>
-
-
-			<tr>
-				<th>조회수</th>
-				<td><%=fb.getFree_Board_ReadCount()%></td>
-			</tr>
-
-			<tr>
-				<th>내용</th>
-				<td id="content-td"><p><%=fb.getFree_Board_Content()%></p></td>
-			</tr>
-
-
-			<tr>
-				<th>날짜</th>
-				<td><%=fb.getFree_Board_Date()%></td>
-			</tr>
-
-		</table>
-		<div id="buttons">
-			<input type="button" value="목록으로 돌아가기" id="goBoardListBtn"
-				class="btn btn-primary" /> <input type="button" value="수정"
-				onclick="updateFreeBoard();" class="btn btn-warning" /> <input
-				type="button" value="삭제" onclick="deleteFreeboard();"
-				class="btn btn-danger" />
-		</div>
+	<h2>게시글 상세보기</h2>
+	<br />
+	<table class="table table-hover border border-primary" id="board-table" >
+		<tr>
+<%-- 		<th>번호</th>
+			<% int idx =fb.getFree_Board_No().indexOf("_");%>
+			<td><%=fb.getFree_Board_No().substring(idx+1)%></td>	
+		</tr> --%>	
+		
+		
+		<tr>
+		<th>제목</th>
+		<td><%=fb.getFree_Board_Title() %></td>		
+		</tr>	
+			
+	
+		<tr>
+		<th>작성자</th>
+		<td><a href=""><%=fb.getFree_Board_Writer() %></a></td>		
+		</tr>	
+		
+			
+		<tr>
+		<th>조회수</th>
+		<td><%=fb.getFree_Board_ReadCount() %></td>		
+		</tr>	
+		
+		<tr>
+		<th >내용</th>
+		<td id="content-td"><p><%=fb.getFree_Board_Content() %></p></td>		
+		</tr>	
+		
+		
+		<tr>
+		<th>날짜</th>
+		<td><%=fb.getFree_Board_Date() %></td>		
+		</tr>
+		
+	</table>
+	<div id="buttons">
+	<input type="button" value="목록으로 돌아가기" id="goBoardListBtn" class="btn btn-primary"/>
+	<%if(memberLoggedIn!=null && 
+			(fb.getFree_Board_Writer().equals(memberLoggedIn.getMemberId())
+			|| "admin123".equals(memberLoggedIn.getMemberId())) ){%>
+	
+	<input type="button" value="수정" onclick="updateFreeBoard();" class="btn btn-warning"/>
+	<input type="button" value="삭제" onclick="deleteFreeboard();" class="btn btn-danger"/>
+	<%} %>
+	</div>
 	</section>
 	<br />
 	<br />
@@ -270,11 +267,7 @@ $(()=>{
  	if (bc.getBoard_Comment_Writer().equals(memberId)) {%>
  	
  	<input type="button" value="삭제" class="btn btn-danger commentDelete" no="<%=bc.getBoard_Comment_No() %>" /> 
- 	<%}%> <%--@실습문제:
-								 관리자/댓글작성자에 한해 이버튼을 노출시키고,
-								 댓글 삭제 기능추가. 
-								 댓글삭제후에는 현재페이지로 다시 이동함.
-							  --%>
+ 	<%}%> 
 
 
 
@@ -287,13 +280,15 @@ $(()=>{
 			%>
 		</table>
 	</section>
-	<br />
-	<br />
-	<br />
-
+			<br />
+			<br />
+			<br />
+			
+			
+			
+			
+	<%if(memberLoggedIn!=null) {%>
 	<h2>댓글 입력창</h2>
-
-
 	<div class="comment-editor">
 		<form
 			action="<%=request.getContextPath()%>/board/freeBoardCommentInsert"
@@ -311,6 +306,36 @@ $(()=>{
 			<button type="submit" id="btn-insert">등록하기</button>
 		</form>
 	</div>
+	<%} %>
 
+<script>
+
+$("#goBoardListBtn").click(function() {
+	location.href 
+	= "<%=request.getContextPath()%>/board/freeBoard";
+});
+
+
+function updateFreeBoard() {
+	location.href = "<%=request.getContextPath()%>/board/modifyFreeBoard?boardNo=<%=fb.getFree_Board_No()%>";
+}
+
+function deleteFreeboard() {
+	if(confirm("<%=fb.getFree_Board_Title()%> 게시글을 삭제하시겠습니까?"))
+	 {
+	  
+	  location.href = "<%=request.getContextPath()%>/board/deleteFreeBoard?boardNo=<%=fb.getFree_Board_No()%>";
+	 }
+	 else
+	 {
+	 alert('삭제를 취소하셨습니다');
+	 }
+	
+
+}
+
+
+</script>	
 </body>
 </html>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

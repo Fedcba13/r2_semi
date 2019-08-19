@@ -2,13 +2,13 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.r2.member.model.vo.Member" %>
 <%
- 	String email = (String)request.getParameter("memberEmail");
-	/* System.out.println("jps : " + email); */
+	String email = (String)request.getParameter("memberEmail");
+
 	String num = (String)request.getAttribute("num");
 	if(num != null){
 		email = (String)request.getAttribute("email");
 	}
-	System.out.println("jsp : " + num);
+
 %>
 
 <!DOCTYPE html>
@@ -36,14 +36,20 @@
 div#emailChk-container{background-color:#333335;}
 div#emailChk-container table {margin:10px auto; border-spacing: 20px;}
 div#emailChk-container table tr:last-of-type td {text-align:center;}
+input.btn{margin-bottom : 20px;}
+h1.top {
+	text-align:center; 
+	padding-top:10px;
+	color:#e6e6e6;
+	font-weight:bolder;}
 </style>
 <script>
 function emailConfirm(){
-	
-	
-	
+	var email = $("#memberEmail").val();
+			
 	var bool = confirm("메일주소로 인증번호를 발송하겠습니까?");
 	if(bool){
+		$("#memberEmail_").val(email);
 		var frm = $("#emailCheck");
 		frm.submit();
 	}
@@ -58,19 +64,31 @@ function CheckEnd(){
 		alert('인증번호를 다시 확인해주세요. ');
 		return false;
 	}
+	
+	var frm = opener.document.enrollFrm;
 
-	alert("확인완료 ");
+	frm.memberEmail.value = '<%=email%>';
+	frm.emailChk.value = 0;
+	frm.memberAddress.focus();
 	self.close();
-	return true;	
+	
+
+		return true;	
+	
 }
 
 </script>
 </head>
 <body>
+
+
 <form action="<%=request.getContextPath()%>/member/emailCheckDo" id="emailCheck">
-	<input type="hidden" name="memberEamil" value="<%=email %>">
+	<input type="hidden" id='memberEmail_' name="memberEmail" value="<%=email %>">
 </form>
 	<div id="emailChk-container">
+<h1 class='top'>이메일 인증</h1>
+
+<br />
 			<table>
 				<tr>
 					
@@ -79,14 +97,15 @@ function CheckEnd(){
 					<div class="input-group mb-3">
 					<input type="email" class="form-control"
 						id="memberEmail" value="<%=email %>" required>
-						<input type="button" class="btn btn-outline-secondary"
-								onclick="emailConfirm();" id='clickop' value="메일 발송">	
+					<input type="button" class="btn btn-outline-secondary"
+						onclick="emailConfirm();" id='clickop' value="메일 발송">	
 					</div></td>
 				</tr>
 				<tr>
 					<td>	
 						<input type="text" class="form-control" id="numChk" placeholder='인증번호 입력' required><br>
 						<input type="hidden" id="num" value="<%=num%>"><br>
+						<input type="hidden" id="enrollCheck" value="1"><br>
 					</td>
 				</tr>
 				<tr>

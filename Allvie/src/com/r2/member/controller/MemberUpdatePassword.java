@@ -45,32 +45,41 @@ public class MemberUpdatePassword extends HttpServlet {
 		String msg = "";
 		String loc = "";
 		String view = "/WEB-INF/views/common/msg.jsp";
+		
+		response.setContentType("text/html; charset=UTF-8");
+		PrintWriter out = response.getWriter();
 
 		if(result == 1) {
 			
 			result = new MemberService().updatePwd(memberId, newPwd);
 			
 			if(result > 0) {
-				response.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = response.getWriter();
 				out.print("<script>");
 				out.print("self.close();");
-				out.print("opener.location.href = '"+request.getContextPath()+"/member/memberView';");
 				out.print("opener.alert('비밀번호 변경이 완료되었습니다.');");
-				out.print("</script>");
-				
+				out.print("opener.location.href = '"+request.getContextPath()+"/member/memberView';");
+				out.print("</script>");			
 		
+			}else {
+				out.print("<script>");
+				out.print("self.close();");
+				out.print("opener.alert('비밀번호 변경실패. 1:1 게시판에 문의하세요..');");
+				out.print("opener.location.href = '"+request.getContextPath()+"/member/memberView';");
+				out.print("</script>");			
 			}
 			
 		}else {
+			out.print("<script>");
+			out.print("self.close();");
+			out.print("opener.alert('비밀번호가 일치하지않습니다.');");
+			out.print("opener.location.href = '"+request.getContextPath()+"/member/memberView';");
+			out.print("</script>");		
 			
-			msg = "현재 비밀번호가 일치하지 않습니다.";
-			loc = "/member/memberView";
-			
-			request.setAttribute("msg", msg);
-			request.setAttribute("loc", loc);
-			RequestDispatcher req = request.getRequestDispatcher(view);
-			req.forward(request, response);
+			/*
+			 * request.setAttribute("msg", msg); request.setAttribute("loc", loc);
+			 * RequestDispatcher req = request.getRequestDispatcher(view);
+			 * req.forward(request, response);
+			 */
 			
 		}
 	

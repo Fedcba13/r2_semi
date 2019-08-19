@@ -13,8 +13,6 @@
 <title>비밀번호 변경</title>
 <script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/style.css" />
-<link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
@@ -30,9 +28,15 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <style>
-div#updatePassword-container{background-color:#333335;}
+div#updatePassword-container{background-color:#333335;height:327px;}
 div#updatePassword-container table {margin:0 auto; border-spacing: 20px;}
-div#updatePassword-container table tr:last-of-type td {text-align:center;}
+div#updatePassword-container table tr:last-of-type td {text-align:center; }
+input.btn{margin-bottom : 20px;}
+h1.top {
+	text-align:center; 
+	padding-top:10px;
+	color:#e6e6e6;
+	font-weight:bolder;}
 </style>
 <script>
 function passwordValidate(){
@@ -41,6 +45,7 @@ function passwordValidate(){
 	
 	if(pwd_new!=pwd_chk){
 		/* $('#newPassword').place */
+		alert("비밀번호가 일치하지않습니다.");
 		$("#newPassword").select();
 		return false;
 	}
@@ -52,6 +57,7 @@ function passwordValidate(){
 <body>
 	<div id="updatePassword-container">
 		<form name="updatePwdFrm" action="<%=request.getContextPath()%>/member/updatePasswordEnd" method="post" >
+		<h1 class="top">비밀번호 변경</h1>
 			<table>
 				<tr>
 					

@@ -259,6 +259,51 @@
 				alert("로그인 후 이용해주세요");
 			<%}%>
 		  })
+		  $("#review-comment").keydown((k)=>{
+			  if(k.keyCode == 13){
+				  var param = {
+						  memberId: $("#memberId").val(),
+						  rate: $("#rating-input").val(),
+						  movieId: <%=movieId%>,
+						  comment: $("#review-comment").val()			  
+				  }
+				  //리뷰 멘트 또는 별점 모두 작성되지 않았다면 제출하지 않고 리턴한다
+				  if(param.rate == 0 || param.comment.trim().length == 0){
+					  alert("평점과 리뷰를 모두 작성하세요");
+					  return ;
+				  }
+				  //리뷰의 길이가 너무 길어지는것을 방지
+				  if(param.comment.trim().length > 140){
+					  alert("너무 길어");
+					  return;
+				  }
+				 /*  console.log(data.comment);
+				  console.log(data.rate);
+				  console.log(data); */
+				  //리뷰작성에 문제가 없을 시 ajax를 실행
+				  $.ajax({
+					 url: "<%=request.getContextPath()%>/movie/insertReview.do",
+					 data: param,
+					 success: function(data){	
+						 //만약 접속한 아이디가 해당영화에 리뷰한 기록이 있다면 리뷰작성을 막는다(1영화당 하나의 리뷰만 작성가능)
+						 if(""==data){
+							 alert("이미 리뷰한 영화입니다.")
+						 } else {
+							 //리뷰 작성이성공적으로 됐을 경우 리뷰목록, 그래프, 평점을 새로 갱신한다
+							 getReviews(1);
+							 getReviewGraph();
+							 $("#review-comment").val("");
+							 $("#rating-input").val(0);
+							 getAvg();						 
+						 }
+					 },
+					 error: function(jqxhr, textStatus, errorThrown){
+							console.log("ajax처리실패!!");
+							console.log(jqxhr, textStatus, errorThrown);
+						}
+				  });
+			  }
+		  })
 	})//onload함수 종료
 	//리뷰목록 가져오는 함수
 	function getReviews(cPage){

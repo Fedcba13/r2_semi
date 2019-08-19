@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
@@ -46,7 +48,7 @@ th{
 	
 		<tr>
 		<th>작성자</th>
-		<td><input  type="text" name="writer" id="writer" value="abc" required="required" readonly="readonly" class="form-control form-control-lg"/></td>		
+		<td><input  type="text" name="writer" id="writer" value="<%=memberLoggedIn.getMemberId() %>" required="required" readonly="readonly" class="form-control form-control-lg"/></td>		
 		</tr>	
 		
 		<tr>
@@ -87,3 +89,5 @@ function boardValidate(){
 	return true;
 }
 </script>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

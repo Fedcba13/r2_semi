@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.r2.member.model.service.MemberService;
-import com.r2.member.model.vo.Member;
 
 /**
  * Servlet implementation class MemberIdDuplicate
