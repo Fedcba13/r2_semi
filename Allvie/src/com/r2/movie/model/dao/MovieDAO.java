@@ -51,6 +51,7 @@ public class MovieDAO {
 			}
 			
 			keyword = keyword.replace(" ", "");
+			keyword = keyword.toLowerCase();
 			
 			boolean choseong = false;
 			
@@ -63,10 +64,10 @@ public class MovieDAO {
 			}
 			
 			if(choseong) {
-				condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
+				condition += "(fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%' or lower(original_title) like '%" + keyword + "%')";
 				function = "FN_GET_DIV_KO_CHAR";
 			}else {
-				condition += "fn like '%'||fn_choSearch('" + keyword + "')||'%'";
+				condition += "(fn like '%'||fn_choSearch('" + keyword + "')||'%'  or lower(original_title) like '%" + keyword + "%')";
 				function = "fn_choSearch";
 			}
 		}
@@ -157,10 +158,10 @@ public class MovieDAO {
 					}
 					
 					if(choseong) {
-						condition += "fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%'";
+						condition += "(fn like '%'||FN_GET_DIV_KO_CHAR('" + keyword + "')||'%' or lower(original_title) like '%" + keyword + "%')";
 						function = "FN_GET_DIV_KO_CHAR";
 					}else {
-						condition += "fn like '%'||fn_choSearch('" + keyword + "')||'%'";
+						condition += "(fn like '%'||fn_choSearch('" + keyword + "')||'%'  or lower(original_title) like '%" + keyword + "%')";
 						function = "fn_choSearch";
 					}
 				}

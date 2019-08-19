@@ -67,7 +67,7 @@
 			if ((memberLoggedIn != null) && ("admin".equals(memberLoggedIn.getMemberId()))) {
 		%>
 		<button onclick="goModifyFrm();">수정하기</button>
-		<form action="<%=request.getContextPath()%>/admin/notice/deleteNotice"
+		<form action="<%=request.getContextPath()%>/admin/onlyAdmin/notice/deleteNotice"
 			id="delFrm">
 			<input type="hidden" name="notice_No" value="<%=n.getNotice_No()%>" />
 			<button onclick="goDelete();">삭제하기</button>

@@ -38,10 +38,12 @@ public class NoticeService {
 		Connection conn = getConnection();
 		int result = new NoticeDAO().insertNotice(n, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		
+		close(conn);
 		return result;
 				
 		
@@ -74,10 +76,12 @@ public class NoticeService {
 		Connection conn = getConnection();
 		int result = new NoticeDAO().deleteNotice(notice_No, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		
+		close(conn);
 		return result;
 	}
 
@@ -85,10 +89,12 @@ public class NoticeService {
 		Connection conn = getConnection();
 		int result = new NoticeDAO().modifyNotice(n, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		
+		close(conn);
 		return result;
 	}
 	

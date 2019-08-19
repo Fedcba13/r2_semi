@@ -23,10 +23,11 @@ public class SupportService {
 			result = new SupportDAO().updateSupport(conn, s);
 		}
 		
-		if(result > 0)
+		if(result>0) {
 			commit(conn);
-		else 
+		}else {
 			rollback(conn);
+		}
 		close(conn);
 		
 		return result;

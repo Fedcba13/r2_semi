@@ -119,11 +119,15 @@ function getMovie(){
 		dataType: "json",
 		success: function(data){
 			
-			console.log(data);
 			var movieList = data["list"];
 			var pageBar = data["pageBar"];
 
 			$("#movieSearch td").html("");
+			
+			if(movieList.length == 0){
+				 $("#movieSearch>table").empty();
+				 $("#movieSearch>table").html("<tr><td style='width:780px; height:590px; text-align: center;'>검색된 결과가 없습니다.</td></tr>");
+			}
 			
 			$.each(movieList, (i, it)=>{
 				var html = '';

@@ -20,7 +20,7 @@
 
 <style>
 #main-text{
-	margin-top: 50px;
+	padding-top: 50px;
 	margin-bottom: 50px;
 	text-align: center;
 }
@@ -37,17 +37,13 @@
 
 #srchForm{
 	text-align: center;
-	margin-right: 160px;
+	    margin-bottom: 5px;
 	}
 
-#btn-write{
-	float: right;
-	margin-right: 100px;
-}
 #srchField{
 	display: inline-block;
 	size: 30px;
-	width: 30%;
+	width: 360px;
 }
 
 #srchBtn{
@@ -60,6 +56,16 @@
 	margin: auto;
 }
 
+select#srchType, select#srchType option{
+	color: black;
+	 height: 38px;	
+}
+
+#btn-write{
+	margin-bottom: 5px;
+}
+
+
 </style>
 
  <head>
@@ -67,12 +73,12 @@
 <title>freeboard</title>
 </head>
 <body>
-	<h2 id="main-text">자유게시판에 오신것을 화녕합니다~</h2>
+	<h2 id="main-text">자유게시판에 오신것을 환영합니다~</h2>
 	
 	<div id="main">
 		<table id="tbl-board" class="table table-hover">
 		<tr>
-			<th >번호</th>
+			<th>번호</th>
 			<th>제목</th>
 			<th>작성자</th>
 			<th>작성일</th>
@@ -98,7 +104,6 @@
 	</table>
 	<hr />
 	
-		<input type="button" value="글쓰기" id="btn-write"  class="btn btn-success"/>
 		<div id='pageBar' >
 		<%=pageBar %>
 		</div>
@@ -111,8 +116,9 @@
 			<option value="title">제목</option>
 			<option value="uniSrch" selected="selected" >통합검색</option>		
 		</select>
-		<input type="text" placeholder="검색어를 입력" name="keyword" id="srchField" class="form-control"/>
+		<input type="text" placeholder="검색어를 입력하세요	" name="keyword" id="srchField" class="form-control"/>
 		<input type="submit" value="검색" class="btn btn-primary" id="srchBtn"/>
+		<input type="button" value="글쓰기" id="btn-write"  class="btn btn-success"/>
 		</form>
 		
 		<br />
@@ -137,5 +143,5 @@ $("#btn-write").click(function () {
 
 
 </script>
-</body>
-</html>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>

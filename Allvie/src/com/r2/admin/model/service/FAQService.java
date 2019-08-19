@@ -1,8 +1,6 @@
 package com.r2.admin.model.service;
 
-import static com.r2.common.JDBCTemplate.close;
-import static com.r2.common.JDBCTemplate.getConnection;
-import static com.r2.common.JDBCTemplate.rollback;
+import static com.r2.common.JDBCTemplate.*;
 
 import java.sql.Connection;
 import java.util.List;
@@ -83,10 +81,11 @@ public class FAQService {
 		Connection conn = getConnection();
 		int result = new FAQDAO().insertFAQ(f, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		close(conn);
 		return result;
 	}
 
@@ -94,10 +93,11 @@ public class FAQService {
 		Connection conn = getConnection();
 		int result = new FAQDAO().modifyFAQ(f, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		close(conn);
 		return result;
 	}
 
@@ -105,10 +105,11 @@ public class FAQService {
 		Connection conn = getConnection();
 		int result = new FAQDAO().deleteFAQ(fAQ_No, conn);
 		if(result>0) {
-			close(conn);
+			commit(conn);
 		}else {
 			rollback(conn);
 		}
+		close(conn);
 		return result;
 	}
 	
