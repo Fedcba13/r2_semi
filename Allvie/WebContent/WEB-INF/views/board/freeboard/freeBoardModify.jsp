@@ -1,3 +1,5 @@
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
+
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -132,3 +134,4 @@ function contentValidate(){
 </script>
 
 </html>
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>

@@ -1,8 +1,8 @@
+<%@ include file="/WEB-INF/views/common/header.jsp"%>
 <%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <!DOCTYPE html>
 
 <%
@@ -67,7 +67,7 @@
 <title>freeboard</title>
 </head>
 <body>
-	<h2 id="main-text">자유게시판에 오신것을 화녕합니다~</h2>
+	<h2 id="main-text">자유게시판에 오신것을 환영합니다~</h2>
 	
 	<div id="main">
 		<table id="tbl-board" class="table table-hover">
@@ -97,8 +97,9 @@
 		<%} %>
 	</table>
 	<hr />
-	
+	<%if(memberLoggedIn!=null) {%>
 		<input type="button" value="글쓰기" id="btn-write"  class="btn btn-success"/>
+		<%} %>
 		<div id='pageBar' >
 		<%=pageBar %>
 		</div>
@@ -139,3 +140,5 @@ $("#btn-write").click(function () {
 </script>
 </body>
 </html>
+
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
