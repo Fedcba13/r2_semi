@@ -170,6 +170,13 @@ div.nav>.arrow>img {
             	
             });
             
+          //엔터키 눌렀을때 send
+        	$("input[name=categorySearch]").keydown(e=>{
+        		if(e.key == "Enter"){
+        			$("#button-addon2	").trigger("click");
+        		}
+        	});
+            
             $("#categoryReset").click(()=>{
             	
             	//검색어 초기화

@@ -37,8 +37,8 @@ $(()=>{
 			html += "<input type='hidden' name='boardCommentWriter' value='<%=memberId%>'>";
 			html += "<input type='hidden' name='boardCommentLevel' value='"+level+"'>";
 			html += "<input type='hidden' name='boardCommentRef' value='"+e.target.value+"'>";
-			html += "<textarea name='boardCommentContent' cols='60' rows='1'></textarea>";
-			html += "<button type='submit' class='btn-insert2'>등록</button>";
+			html += "<textarea name='boardCommentContent' cols='60' rows='1' style='height: 38px;'></textarea>";
+			html += "<button type='submit' class='btn-reply btn btn-success btn-reply' style='vertical-align: top; margin-left: 10px;'>등록</button>";
 			html += "</form>";
 			html += "</td>";
 			
@@ -190,6 +190,10 @@ table#tbl-comment td:nth-child(2n+1){
 
 #boardCommentContent{
 	color: #333335;
+}
+
+td > pre {
+    background: #dee2e6;
 }
 
 </style>

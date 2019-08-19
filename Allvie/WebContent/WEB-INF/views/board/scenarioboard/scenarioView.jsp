@@ -9,6 +9,13 @@
 	Scenario s = (Scenario)request.getAttribute("s");
 /* 	String memberLoggedIn = fb.getFree_Board_Writer();
  */	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
+ 
+ String memberId = "";
+ 
+ if(memberLoggedIn != null){
+     memberId = memberLoggedIn.getMemberId();
+ }
+ 
 %>
 
 <script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
@@ -227,8 +234,8 @@ table#tbl-comment{
 				  method="post" id="boardCommentFrm">
 				<input type="hidden" name="boardRef" 
 					   value="<%=s.getScenario_No()%>" />
-				<input type="hidden" name="boardCommentWriter" 
-					   value="<%=memberLoggedIn.getMemberId() %>" />
+				<input type="hidden" name="boardCommentWriter"
+                       value="<%=memberId %>" />
 				<input type="hidden" name="boardCommentLevel" 
 					   value="1" />
 				<input type="hidden" name="boardCommentRef" 
