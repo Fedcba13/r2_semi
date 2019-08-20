@@ -8,6 +8,7 @@ kh r2 semi 프로젝트
 # oracle - function
 
 --초성
+
 create or replace function fn_choSeong( str in varchar2) return varchar2 
 is 
    returnStr varchar2(100);  
@@ -45,7 +46,11 @@ begin
       return returnStr; 
 end; 
 
+
+
 --초성 중성 종성 나누기
+
+
 
 create or replace FUNCTION FN_DIV_KOR (
     i_p1    IN    VARCHAR2
