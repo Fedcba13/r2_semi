@@ -1,95 +1,85 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp">
 <style>
-
-
-
-.member{
-
-	width : 50%;
-	margin : 0 auto;
-	text-align : center;
-
+.member {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
 }
 
-
-input#memberName.form-control, input#user-phone-email.form-control, input#user-phone-email_.form-control, input#memberName_.form-control{
+input#memberName.form-control, input#user-phone-email.form-control,
+	input#user-phone-email_.form-control, input#memberName_.form-control {
 	width: 300px;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
 }
 
 .join ul li a {
-    display: inline-block;
-    position: relative;
-    top: -1px;
-    font-size: 16px;
-    letter-spacing: -0.3px;
-	color : #e6e6e6;
+	display: inline-block;
+	position: relative;
+	top: -1px;
+	font-size: 16px;
+	letter-spacing: -0.3px;
+	color: #e6e6e6;
 }
 
-ul li{
-    display: list-item;
-    list-style : none;
-    float : left;
-	padding : 10px; 
-	text-aligh : center;
-    
+ul li {
+	display: list-item;
+	list-style: none;
+	float: left;
+	padding: 10px;
+	text-aligh: center;
 }
 
-div.join, div.join>ul{
+div.join, div.join>ul {
 	overflow: hidden;
 }
 
-div#formdiv{
+div#formdiv {
 	padding-top: 40px;
 }
 
-div.join>ul{
-    display: inline-block;
-    text-align: center;
-    margin: 0 auto;
-    padding:0;
+div.join>ul {
+	display: inline-block;
+	text-align: center;
+	margin: 0 auto;
+	padding: 0;
 }
 
-div#formdiv, form#findInfoId{
+div#formdiv, form#findInfoId {
 	overflow: hidden;
-	padding-bottom : 10px;
+	padding-bottom: 10px;
 	display: inline-block;
 }
 
-	
 }
-h2{
+h2 {
 	color: #e6e6e6;
-    font-family: 'Oswald', sans-serif;
-    font-weight: bold;    
-    padding-top: 30px;
+	font-family: 'Oswald', sans-serif;
+	font-weight: bold;
+	padding-top: 30px;
 }
 
-.btn-outline-secondary:hover{
-  	 border-color: #ac162c;
-     background: #ac162c;
+.btn-outline-secondary:hover {
+	border-color: #ac162c;
+	background: #ac162c;
 }
 
-input.btn-outline-secondary{
-    border-color: #6c757d;
-    background: gray;
-    color: white;
-    margin-left : 25px;
-    padding-botton : 10px;
+input.btn-outline-secondary {
+	border-color: #6c757d;
+	background: gray;
+	color: white;
+	margin-left: 25px;
+	padding-botton: 10px;
 }
 
-ul li a:hover{
-	color : #f0522a;
-	text-decoration : none;
+ul li a:hover {
+	color: #f0522a;
+	text-decoration: none;
 }
-
-
 </style>
 <section id='findInfoId'>
 
@@ -99,12 +89,12 @@ ul li a:hover{
 <hr>
 <div class="join">
 	<ul>
-		<li><a href="<%=request.getContextPath() %>/member/findInfoId">아이디 찾기</a></li>
-		<li><a href="<%=request.getContextPath() %>/member/findInfoPwd">비밀번호 재설정</a></li>
+		<li><a href="${pageContext.request.contextPath }/member/findInfoId">아이디 찾기</a></li>
+		<li><a href="${pageContext.request.contextPath }/member/findInfoPwd">비밀번호 재설정</a></li>
 	</ul>
 	
 </div>
-<form action="<%=request.getContextPath()%>/member/findInfoIdByEmail" id="findInfoIdByEmail" name="findInfoIdByEmail" method="post">
+<form action="${pageContext.request.contextPath}/member/findInfoIdByEmail" id="findInfoIdByEmail" name="findInfoIdByEmail" method="post">
 	<label for="memberName" class="dsn"></label> 
 	<input type="text"class='form-control' name='memberName_' id='memberName_'
 			placeholder='이름을 입력해주세요' required />
@@ -116,7 +106,7 @@ ul li a:hover{
 </form>
 </div>
 
-<form action="<%=request.getContextPath()%>/member/findInfoIdEnd" id="findInfoId" name="findInfoId" method="post" >
+<form action="${pageContext.request.contextPath}/member/findInfoIdEnd" id="findInfoId" name="findInfoId" method="post" >
 <h2 class='top' style='color:#e6e6e6;'>간편찾기</h2>
 <hr>
 
@@ -161,4 +151,4 @@ function radio(){
 }
 
 </script>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -1,15 +1,12 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-
-<%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	FreeBoard fb = (FreeBoard)request.getAttribute("fb");
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-%>
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
 
 <style>
 #main-text{
@@ -66,30 +63,30 @@ input[name=title], textarea#content{
 
 <head>
 <meta charset="UTF-8">
-<title>[<%=fb.getFree_Board_Title() %>]수정하기</title>
+<title>[${fb.free_Board_Title}]수정하기</title>
 </head>
 <body>
 	<div id="main">
 
-	<h2 id="main-text">[<%=fb.getFree_Board_Title() %>]수정하기</h2>
-		<form action="<%=request.getContextPath()%>/board/freeBaordUpdateEnd" method="post">
+	<h2 id="main-text">[${fb.free_Board_Title}]수정하기</h2>
+		<form action="${pageContext.request.contextPath}/board/freeBaordUpdateEnd" method="post">
 		<table class="table table-hover">
 		<tr>
 		<th>번호</th>
-			<% int idx =fb.getFree_Board_No().indexOf("_");%>
-			<td><%=fb.getFree_Board_No().substring(idx+1)%></td>	
+			<c:set var="idx" value="${fn:indexOf(fb.free_Board_No, '_') }" />
+			<td>${fn:substring(fb.free_Board_No, index+1, fn:length(fb.free_Board_No)) }</td>
 		</tr>	
 		
 		
 		<tr>
 		<th>제목</th>
-		<td><input type="text" name="title" value="<%=fb.getFree_Board_Title() %>" /></td>		
+		<td><input type="text" name="title" value="${fb.free_Board_Title}" /></td>		
 		</tr>	
 			
 	
 		<tr>
 		<th>작성자</th>
-		<td><%=fb.getFree_Board_Writer() %></td>
+		<td>${fb.free_Board_Writer}</td>
 		</tr>	
 			
 		
@@ -98,7 +95,7 @@ input[name=title], textarea#content{
 		
 		<tr>
 		<th>내용</th>
-		<td><textarea name="content" id="content" cols="30" rows="10" ><%=fb.getFree_Board_Content() %></textarea> </td>		
+		<td><textarea name="content" id="content" cols="30" rows="10" >${fb.free_Board_Content}</textarea> </td>		
 		</tr>	
 		
 
@@ -107,10 +104,10 @@ input[name=title], textarea#content{
 		<input type="button" value="목록으로 돌아가기" id="goBoardListBtn" class="btn btn-info"/>
 		
 		
-		<input type="hidden" name="boardNo" value="<%=fb.getFree_Board_No() %>" />
-		<input type="hidden" name="writer" value="<%=fb.getFree_Board_Writer() %>" />
-		<input type="hidden" name="readCount" value="<%=fb.getFree_Board_ReadCount() %>" />
-		<input type="hidden" name="date" value="<%=fb.getFree_Board_Date() %>" />
+		<input type="hidden" name="boardNo" value="${fb.free_Board_No}" />
+		<input type="hidden" name="writer" value="${fb.free_Board_Writer}" />
+		<input type="hidden" name="readCount" value="${fb.free_Board_ReadCount}" />
+		<input type="hidden" name="date" value="${fb.free_Board_Date}" />
 	</form>
 	</div>
 	
@@ -120,7 +117,7 @@ input[name=title], textarea#content{
 <script>
 $("#goBoardListBtn").click(function() {
 	location.href 
-	= "<%=request.getContextPath()%>/board/freeBoard";
+	= "${pageContext.request.contextPath}/board/freeBoard";
 });
 
 
@@ -136,4 +133,4 @@ function contentValidate(){
 </script>
 
 </html>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -1,26 +1,16 @@
-<%@page import="com.r2.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
-<%
-	//로그인 성공 후 session객체에 저장된 memberLoggedIn가져오기
-	request.setCharacterEncoding("UTF-8");
-	Member memberLoggedIn = (Member) session.getAttribute("memberLoggedIn");
-	String searchKeyword = request.getParameter("keyword") != null ? request.getParameter("keyword") : "";
-	String searchGenre = request.getParameter("genre") != null ? request.getParameter("genre") : "";
-	String searchYearFrom = request.getParameter("yearFrom") != null ? request.getParameter("yearFrom") : "";
-	String searchYearTo = request.getParameter("yearTo") != null ? request.getParameter("yearTo") : "";
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Allvie</title>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery-3.4.1.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Gothic+A1|Oswald&display=swap" rel="stylesheet">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/style.css" />
+	href="${pageContext.request.contextPath }/css/style.css" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -37,7 +27,7 @@
 	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 	crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css"
-	href="<%=request.getContextPath()%>/css/checkbox.css">
+	href="${pageContext.request.contextPath }/css/checkbox.css">
 <style>
 
 div.nav {
@@ -75,10 +65,10 @@ div.nav>.arrow>img {
         $(() => {
         	
         	//검색 했을때 키워드 가져오기
-        	var prevKeyword = '<%=searchKeyword%>';
-        	var prevGenre = '<%=searchGenre%>';
-        	var prevYearFrom = '<%=searchYearFrom%>';
-        	var prevYearTo = '<%=searchYearTo%>';
+        	var prevKeyword = '${param.keyword}';
+        	var prevGenre = '${param.genre}';
+        	var prevYearFrom = '${param.yearFrom}';
+        	var prevYearTo = '${param.yearTo}';
         	
         	var chkList = new Array();
         	
@@ -160,7 +150,7 @@ div.nav>.arrow>img {
             	var yearfrom = $("#yearfrom").val();
             	var yearto = $("#yearto").val();
             	
-            	var url  = '<%=request.getContextPath()%>/movie/searchMovie'
+            	var url  = '${pageContext.request.contextPath }/movie/searchMovie'
             	url += '?keyword='+searchKeyword;
 				url += '&genre='+searchGenre;        		
 				url += '&yearFrom='+yearfrom;	
@@ -218,36 +208,32 @@ div.nav>.arrow>img {
 <body>
 	<div id="container">
 		<header>
-			<a href="<%=request.getContextPath()%>"><h1><span>A</span>llvie</h1></a>
+			<a href="${pageContext.request.contextPath }"><h1><span>A</span>llvie</h1></a>
 			<!-- 메인 메뉴 시작 -->
 			<nav>
 				<ul class="main-nav">
 					<!-- 사이트 진입했을때 -->
-					<li><a href="<%=request.getContextPath()%>/admin/notice/noticeList">공지사항</a></li>
-					<li><a href="<%=request.getContextPath()%>/admin/getServiceList">고객센터</a> </li>
-					<li><a href="<%=request.getContextPath()%>/board/freeBoard">자유게시판</a> </li>
-					<li><a href="<%=request.getContextPath()%>/board/ScenarioBoard">시나리오게시판</a> </li>
+					<li><a href="${pageContext.request.contextPath }/admin/notice/noticeList">공지사항</a></li>
+					<li><a href="${pageContext.request.contextPath }/admin/getServiceList">고객센터</a> </li>
+					<li><a href="${pageContext.request.contextPath }/board/freeBoard">자유게시판</a> </li>
+					<li><a href="${pageContext.request.contextPath }/board/ScenarioBoard">시나리오게시판</a> </li>
+					
 				 	<!-- 관리자가 로그인했을때 -->
-					<%
-						if (memberLoggedIn != null && "admin".equals(memberLoggedIn.getMemberId())) {
-					%>				 	
-					<li><a href="<%=request.getContextPath()%>/admin/onlyAdmin/member/memberList">회원관리</a></li>
-					<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
+					<c:if test="${memberLoggedIn.memberId == 'admin' }">
+					<li><a href="${pageContext.request.contextPath }/admin/onlyAdmin/member/memberList">회원관리</a></li>
+					<li><a href="${pageContext.request.contextPath }/member/logout">로그아웃</a></li>
+				 	</c:if>
 				 	
 				 	<!-- 일반 사용자가 로그인했을때 -->
-				 	<%
-						}else if(memberLoggedIn != null){
-				 	%>
-					<li><a href="<%=request.getContextPath()%>/member/memberView">회원정보보기</a></li>
-					<li><a href="<%=request.getContextPath()%>/member/logout">로그아웃</a></li>
-					<%
-						}else{
-							
-					%>
-					<li><a href="<%=request.getContextPath()%>/member/memberLogin">로그인</a></li>
-					<%
-					 	}
-					%>	
+				 	<c:if test="${!empty memberLoggedIn && memberLoggedIn.memberId != 'admin'}">
+						<li><a href="${pageContext.request.contextPath }/member/memberView">회원정보보기</a></li>
+						<li><a href="${pageContext.request.contextPath }/member/logout">로그아웃</a></li>
+					</c:if>
+
+					<c:if test="${empty memberLoggedIn }">
+						<li><a href="${pageContext.request.contextPath }/member/memberLogin">로그인</a></li>
+					</c:if>
+	
 				</ul>
 			</nav>
 		</header>
@@ -318,7 +304,7 @@ div.nav>.arrow>img {
 				</div>
 			</div>
 			<div class="arrow">
-				<img src="<%=request.getContextPath()%>/images/arrow.png">
+				<img src="${pageContext.request.contextPath }/images/arrow.png">
 			</div>
 		</div>
 		<section id="content">

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <style>
 
 /* .member-layout{
@@ -120,7 +120,7 @@ ul.join-find li#menu:after {
   <tr style="vertical-align:middle">
     <td style="padding-top: 60px;width:50%;border-right:1px solid gray; padding-right:12px; ">
 
-<img src="<%=request.getContextPath() %>/images/loginMovie.jpg" alt="" />
+<img src="${pageContext.request.contextPath }/images/loginMovie.jpg" alt="" />
 
 
 </td>
@@ -128,7 +128,7 @@ ul.join-find li#menu:after {
 <div class="member">
 	<div class='login member-layout'>
 		<h1 style='color:#e6e6e6;'>로그인</h1>
-		<form action="<%=request.getContextPath()%>/member/memberLoginEnd" 
+		<form action="${pageContext.request.contextPath}/member/memberLoginEnd" 
 				id="logIn" name="logIn" method="post" onsubmit='return check();'>
 		<ul class="input-wrap01">
 			<li>
@@ -156,16 +156,13 @@ ul.join-find li#menu:after {
 		
 		</form>
 		<ul class="join-find">
-			<li id='menu'><a href="<%=request.getContextPath()%>/member/memberEnroll">회원가입</a></li>
-			<li id='menu'><a href="<%=request.getContextPath()%>/member/findInfoId">아이디찾기</a></li>
-			<li id='menu'><a href="<%=request.getContextPath()%>/member/findInfoPwd">비밀번호 재설정</a></li>
+			<li id='menu'><a href="${pageContext.request.contextPath}/member/memberEnroll">회원가입</a></li>
+			<li id='menu'><a href="${pageContext.request.contextPath}/member/findInfoId">아이디찾기</a></li>
+			<li id='menu'><a href="${pageContext.request.contextPath}/member/findInfoPwd">비밀번호 재설정</a></li>
 		</ul>
 	</div>
 </div>
 </td>
 </tr>
 </table>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
-
-
-
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

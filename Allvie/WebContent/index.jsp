@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <style>
 #movieRank img {
 	width: 185px;
@@ -49,7 +49,7 @@
 	opacity: 0.7;
 }
 </style>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
 <script>
 
 var curPage = 1;
@@ -66,7 +66,7 @@ function findImg(title, year){
 	var result = new Array();
 	
 	$.ajax({
-		url: "<%=request.getContextPath()%>/movie/movieImage.do",
+		url: "${pageContext.request.contextPath}/movie/movieImage.do",
 		type: "post",
 		async: false,
 		data: param,
@@ -125,7 +125,7 @@ $(()=>{
 					
 					html += '<td>';
 					if(result[0] != ''){						
-						html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+result[1]+"'><img src='https://image.tmdb.org/t/p/w185/"+result[0]+"'></a>"
+						html += "<a href='${pageContext.request.contextPath}/movie/gotoDetail?movieId="+result[1]+"'><img src='https://image.tmdb.org/t/p/w185/"+result[0]+"'></a>"
 					}else{
 						html += "<a href='"+result[1]+"'><img src='"+result[0]+"'></a>"
 					}
@@ -155,4 +155,4 @@ $(()=>{
 
 </section>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

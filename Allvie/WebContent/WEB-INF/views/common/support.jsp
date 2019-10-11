@@ -1,6 +1,6 @@
-<%@page import="com.r2.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     
 <style>
 div#support{
@@ -26,7 +26,7 @@ div#support:hover{
 }
 
 div#support:hover > img{
-	content: url("<%=request.getContextPath()%>/images/support_white.png");
+	content: url("${pageContext.request.contextPath}/images/support_white.png");
 }
 
 </style>
@@ -37,13 +37,14 @@ div#support:hover > img{
 		
 		$("div#support").click(()=>{
 			
-			<%if(memberLoggedIn != null){%>
+			<c:if test="${empty memberLoggedIn}">
 				var option = "width = 500, height = 500, top = "+((window.screen.height-500)/2)+", left = "+((window.screen.width-500)/2)+", location = no"
 				console.log(option);
-				window.open("<%=request.getContextPath()%>/support/chatRoom.do", "관리자 문의방", option);
-			<%}else{%>
+				window.open("${pageContext.request.contextPath}/support/chatRoom.do", "관리자 문의방", option);
+			</c:if>
+			<c:if test="${!empty memberLoggedIn}">
 				alert('로그인 부터 해주세요.');
-			<%}%>
+			</c:if>
 		});
 		
 	});
@@ -51,5 +52,5 @@ div#support:hover > img{
 </script>
 
 <div id="support">
-	<img src="<%=request.getContextPath()%>/images/support.png">
+	<img src="${pageContext.request.contextPath }/images/support.png">
 </div>

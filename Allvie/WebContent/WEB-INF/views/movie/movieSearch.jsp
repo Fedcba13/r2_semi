@@ -1,37 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<%
-String keyword;
-String genre;
-String yearFrom;
-String yearTo;
-String actorId;
-if(request.getParameter("keyword") != null){
-    keyword = request.getParameter("keyword");        
-} else {
-    keyword = "";
-}
-
-if(request.getParameter("genre") != null){
-    genre = request.getParameter("genre");
-} else {
-    genre = "";        
-}
-
-if(request.getParameter("yearFrom") != null){
-    yearFrom = request.getParameter("yearFrom");        
-} else {
-    yearFrom = "";
-}
-
-if(request.getParameter("yearTo") != null){
-    yearTo = request.getParameter("yearTo");    
-} else {
-    yearTo = "";
-}
-%>
 <style>
 #movieSearch img {
 	width: 185px;
@@ -87,7 +57,7 @@ if(request.getParameter("yearTo") != null){
 }
 
 </style>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
 <script>
 
 var curPage = 1;
@@ -98,10 +68,10 @@ var param = {};
 $(()=>{
 	
 	param = {
-		keyword: '<%=searchKeyword%>',
-		genre: '<%=searchGenre%>',
-		yearFrom: '<%=searchYearFrom%>',
-		yearTo: '<%=searchYearTo%>',
+		keyword: '${param.keyword}',
+		genre: '${param.genre}',
+		yearFrom: '${param.yearFrom}',
+		yearTo: '${param.yearTo}',
 		cPage: 1
 	};
 	
@@ -112,7 +82,7 @@ $(()=>{
 function getMovie(){
 	
 	$.ajax({
-		url: "<%=request.getContextPath()%>/movie/movieSearch.do",
+		url: "${pageContext.request.contextPath}/movie/movieSearch.do",
 		type: "post",
 		async: false,
 		data: param,
@@ -133,9 +103,9 @@ function getMovie(){
 				var html = '';
 					
 				if(it["poster_path"] == 'undefined' || typeof it["poster_path"] == 'undefined'){
-					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='<%=request.getContextPath()%>/images/noimage.gif'>";
+					html += "<a href='${pageContext.request.contextPath}/movie/gotoDetail?movieId="+it["id"]+"'><img src='${pageContext.request.contextPath}/images/noimage.gif'>";
 				}else{
-					html += "<a href='<%=request.getContextPath()%>/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'>";
+					html += "<a href='${pageContext.request.contextPath}/movie/gotoDetail?movieId="+it["id"]+"'><img src='https://image.tmdb.org/t/p/w185/"+it["poster_path"]+"'>";
 				}
 					html += '<div>';
 					html += '<h5>'+it["title"]+'<br><br></h5>';
@@ -192,4 +162,4 @@ function getMovie(){
 	</div>
 </section>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

@@ -1,10 +1,7 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%
-	String actorId = (String)request.getAttribute("actorId");
-%>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
+
 <style>
 	.actorImg{
 		margin-left: 15px;
@@ -26,14 +23,14 @@
 		cursor: pointer;
 	}
 </style>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
 <script>
 	var param =	{
-		actorId: <%=actorId%>
+		actorId: ${actorId}
 	}
 	$(()=>{
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/actorOverview.do",
+			url: "${pageContext.request.contextPath}/movie/actorOverview.do",
 			data: param,
 			success: function(data){
 				console.log(data);
@@ -49,14 +46,14 @@
 		})
 		
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/listByActor.do",
+			url: "${pageContext.request.contextPath}/movie/listByActor.do",
 			data: param,
 			success: function(data){
 				console.log(data);
 				var html = "";
 				for(var i = 0; i < 5; i++){
 					if(data.results[i].poster_path == null){
-						html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:185px; height:278px;'/>"+data.results[i].title+"</span><br><br>";
+						html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='${pageContext.request.contextPath}/images/noimage.gif' style='width:185px; height:278px;'/>"+data.results[i].title+"</span><br><br>";
 					} else {
 						html += "<span class='movieList' onclick='gotoDetail("+data.results[i].id+");'><img src='https://image.tmdb.org/t/p/w185//" + data.results[i].poster_path + "'/>"+data.results[i].title+"</span><br><br>";						
 					}
@@ -70,11 +67,10 @@
 		})
 	});
 	function gotoDetail(movieId){		
-		location.href="<%=request.getContextPath()%>/movie/gotoDetail?movieId=" + movieId;
+		location.href="${pageContext.request.contextPath}/movie/gotoDetail?movieId=" + movieId;
 	}
 </script>
-</head>
-<body>
+
 	<div id="actor-overview">
 		
 	</div>
@@ -85,4 +81,4 @@
 	
 	</div>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

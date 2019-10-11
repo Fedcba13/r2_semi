@@ -1,0 +1,11 @@
+<Resource 	name="jdbc/myoracle"
+    			auth="Container"
+    			type="javax.sql.DataSource"
+    			driverClassName="oracle.jdbc.OracleDriver"
+    			url="jdbc:oracle:thin:@videofinder.cfrmp3qbprr1.ap-northeast-2.rds.amazonaws.com:1521:ORCL"
+    			username="kh_r2_semi"
+				password="videofinder2minhwan"
+				maxTotal="20"
+				maxIdle="10"
+				maxWaitMillis="-1"
+    			/>

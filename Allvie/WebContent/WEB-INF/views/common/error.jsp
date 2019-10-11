@@ -1,12 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isErrorPage="true"%>
-<%
-	//error code로 넘어온 경우, exception내장객체는 null이다.
-	int code = response.getStatus(); // 404;
-	
-	String msg = exception != null ?
-					exception.getMessage() : String.valueOf(code);
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,9 +18,9 @@ body{
 </head>
 <body>
 	<h2>재고관리 오류</h2>
-	<p><span id="e-msg"><%=msg %></span></p>
-	<a href="<%= request.getContextPath()%>">
-		<img src="<%= request.getContextPath()%>/images/home.png" width="30px" alt="메인페이지로 이동">
+	<p><span id="e-msg">${param.msg }</span></p>
+	<a href="${pageContext.request.contextPath }">
+		<img src="${pageContext.request.contextPath }/images/home.png" width="30px" alt="메인페이지로 이동">
 	</a>
 </body>
 </html>

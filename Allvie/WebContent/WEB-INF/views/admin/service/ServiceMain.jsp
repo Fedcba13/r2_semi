@@ -8,8 +8,8 @@
 	int category = (int)(request.getAttribute("category"));
 	
 %>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/admin.css">
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/admin.css">
 <style>
 #searchInput {
 	width: 800px;
@@ -58,7 +58,7 @@ div {
 
 	<h1>고객센터</h1>
 	<br />
-	<form action="<%=request.getContextPath()%>/union/getUnionList"
+	<form action="${pageContext.request.contextPath}/union/getUnionList"
 		method="POST" onkeydown="return captureReturnKey(event)">
 		<input type="text" name="search_Keyword" id="searchInput"
 			placeholder="어떤 도움이 필요하세요?">
@@ -98,14 +98,14 @@ div {
 	   	
 		   %>1
 			var html = "";				   
-			html += '<a href="<%=request.getContextPath()%>/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
+			html += '<a href="${pageContext.request.contextPath}/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
 			html += "<br>";
 			$("#div_01").append(html);
 		   <%
 		   			}else if("내 계정 관리".equals(f.getFAQ_Category())){
 		   %>
 		   var html = "";				   
-		   html += '<a href="<%=request.getContextPath()%>/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
+		   html += '<a href="${pageContext.request.contextPath}/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
 			html += "<br>";
 			$("#div_02").append(html);
 		   
@@ -113,7 +113,7 @@ div {
 		   			}else if("서비스/콘텐츠".equals(f.getFAQ_Category())){
 		   %>
 		   	var html = "";				   
-		   	html += '<a href="<%=request.getContextPath()%>/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
+		   	html += '<a href="${pageContext.request.contextPath}/admin/FAQ/getFAQByNo?FAQ_No=<%=f.getFAQ_No()%>"><%=f.getFAQ_Title()%></a>';
 			html += "<br>";
 			$("#div_03").append(html);
 		   <%}
@@ -174,7 +174,7 @@ div {
 					return;
 				}
 				$.ajax({
-					url: "<%=request.getContextPath()%>/admin/noticeSrch/csv/autoComplete.do",
+					url: "${pageContext.request.contextPath}/admin/noticeSrch/csv/autoComplete.do",
 					type: "post",
 					data: "search_Keyword="+search_Keyword,
 					dataType: "json",

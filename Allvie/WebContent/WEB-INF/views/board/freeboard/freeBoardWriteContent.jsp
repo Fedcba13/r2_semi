@@ -1,10 +1,9 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
 
 <style>
 #main-text{
@@ -41,7 +40,7 @@ th{
 
 <div id="main">
 	<h2 id="main-text">글쓰기</h2>
-	<form action="<%=request.getContextPath()%>/board/freeBoardWriteEnd"
+	<form action="${pageContext.request.contextPath}/board/freeBoardWriteEnd"
 	method="get" name="writeForm"
 	>
 		<table id="tbl-free-board-write">
@@ -50,7 +49,7 @@ th{
 	
 		<tr>
 		<th>작성자</th>
-		<td><input  type="text" name="writer" id="writer" value="<%=memberLoggedIn.getMemberId() %>" required="required" readonly="readonly" class="form-control form-control-lg"/></td>		
+		<td><input  type="text" name="writer" id="writer" value="${memberLoggedIn.memberId}" required="required" readonly="readonly" class="form-control form-control-lg"/></td>		
 		</tr>	
 		
 		<tr>
@@ -92,4 +91,4 @@ function boardValidate(){
 }
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

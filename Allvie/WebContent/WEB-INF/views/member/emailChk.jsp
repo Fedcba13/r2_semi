@@ -1,22 +1,19 @@
 ﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.r2.member.model.vo.Member" %>
-<%
-	String email = (String)request.getParameter("memberEmail");
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-	String num = (String)request.getAttribute("num");
-	if(num != null){
-		email = (String)request.getAttribute("email");
-	}
-
-%>
+<c:set var='email' value='${param.memberEmail }'/>
+<c:set var='num' value='${num }'/>
+<c:if test='${!empty num }'>
+	<c:set var='email' value='${email }' />
+</c:if>
 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>이메일 인증</title>
-<script type="text/javascript" src="<%=request.getContextPath() %>/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -67,7 +64,7 @@ function CheckEnd(){
 	
 	var frm = opener.document.enrollFrm;
 
-	frm.memberEmail.value = '<%=email%>';
+	frm.memberEmail.value = '${email}';
 	frm.emailChk.value = 0;
 	frm.memberAddress.focus();
 	self.close();
@@ -82,8 +79,8 @@ function CheckEnd(){
 <body>
 
 
-<form action="<%=request.getContextPath()%>/member/emailCheckDo" id="emailCheck">
-	<input type="hidden" id='memberEmail_' name="memberEmail" value="<%=email %>">
+<form action="${pageContext.request.contextPath}/member/emailCheckDo" id="emailCheck">
+	<input type="hidden" id='memberEmail_' name="memberEmail" value="${email}">
 </form>
 	<div id="emailChk-container">
 <h1 class='top'>이메일 인증</h1>
@@ -96,7 +93,7 @@ function CheckEnd(){
 					
 					<div class="input-group mb-3">
 					<input type="email" class="form-control"
-						id="memberEmail" value="<%=email %>" required>
+						id="memberEmail" value="${email}" required>
 					<input type="button" class="btn btn-outline-secondary"
 						onclick="emailConfirm();" id='clickop' value="메일 발송">	
 					</div></td>
@@ -104,7 +101,7 @@ function CheckEnd(){
 				<tr>
 					<td>	
 						<input type="text" class="form-control" id="numChk" placeholder='인증번호 입력' required><br>
-						<input type="hidden" id="num" value="<%=num%>"><br>
+						<input type="hidden" id="num" value="${num}"><br>
 						<input type="hidden" id="enrollCheck" value="1"><br>
 					</td>
 				</tr>

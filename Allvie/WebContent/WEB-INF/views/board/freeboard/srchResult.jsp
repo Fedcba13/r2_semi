@@ -1,19 +1,11 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-
-<%@page import="com.r2.board.model.vo.FreeBoard"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-
-<%
-	List<FreeBoard> flist = (List<FreeBoard>) request.getAttribute("flist");
-	String pageBar = (String) request.getAttribute("pageBar");
-	String keyword = (String) request.getAttribute("keyword");
-%>
-
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
 
 <style>
 
@@ -66,11 +58,11 @@ form[name=srchForm] > input[type=submit]{
 
 <head>
 <meta charset="UTF-8">
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
-<title>"<%=keyword%>의 검색결과"</title>
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+<title>"${keyword}의 검색결과"</title>
 </head>
 <body>
-	<h2 id="main-text">"<%=keyword%>"의 검색 결과
+	<h2 id="main-text">"${keyword}"의 검색 결과
 	</h2>
 
 	<div id="main">
@@ -84,35 +76,27 @@ form[name=srchForm] > input[type=submit]{
 			</tr>
 
 
-			<%
-				for (FreeBoard f: flist) {
-			%>
+			<c:forEach var="f" items="${flist }">
+				<c:set var="idx" value="fn:indexOf(f.free_Board_No, '_')"></c:set>
 			<tr>
-				<%
-					int idx = f.getFree_Board_No().indexOf("_");
-				%>
-				<td><%=f.getFree_Board_No().substring(idx + 1)%></td>
-				<td><a
-					href="<%=request.getContextPath()%>/board/freeBoardView?boardNo=<%=f.getFree_Board_No()%>">
-						<%=f.getFree_Board_Title()%>
-				</a></td>
-				<td><%=f.getFree_Board_Writer()%></td>
-				<td><%=f.getFree_Board_Date()%></td>
-				<td><%=f.getFree_Board_ReadCount()%></td>
+
+				<td>${fn:substring(f.free_Board_No, idx+1, fn:length(f.free_Board_No))}</td>
+				<td><a href="${pageContext.request.contextPath}/board/freeBoardView?boardNo=${f.free_Board_No}">${f.free_Board_Title}</a></td>
+				<td>${f.free_Board_Writer}</td>
+				<td>${f.free_Board_Date}</td>
+				<td>${f.free_Board_ReadCount}</td>
 			</tr>
-			<%
-				}
-			%>
+			</c:forEach>
 		</table>
 		<br />
 		<div id='pageBar'>
-			<%=pageBar%>
+			${pageBar}
 		</div>
 		<br />
 		<!-- 검색창 -->
 
 		<div id="srchPanel">
-		<form action="<%=request.getContextPath()%>/board/boardSrch"
+		<form action="${pageContext.request.contextPath}/board/boardSrch"
 			method="get" name="srchForm">
 			<select name="srchType" id="srchType">
 				<option value="" >--선택--</option>
@@ -134,10 +118,10 @@ $("#goBackToBoard").click(function () {
 	
 
 	location.href 
-	= "<%=request.getContextPath()%>/board/freeBoard";	
+	= "${pageContext.request.contextPath}/board/freeBoard";	
 });
 
 
 </script>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

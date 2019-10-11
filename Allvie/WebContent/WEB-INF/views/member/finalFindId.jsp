@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
-<% Member m = (Member)request.getAttribute("m"); %>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <style>
 
 section#findInfoId{
@@ -48,8 +47,8 @@ ul{
 <div class="findInfoId">
 <div class="join">
 	<ul>
-		<li><a href="<%=request.getContextPath() %>/member/findInfoId">아이디 찾기</a></li>
-		<li><a href="<%=request.getContextPath() %>/member/findInfoPwd">비밀번호 재설정</a></li>
+		<li><a href="${pageContext.request.contextPath}/member/findInfoId">아이디 찾기</a></li>
+		<li><a href="${pageContext.request.contextPath}/member/findInfoPwd">비밀번호 재설정</a></li>
 	</ul>
 	<br />
 	
@@ -58,11 +57,8 @@ ul{
 <h2 style='color:#e6e6e6;'> 확인된 아이디정보 입니다. </h2>
 
 <ul class="memberInfo">
-	<br />
-	<br />
-	<li style='color:#e6e6e6;'><h4><b >아이디 : </b> <%=m.getMemberId() %></h4></li>
-	
+	<li style='color:#e6e6e6;'><h4><b >아이디 : </b> ${m.memberId }</h4></li>
 </ul>
 </div>
 </section>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

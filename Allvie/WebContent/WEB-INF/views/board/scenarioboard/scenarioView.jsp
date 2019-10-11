@@ -1,26 +1,11 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@page import="com.r2.board.model.vo.Scenario"%>
-<%@page import="java.util.List"%>
-<%@page import="com.r2.board.model.vo.BoardComment"%>
-<%@page import="com.r2.board.model.vo.FreeBoard"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-	Scenario s = (Scenario)request.getAttribute("s");
-/* 	String memberLoggedIn = fb.getFree_Board_Writer();
- */	List<BoardComment> bclist = (List<BoardComment>)request.getAttribute("bclist");
- 
- String memberId = "";
- 
- if(memberLoggedIn != null){
-     memberId = memberLoggedIn.getMemberId();
- }
- 
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
 
 <style>
 
@@ -108,7 +93,7 @@ table#tbl-comment{
 
 <head>
 <meta charset="UTF-8">
-<title><%=s.getTitle() %></title>
+<title>${s.title }</title>
 </head>
 <body style="margin-left: 4em;">
 
@@ -124,42 +109,39 @@ table#tbl-comment{
 		
 		<tr>
 		<th>제목</th>
-		<td><%=s.getTitle() %></td>		
+		<td>${s.title }</td>		
 		</tr>	
 			
 	
 		<tr>
 		<th>작성자</th>
-		<td><a href=""><%=s.getMember_Id() %></a></td>		
+		<td><a href="">${s.member_Id}</a></td>		
 		</tr>	
 		
 			
 		<tr>
 		<th>조회수</th>
-		<td><%=s.getReadCount() %></td>		
+		<td>${s.readCount}</td>		
 		</tr>	
 		
 		<tr>
 		<th >내용</th>
-		<td id="content-td"><p><%=s.getScenario_Content() %></p></td>		
+		<td id="content-td"><p>${s.scenario_Content}</p></td>		
 		</tr>	
 		
 		
 		<tr>
 		<th>날짜</th>
-		<td><%=s.getScenario_Date() %></td>		
+		<td>${s.scenario_Date}</td>		
 		</tr>
 		
 	</table>
 	<div id="buttons">
 	<input type="button" value="목록으로 돌아가기" id="goBoardListBtn" class="btn btn-primary"/>
-		<%if(memberLoggedIn!=null && 
-			(s.getMember_Id().equals(memberLoggedIn.getMemberId())
-			|| "admin123".equals(memberLoggedIn.getMemberId())) ){%>
-	
-	<input type="button" value="수정" onclick="updateFreeBoard();" class="btn btn-warning"/>
-	<input type="button" value="삭제" onclick="deleteFreeboard();" class="btn btn-danger"/>
-	<%} %>
+		<c:if test="not empty memberLoggedIn && (s.member_Id == memberLoggedIn.memberId || 'admin' == memberLoggedIn.memberId)">
+			<input type="button" value="수정" onclick="updateFreeBoard();" class="btn btn-warning"/>
+			<input type="button" value="삭제" onclick="deleteFreeboard();" class="btn btn-danger"/>
+		</c:if>
 	</div>
 	</section>
 
@@ -169,59 +151,24 @@ table#tbl-comment{
 	<section id="comment-section">
 	<hr style="margin-top: 30px;"/>
 		<table id="tbl-comment">
-			<%
-			if(bclist != null){
-				for(BoardComment bc : bclist){
-					if(bc.getBoard_Comment_Level()==1){
-			%>
-			<!-- 댓글 레빌 1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-					<tr class=level1>
-						<td>
-							<sub class=comment-writer><%=bc.getBoard_Comment_Writer() %></sub>
-							<sub class=comment-date><%=bc.getBoard_Comment_Date()%></sub>
-							<br />
-							
-							<%=bc.getBoard_Comment_Content() %>
-						</td>
-						<td>
-							<button class="btn-reply btn btn-success" 
-									value="<%=bc.getBoard_Comment_No()%>">답글</button>
-							<%--@실습문제:
-								 관리자/댓글작성자에 한해 이버튼을 노출시키고,
-								 댓글 삭제 기능추가. 
-								 댓글삭제후에는 현재페이지로 다시 이동함.
-							  --%>
 
-										
-						
-						</td>
-					</tr>
-			<% 		} else { %>
-			<!-- 댓글 레빌 2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ -->
-<%-- 					<tr class=level2>
-						<td>
-							<sub class=comment-writer><%=bc.getBoard_Comment_Writer() %></sub>
-							<sub class=comment-date><%=bc.getBoard_Comment_Date()%></sub>
-							<br />
-							
-							<%=bc.getBoard_Comment_Content() %>
-						</td>
-						<td>
-							삭제버튼 추가
-							<%if(memberLoggedIn!=null 
-								&& ("admin".equals(memberLoggedIn.getMemberId()) 
-										|| bc.getBoardCommentWriter().equals(memberLoggedIn.getMemberId()) )){%>
-							<button class="btn-delete" value="1<%=bc.getBoardCommentNo()%>">삭제</button>
-							<%} %>
-						</td>
-					</tr> --%>
-		
-			<%
-					}//end of if : level1, level2
-		
-				}//end of for	
-			} 
-			%>
+
+
+			<c:if test="not empty bclist">
+				<c:forEach var="bc" items="bclist">
+					<c:if test="bc.board_Comment_Level == 1">
+						<tr class=level1>
+							<td><sub class=comment-writer>${bc.board_Comment_Writer}</sub>
+								<sub class=comment-date>${bc.board_Comment_Date}</sub> <br />
+								${bc.board_Comment_Content}</td>
+							<td>
+								<button class="btn-reply btn btn-success"
+									value="${bc.board_Comment_No}">답글</button>
+							</td>
+						</tr>
+					</c:if>
+				</c:forEach>
+			</c:if>
 		</table>
 	 </section>
 
@@ -229,13 +176,13 @@ table#tbl-comment{
 
 	
 		<div class="comment-editor">
-			<form action="<%=request.getContextPath()%>/board/scenarioBoardCommentInsert"
+			<form action="${pageContext.request.contextPath}/board/scenarioBoardCommentInsert"
 				  name="boardCommentFrm"
 				  method="post" id="boardCommentFrm">
 				<input type="hidden" name="boardRef" 
-					   value="<%=s.getScenario_No()%>" />
+					   value="${s.scenario_No}" />
 				<input type="hidden" name="boardCommentWriter"
-                       value="<%=memberId %>" />
+                       value="${memberLoggedIn.memberId}" />
 				<input type="hidden" name="boardCommentLevel" 
 					   value="1" />
 				<input type="hidden" name="boardCommentRef" 
@@ -256,19 +203,19 @@ table#tbl-comment{
 })
 $("#goBoardListBtn").click(function() {
 	location.href 
-	= "<%=request.getContextPath()%>/board/ScenarioBoard";
+	= "${pageContext.request.contextPath}/board/ScenarioBoard";
 });
 
 
 function updateFreeBoard() {
-	location.href = "<%=request.getContextPath()%>/board/modifyScenarioBoard?boardNo=<%=s.getScenario_No()%>";
+	location.href = "${pageContext.request.contextPath}/board/modifyScenarioBoard?boardNo=${s.scenario_No}";
 }
 
 function deleteFreeboard() {
-	if(confirm("<%=s.getTitle()%> 게시글을 삭제하시겠습니까?"))
+	if(confirm("${s.title} 게시글을 삭제하시겠습니까?"))
 	 {
 	  
-	  location.href = "<%=request.getContextPath()%>/board/deleteScenario?boardNo=<%=s.getScenario_No()%>";
+	  location.href = "${pageContext.request.contextPath}/board/deleteScenario?boardNo=${s.scenario_No}";
 	 }
 	 else
 	 {
@@ -282,4 +229,4 @@ function deleteFreeboard() {
 </script>	
 </body>
 </html>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

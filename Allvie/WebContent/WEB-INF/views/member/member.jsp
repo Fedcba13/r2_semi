@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src='<%=request.getContextPath() %>/js/jquery-3.4.1.js'></script>
 <script>
 function checkIdDuplication(){
 	
@@ -19,7 +18,7 @@ function checkIdDuplication(){
 			
 	}
 			$.ajax({
-				url : "<%=request.getContextPath()%>/member/memberIdDuplicate.do",
+				url : "${pageContext.request.contextPath}/member/memberIdDuplicate.do",
 				type : "post",
 				data : param,
 				dataType : "json",
@@ -83,7 +82,7 @@ function validate(){
   
 
 	if(emailCheck.value != 0){
-		alert('a');
+		alert('이메일 인증 해주세요.');
 		return false;
 	  }
     
@@ -234,7 +233,7 @@ div.button1 input.button{
 		<h1 class='top'>회원가입</h1>
 		<br />
 		
-		<form action="<%=request.getContextPath()%>/member/memberEnrolled"
+		<form action="${pageContext.request.contextPath}/member/memberEnrolled"
 			id="enrollFrm" name="enrollFrm" method="post" onsubmit="return validate();">
 			<table class='memberEnroll'>
 				<tr>
@@ -367,7 +366,7 @@ div.button1 input.button{
 <script>
 $('#chkEmail').click(() =>{
     
-    var url = "<%=request.getContextPath()%>/member/emailCheck";
+    var url = "${pageContext.request.contextPath}/member/emailCheck";
     var title = "EmailCheck";
     var status =  "left=500px, top=200px, width=665px, height=327px";
         
@@ -386,4 +385,4 @@ $('#chkEmail').click(() =>{
 
 </script>
 	</section>
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

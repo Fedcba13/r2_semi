@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <style>
 
 ul{
@@ -92,9 +92,9 @@ input.btn-outline-secondary{
 	<div class="member">
 		<div class="join">
 			<ul>
-				<li><a href="<%=request.getContextPath()%>/member/findInfoId">아이디
+				<li><a href="${pageContext.request.contextPath}/member/findInfoId">아이디
 						찾기</a></li>
-				<li><a href="<%=request.getContextPath()%>/member/findInfoPwd">비밀번호
+				<li><a href="${pageContext.request.contextPath}/member/findInfoPwd">비밀번호
 						재설정</a></li>
 			</ul>
 			<br />
@@ -102,7 +102,7 @@ input.btn-outline-secondary{
 		</div>
 		<br />
 		<h2 style='color:#e6e6e6;'>비밀번호 재설정</h2>
-		<form action="<%=request.getContextPath()%>/member/findInfoPwdEnd"
+		<form action="${pageContext.request.contextPath}/member/findInfoPwdEnd"
 			id='findInfoPwd' method="post">
 			<label for="memberName" class="dsn"></label> <input type="text"
 				class='form-control' name='memberId' id='memberId'
@@ -114,4 +114,4 @@ input.btn-outline-secondary{
 		</form>
 	</div>
 </section>
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

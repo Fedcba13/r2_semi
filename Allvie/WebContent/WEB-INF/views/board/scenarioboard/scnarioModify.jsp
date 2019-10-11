@@ -1,13 +1,6 @@
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-<%@page import="com.r2.board.model.vo.Scenario"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%
-
-	String ctx = request.getContextPath();
-	Scenario s = (Scenario)request.getAttribute("s");
-	String scenarioNo = (String)request.getAttribute("scenarioNo");
-%>
+<jsp:include page="/WEB-INF/views/common/header.jsp"/>
 <style>
 #main-content{
 	text-align: center;
@@ -27,10 +20,10 @@ img{
 	max-height: 300px;
 }
 </style>
-<script src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
-<script type="text/javascript" src="<%=ctx %>/SE2/js/HuskyEZCreator.js" charset="utf-8"></script> 
-<script src="<%=ctx%>/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script> <!-- 부트스트랩 기본 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css"> <!-- 부트스트랩 기본 -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/SE2/js/HuskyEZCreator.js" charset="utf-8"></script> 
+<script src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/jquery-3.4.1.js"></script> <!-- jquery  -->
 <script type="text/javascript"> 
 var oEditors = [];
 $(function(){
@@ -38,7 +31,7 @@ $(function(){
           oAppRef: oEditors,
           elPlaceHolder: "ir1",
           //SmartEditor2Skin.html 파일이 존재하는 경로
-          sSkinURI: "<%=ctx%>/SE2/SmartEditor2Skin.html",  
+          sSkinURI: "${pageContext.request.contextPath}/SE2/SmartEditor2Skin.html",  
           htParams : {
               // 툴바 사용 여부 (true:사용/ false:사용하지 않음)
               bUseToolbar : true,             
@@ -70,24 +63,24 @@ $(function(){
 
 </head>
 <body id="main-content">
-<form id="frm" action="<%=ctx%>/board/scenarioModifyEnd" method="get" >
+<form id="frm" action="${pageContext.request.contextPath}/board/scenarioModifyEnd" method="get" >
 <table width="100%">
         <tr>
 
-            <td><input type="text" id="title" name="title" style="width:650px" placeholder="게시물 제목을 입력하세요" class="form-control form-control-lg" value="<%=s.getTitle()%>"></td>
+            <td><input type="text" id="title" name="title" style="width:650px" placeholder="게시물 제목을 입력하세요" class="form-control form-control-lg" value="${s.title}"></td>
         </tr>
         <tr>
 
             <td>
                 <textarea rows="10" cols="30" id="ir1" name="content" style="width:650px; height:800px; ">
-					<%=s.getScenario_Content() %>
+					${s.scenario_Content()}
                 </textarea>
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <input hidden="hidden" value="abc" name="writer">
-                <input hidden="hidden" value="<%=scenarioNo%>" name="scenarioNo">
+                <input hidden="hidden" value="${scenarioNo}" name="scenarioNo">
                 <input type="submit" id="save" value="작성하기"/>
                 <input type="button" value="취소"  id="cancel"/>
                 
@@ -103,7 +96,7 @@ $("#cancel").click(function () {
 	
 
 	location.href 
-	= "<%=request.getContextPath()%>/board/ScenarioBoard";	
+	= "${pageContext.request.contextPath}/board/ScenarioBoard";	
 });
 
 
@@ -114,4 +107,4 @@ $("#cancel").click(function () {
 
 </html>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp"/>

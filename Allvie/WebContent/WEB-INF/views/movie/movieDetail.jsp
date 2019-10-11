@@ -1,17 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-	String movieId = request.getParameter("movieId");	
-%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/movieDetail.css" />
+	href="${pageContext.request.contextPath}/css/movieDetail.css" />
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous">
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -31,16 +28,17 @@
 	crossorigin="anonymous"></script>
 <link data-require="fontawesome@*" data-semver="4.5.0" rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 .checked {
-  color: orange;
+	color: orange;
 }
 </style>
 <title></title>
 <script>
 	var movieId = {
-		id: <%=movieId%>
+		id: ${param.moveId}
 	}
 	
 	var avg
@@ -50,7 +48,7 @@
 		var pageTitle;		
 		//페이지 로딩시 영화에 대한 전반적인 정보를 받아오는 ajax
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/getDetail.do",
+			url: "${pageContext.request.contextPath}/movie/getDetail.do",
 			data: movieId,
 			type: "get",
 			dataType: "json",
@@ -61,7 +59,7 @@
 				//많은 정보를 받아오지만 포스터 이미지, 타이틀, 줄거리, 장르, 개봉일을 받아와 출력한다
 				var html = "<table id='details'>";
 				if(data.poster_path == null){
-					html += "<tr><td rowspan='7' colspan='2'><img src='<%=request.getContextPath()%>/images/noimage.gif' style='width:344px; height:515px;'/></td></tr>"										
+					html += "<tr><td rowspan='7' colspan='2'><img src='${pageContext.request.contextPath}/images/noimage.gif' style='width:344px; height:515px;'/></td></tr>"										
 				} else {
 					html += "<tr><td rowspan='7' colspan='2'><img src='https://image.tmdb.org/t/p/w342//" + data.poster_path + "'/></td></tr>"					
 				}
@@ -90,7 +88,7 @@
 		//해당영화의 감독과 출연한 배우의 데이터를 받아와 출력한다.
 		//배우데이터는 주역급(상위 5명)만 표시한다
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/getActors.do",
+			url: "${pageContext.request.contextPath}/movie/getActors.do",
 			data: movieId,
 			type: "get",
 			dataType: "json",
@@ -103,7 +101,7 @@
 						if(data.crew[i].profile_path != null){
 							html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.crew[i].profile_path + "' class='img-thumbnail'/></span><br>"							
 						} else {
-							html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+							html += "<div class='tn'><span><img src='${pageContext.request.contextPath}/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
 						}
 						html += "<span>"+data.crew[i].name +"</span><br>";
 						html += "<span>감독</span><br><br></div>";
@@ -119,7 +117,7 @@
 					if(data.cast[i].profile_path != null){
 						html += "<div class='tn'><span><img src='https://image.tmdb.org/t/p/w92//" + data.cast[i].profile_path + "' class='img-thumbnail' onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'/></span><br>"						
 					} else {
-						html += "<div class='tn'><span><img src='<%=request.getContextPath()%>/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
+						html += "<div class='tn'><span><img src='${pageContext.request.contextPath}/images/noimage.gif' class='img-thumbnail' style='width: 92px; height: 150px;'/></span><br>"
 					}
 					html += "<span onclick='searchByActor("+data.cast[i].id+")' style='cursor: pointer;'>"+data.cast[i].name +"</span><br>";
 					html += "<span>"+data.cast[i].character +"역</span><br><br></div>";
@@ -135,7 +133,7 @@
 		//해당 영화의 관련영상을 표시한다.
 		//관련영상은 youtube의 링크를 사용한다
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/getVideos.do",
+			url: "${pageContext.request.contextPath}/movie/getVideos.do",
 			data: movieId,
 			type: "get",
 			datatype: "json",
@@ -214,7 +212,7 @@
 			  var param = {
 					  memberId: $("#memberId").val(),
 					  rate: $("#rating-input").val(),
-					  movieId: <%=movieId%>,
+					  movieId: ${param.moveId},
 					  comment: $("#review-comment").val()			  
 			  }
 			  //리뷰 멘트 또는 별점 모두 작성되지 않았다면 제출하지 않고 리턴한다
@@ -232,7 +230,7 @@
 			  console.log(data); */
 			  //리뷰작성에 문제가 없을 시 ajax를 실행
 			  $.ajax({
-				 url: "<%=request.getContextPath()%>/movie/insertReview.do",
+				 url: "${pageContext.request.contextPath}/movie/insertReview.do",
 				 data: param,
 				 success: function(data){	
 					 //만약 접속한 아이디가 해당영화에 리뷰한 기록이 있다면 리뷰작성을 막는다(1영화당 하나의 리뷰만 작성가능)
@@ -255,16 +253,16 @@
 		  })
 		  //리뷰작성은 로그인 후 이용할 수 있도록 방지
 		  $("#review-comment").on("click", ()=>{
-			<%if(memberLoggedIn == null){%>
+			<c:if test="${empty memberLoggedIn}">
 				alert("로그인 후 이용해주세요");
-			<%}%>
+			</c:if>
 		  })
 		  $("#review-comment").keydown((k)=>{
 			  if(k.keyCode == 13){
 				  var param = {
 						  memberId: $("#memberId").val(),
 						  rate: $("#rating-input").val(),
-						  movieId: <%=movieId%>,
+						  movieId: ${param.moveId},
 						  comment: $("#review-comment").val()			  
 				  }
 				  //리뷰 멘트 또는 별점 모두 작성되지 않았다면 제출하지 않고 리턴한다
@@ -282,7 +280,7 @@
 				  console.log(data); */
 				  //리뷰작성에 문제가 없을 시 ajax를 실행
 				  $.ajax({
-					 url: "<%=request.getContextPath()%>/movie/insertReview.do",
+					 url: "${pageContext.request.contextPath}/movie/insertReview.do",
 					 data: param,
 					 success: function(data){	
 						 //만약 접속한 아이디가 해당영화에 리뷰한 기록이 있다면 리뷰작성을 막는다(1영화당 하나의 리뷰만 작성가능)
@@ -312,7 +310,7 @@
 		var pageEnd = cPage*numPerPage-1;
 		var totalPage = 1;
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/getReviews.do",
+			url: "${pageContext.request.contextPath}/movie/getReviews.do",
 			data: movieId,
 			dataType: "json",
 			success: function(data){
@@ -332,16 +330,17 @@
 							}
 						}
 						html += "</td>";
-						html += "<td><img src='<%=request.getContextPath()%>/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like' ><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='<%=request.getContextPath()%>/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like' style='width: 30px; height: 30px;'><span>" + data[i].reviewDislike +"</span></td>"
-						<%if(memberLoggedIn != null){%>
-							if( data[i].memberId == "<%=memberLoggedIn.getMemberId()%>" || "admin" == "<%=memberLoggedIn.getMemberId()%>"){
+						html += "<td><img src='${pageContext.request.contextPath}/images/thumbUp.png' title='좋아요' onclick='likeReview(this)' class='like' ><span>" +data[i].reviewLike+ "</span>&nbsp;<img src='${pageContext.request.contextPath}/images/thumbDown.png' title='싫어요' onclick='dislikeReview(this)' class='like' style='width: 30px; height: 30px;'><span>" + data[i].reviewDislike +"</span></td>"
+						<c:if test="not empty memberLoggedIn">
+							if( data[i].memberId == "${memberLoggedIn.memberId}" || "admin" == "${memberLoggedIn.memberId}"){
 								html += "<td><button class='btn btn-danger' onclick='deleteReview(this);'>삭제</button></td>";
 							} else {
 								html += "<td></td>";
 							}
-						<%} else {%>
+						</c:if>
+						<c:if test="empty memberLoggedIn">
 							html += "<td></td>";
-						<%}%>
+						</c:if>
 						html += "<td class='reviewNo' style='display:none;'>"+data[i].reviewNum+"</td>";
 						html += "</tr>";
 					});				
@@ -359,7 +358,7 @@
 	//리뷰현황 그래프
 	function getReviewGraph(){
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/reviewGraph.do",
+			url: "${pageContext.request.contextPath}/movie/reviewGraph.do",
 			data: movieId,
 			success: function(data){
 				//console.log(data);				
@@ -414,7 +413,7 @@
 				rn:	td.eq(5).text()
 			}
 			$.ajax({
-				url: "<%=request.getContextPath()%>/movie/deleteReview.do",
+				url: "${pageContext.request.contextPath}/movie/deleteReview.do",
 				data: param,
 				success: function(){
 					//성공시 리뷰목록, 현황, 평점을 갱신
@@ -433,21 +432,21 @@
 	}
 	//리뷰 좋아요
 	function likeReview(e){
-		<%if(memberLoggedIn == null){%>
-				alert("로그인후 이용하세요");
-				return ;
-		<%}%>
+		<c:if test="empty memberLoggedIn">
+			alert("로그인후 이용하세요");
+			return ;
+		</c:if>
 		var tr = $(e).parent().parent();		
 		var td = tr.children();		
 		var param = {
-			<%if(memberLoggedIn!=null){%>
-			memberId: "<%=memberLoggedIn.getMemberId()%>",
-			<%}%>			
+			<c:if test="not empty memberLoggedIn">
+				memberId: "${memberLoggedIn.memberId}",
+			</c:if>
 			rn:	td.eq(5).text(),
-			movieId: <%=movieId%>,
+			movieId: ${param.moveId},
 		}
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/likeReview.do",
+			url: "${pageContext.request.contextPath}/movie/likeReview.do",
 			data: param,
 			success:function(data){
 				if(""==data){
@@ -464,21 +463,21 @@
 	}
 	//리뷰 싫어요
 	function dislikeReview(e){
-		<%if(memberLoggedIn == null){%>
+		<c:if test="empty memberLoggedIn">
 				alert("로그인후 이용하세요");
 				return ;
-		<%}%>
+		</c:if>
 		var tr = $(e).parent().parent();		
 		var td = tr.children();		
 		var param = {
-			<%if(memberLoggedIn!=null){%>
-			memberId: "<%=memberLoggedIn.getMemberId()%>",
-			<%}%>
+			<c:if test="not empty memberLoggedIn">
+				memberId: "${memberLoggedIn.memberId}",
+			</c:if>
 			rn:	td.eq(5).text(),
-			movieId: <%=movieId%>,
+			movieId: ${param.moveId},
 		}
 		$.ajax({
-			url: "<%=request.getContextPath()%>/movie/dislikeReview.do",
+			url: "${pageContext.request.contextPath}/movie/dislikeReview.do",
 			data: param,
 			success:function(data){
 				if(""==data){
@@ -497,7 +496,7 @@
 	//평점 그래프 관련 함수
 	function getAvg(){
 		$.ajax({
-			 url: "<%=request.getContextPath()%>/movie/getAvg.do",
+			 url: "${pageContext.request.contextPath}/movie/getAvg.do",
 			 data: movieId,
 			 dataType: "json",
 			 success: function(data){
@@ -549,12 +548,12 @@
 		} 
 		var genre = docu;
 		//console.log(genre);			
-		location.href="<%=request.getContextPath()%>/movie/searchByGenre?genre=" + genre;
+		location.href="${pageContext.request.contextPath}/movie/searchByGenre?genre=" + genre;
 	}
 	//배우 사진/이름을 클릭 시 해당 배우가 풀연한 최신 영화목록을 출력하는 페이지로 이동
 	function searchByActor(actorId){
 		//console.log(actorId);
-		location.href="<%=request.getContextPath()%>/movie/searchByActor?actorId=" + actorId;
+		location.href="${pageContext.request.contextPath}/movie/searchByActor?actorId=" + actorId;
 	}
 	
 </script>
@@ -592,38 +591,57 @@
 		<h2 class="subject">리뷰하기</h2>
 		<form>
 			<!-- hide the input -->
-			<input type="hidden" name="rating" id="rating-input" min="1" max="10" value="0"/>	
-			<input type="hidden" name="memberId" id="memberId" value="<%=memberLoggedIn != null?memberLoggedIn.getMemberId():""%>"/>	
+			<input type="hidden" name="rating" id="rating-input" min="1" max="10"
+				value="0" /> <input type="hidden" name="memberId" id="memberId"
+				value="${memberLoggedIn.memberId }" />
 
-		<div class="rating" role="optgroup">
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-1" data-rating="1" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="1점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-2" data-rating="2" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="2점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-3" data-rating="3" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="3점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-4" data-rating="4" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="4점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-5" data-rating="5" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="5점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-6" data-rating="6" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="6점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-7" data-rating="7" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="7점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-8" data-rating="8" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="8점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-9" data-rating="9" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="9점"></i> 
-			<i class="fa fa-star-o fa-2x rating-star" id="rating-10" data-rating="10" tabindex="0" aria-label="Rate as one out of 10 stars" role="radio" title="10점"></i>			
-		</div>
-		<div id="review-editor">
-			<textarea name="review-comment" id="review-comment" rows="3" placeholder="리뷰를 입력하세요" style='color:black;'></textarea>
-			<button type="button" class="btn btn-success" id="send-review">평가하기</button>		
-		</div>
+			<div class="rating" role="optgroup">
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-1"
+					data-rating="1" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="1점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-2"
+					data-rating="2" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="2점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-3"
+					data-rating="3" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="3점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-4"
+					data-rating="4" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="4점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-5"
+					data-rating="5" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="5점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-6"
+					data-rating="6" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="6점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-7"
+					data-rating="7" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="7점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-8"
+					data-rating="8" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="8점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-9"
+					data-rating="9" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="9점"></i>
+				<i class="fa fa-star-o fa-2x rating-star" id="rating-10"
+					data-rating="10" tabindex="0"
+					aria-label="Rate as one out of 10 stars" role="radio" title="10점"></i>
+			</div>
+			<div id="review-editor">
+				<textarea name="review-comment" id="review-comment" rows="3"
+					placeholder="리뷰를 입력하세요" style='color: black;'></textarea>
+				<button type="button" class="btn btn-success" id="send-review">평가하기</button>
+			</div>
 		</form>
 	</div>
 	<hr class='clear' />
 	<div id="reviews">
 		<h2 class="subject">리뷰현황</h2>
-		<div id="review-graph">
-		
-		</div>
+		<div id="review-graph"></div>
 		<div id="written-comments">
 			<table id="written" class="table">
-				
+
 			</table>
 		</div>
 	</div>
-
-<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />

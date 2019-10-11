@@ -1,21 +1,13 @@
-<%@page import="com.r2.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 	
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>1:1 문의</title>
-<%
-	HttpSession newSession = request.getSession();
-	Member member = ((Member) newSession.getAttribute("memberLoggedIn"));
-
-	String id = "";
-	if (member != null) {
-		id = member.getMemberId();
-	}
-%>
-<script src="<%=request.getContextPath()%>/js/jquery-3.4.1.js"></script>
+<c:set var="id" value="${memberLoggedIn.memberId }"/>
+<script src="${pageContext.request.contextPath}/js/jquery-3.4.1.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -44,7 +36,7 @@ div.msg{
 <script>
 $(()=>{
 	
-	var id = '<%=id%>';
+	var id = '${id}';
 	if(id == '' || id == 'null'){
 		opener.alert('로그인을 먼저 해주세요.');
 		self.close();
@@ -56,7 +48,7 @@ $(()=>{
 	var receiver = 'admin';
 	
 	var host = location.host;
-	var ws = new WebSocket('ws://'+host+"<%=request.getContextPath()%>/chat/helloWebSocket");
+	var ws = new WebSocket('ws://'+host+"${pageContext.request.contextPath}/chat/helloWebSocket");
 	
 	//최초연결시 open이벤트 핸들러
 	ws.onopen = e => {
@@ -103,7 +95,7 @@ $(()=>{
 		var dm = {
 			type: "dm",
 			msg: $("#dm-msg").val(),
-			sender: "<%=id%>",
+			sender: "${id}",
 			receiver: receiver,
 			time: Date.now()
 		}
@@ -113,7 +105,7 @@ $(()=>{
 		}
 		
 		$.ajax({
-			url:"<%=request.getContextPath()%>/chat/sendDM.do",
+			url:"${pageContext.request.contextPath}/chat/sendDM.do",
 			data: param,
 			dataType: "json",
 			success: data => {
@@ -130,14 +122,14 @@ $(()=>{
 	
 		});
 		
-		$("#dm-msg").val();
+		$("#dm-msg").val('');
 
 	});
 	
 	//DM 접속자목록 가져오기
 	function getSupporMemberList(){
 		$.ajax({
-			url: "<%=request.getContextPath()%>/chat/userList.do",
+			url: "${pageContext.request.contextPath}/chat/userList.do",
 			dataType: "json",
 			success: function(data){
 				//console.log(data);
@@ -185,7 +177,7 @@ $(()=>{
 	function messageList(){
 		
 		$.ajax({
-			url: "<%=request.getContextPath()%>/chat/messageList.do?id=<%=id%>",
+			url: "${pageContext.request.contextPath}/chat/messageList.do?id=${id}",
 			dataType: "json",
 			success: function(data){
 				console.log(data);
@@ -258,16 +250,16 @@ $(()=>{
 			<ul class="list-group list-group-flush"></ul>
 		</div>
 			<%-- 접속자 목록은 관리자만 확인 가능 --%>
-			<%if(id != null && "admin".equals(id)){ %>
-			<div id="dm-container" class="input-group mb-3">
-				<div class="input-group-prepend">
-					<label class="input-group-text" for="dm-client">Options</label>
+			<c:if test="not empty id && 'admin' == id">
+				<div id="dm-container" class="input-group mb-3">
+					<div class="input-group-prepend">
+						<label class="input-group-text" for="dm-client">Options</label>
+					</div>
+					<select class="custom-select" id="dm-client">
+						<option selected>접속자 목록</option>
+					</select>
 				</div>
-				<select class="custom-select" id="dm-client">
-					<option selected>접속자 목록</option>
-				</select>
-			</div>
-			<%} %>
+			</c:if>
 		<!-- 사용자입력 -->
 		<div class="input-group mb-3">
 			<input type="text" class="form-control" id="dm-msg">

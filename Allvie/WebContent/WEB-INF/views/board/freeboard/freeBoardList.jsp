@@ -1,20 +1,15 @@
-<%@page import="com.r2.board.model.vo.FreeBoard"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="/WEB-INF/views/common/header.jsp"%>
-
-<%
-	List<FreeBoard> list = (List<FreeBoard>) request.getAttribute("list");
-	String pageBar = (String) request.getAttribute("pageBar");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
 <script
-	src="<%=request.getContextPath()%>/js/freeboard_bootstrap_js/bootstrap.js"></script>
+	src="${pageContext.request.contextPath}/js/freeboard_bootstrap_js/bootstrap.js"></script>
 <!-- 부트스트랩 기본 -->
 
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/freeboard_bootstrap_css/bootstrap.css">
+	href="${pageContext.request.contextPath}/css/freeboard_bootstrap_css/bootstrap.css">
 
 <style>
 #main-text {
@@ -81,40 +76,28 @@ select#srchType, select#srchType option {
 			<!-- 첨부파일이 있는 경우, 
 		file.png이미지가 해당 td에 보이도록 하세요 -->
 
-			<%
-				for (FreeBoard fb : list) {
-			%>
-			<tr>
-				<%
-					int idx = fb.getFree_Board_No().indexOf("_");
-				%>
-				<td><%=fb.getFree_Board_No().substring(idx + 1)%></td>
-				<td><a
-					href="<%=request.getContextPath()%>/board/freeBoardView?boardNo=<%=fb.getFree_Board_No()%>">
-						<%=fb.getFree_Board_Title()%>
-				</a></td>
-				<td><%=fb.getFree_Board_Writer()%></td>
-				<td><%=fb.getFree_Board_Date()%></td>
-				<td><%=fb.getFree_Board_ReadCount()%></td>
-			</tr>
-			<%
-				}
-			%>
+			<c:forEach var="f" items="${flist }">
+				<c:set var="idx" value="fn:indexOf(f.free_Board_No, '_')"></c:set>
+				<tr>
+
+					<td>${fn:substring(f.free_Board_No, idx+1, fn:length(f.free_Board_No))}</td>
+					<td><a
+						href="${pageContext.request.contextPath}/board/freeBoardView?boardNo=${f.free_Board_No}">${f.free_Board_Title}</a></td>
+					<td>${f.free_Board_Writer}</td>
+					<td>${f.free_Board_Date}</td>
+					<td>${f.free_Board_ReadCount}</td>
+				</tr>
+			</c:forEach>
 		</table>
 		<hr />
-		<%
-			if (memberLoggedIn != null) {
-		%>
-		<input type="button" value="글쓰기" id="btn-write"
-			class="btn btn-success" />
-		<%
-			}
-		%>
-		<div id='pageBar'>
-			<%=pageBar%>
-		</div>
+		<c:if test="not empty memberLoggedIn">
+			<input type="button" value="글쓰기" id="btn-write"
+				class="btn btn-success" />
+		</c:if>
+
+		<div id='pageBar'>${pageBar }</div>
 		<!-- 검색창 -->
-		<form action="<%=request.getContextPath()%>/board/boardSrch"
+		<form action="${pageContext.request.contextPath}/board/boardSrch"
 			method="get" name="srchForm" id="srchForm">
 			<select name="srchType" id="srchType" class="selectpicker">
 				<option value=""">--선택--</option>
@@ -132,12 +115,12 @@ select#srchType, select#srchType option {
 
 
 	<script>
+		$("#btn-write")
+				.click(
+						function() {
 
-$("#btn-write").click(function () {
-	
-
-	location.href = "<%=request.getContextPath()%>/board/freeBoardWrite";
+							location.href = "${pageContext.request.contextPath}/board/freeBoardWrite";
 						});
 	</script>
 
-	<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
