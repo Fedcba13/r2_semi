@@ -1,5 +1,6 @@
 # r2_semi
 kh r2 semi 프로젝트
+http://13.209.48.145:9090/Allvie/
 
 
 # 미비된 점
